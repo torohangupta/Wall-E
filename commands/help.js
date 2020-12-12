@@ -17,6 +17,8 @@ module.exports = {
 
     execute(message, args) {
 
+        // comment to add change & test reaction collector persistance
+
         // initalize page number & store the selection reactions in an array
         var currpg = 0;
         var selectionRxns = [`🔴`, `🟠`, `🟡`, `🟢`, `🔵`, `🟣`];
