@@ -37,10 +37,11 @@ module.exports = {
                 .setAuthor(`Mute`, `https://i.imgur.com/xKFHs5U.png`)
                     .setDescription(`${taggedUser}, you have been muted by a server admin.\n\nThis may be because you forgot to mute yourself or your mic is having issues.\n\nReact with the 🔈 emote to be unmuted. If that doesn't work, ping the person who muted you.`)
                     .setColor(`B1624E`)
+                    .setTimestamp(Date.now())
 
                 // create the unmute embed
                 const unmutedEmbed = new MessageEmbed()
-                    .setDescription(`You have been unmuted!`)
+                    .setDescription(`${taggedUser} has been unmuted!`)
                     .setColor(`006E33`)
 
                 // mute the tagged user(s), send the muted embed message, create a reaction collector & react to the message

@@ -92,6 +92,7 @@ module.exports = {
                 .addFields(
                     { name: `\u200B`, value: `✅ : Start\n❌ : Cancel` }
                 )
+                .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             // Send intro embed & react
@@ -213,6 +214,7 @@ module.exports = {
                     { name: `\u200B`, value: helpPage },
                     { name: `\u200B`, value: ` Select ◀️ or ▶️ to navigate through pages or select ❌ to cancel` }
                 )
+                .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}\nPage ${pageNo + 1} of ${lastpg}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             // react with the correct emojis based on the current page & always include delete
@@ -321,6 +323,7 @@ module.exports = {
                     { name: `\u200B`, value: commandRestrictions },
                     { name: `\u200B`, value: `Select ❌ to close this help window` }
                 )
+                .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             return commandEmbed;

@@ -34,6 +34,7 @@ module.exports = {
                 { name: `\u200B`, value: `**Uppercase:**\n\`\`\`Α, Β, Γ, Δ, Ε, Ζ, Η, Θ, Ι, Κ, Λ, Μ,\nΝ, Ξ, Ο, Π, Ρ, Σ, Τ, Υ, Φ, Χ, Ψ, Ω\`\`\`` },
                 { name: `\u200B`, value: `**Lowercase:**\n\`\`\`α, β, γ, δ, ε, ζ, η, θ, ι, κ, λ, μ,\nν, ξ, ο, π, ρ, σ, τ, υ, φ, χ, ψ, ω\`\`\`` }
             )
+            .setTimestamp(Date.now())
 
         // get nickname, if user doesn't have a set nickname, return username
         if (!message.member.nickname) {

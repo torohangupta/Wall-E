@@ -37,6 +37,7 @@ module.exports = {
             .setAuthor(`New Poll:`)
             .setTitle(optSpltr[0])
             .setColor(`E94B3C`)
+            .setTimestamp(Date.now())
             .setFooter(`Asked by: ${message.member.nickname}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // Define optFields

@@ -31,6 +31,7 @@ module.exports = {
             .setTitle(`Invite Wall-E to your server!`)
             .setColor(`CC743C`)
             .setDescription('You can use this [link](https://discord.com/api/oauth2/authorize?client_id=738513970930909194&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fnew&scope=bot) to invite Wall-E or copy the following link: \n\`\`\`https://discord.com/api/oauth2/authorize?client_id=738513970930909194&permissions=8&redirect_uri=https%3A%2F%2Fdiscord.com%2Fnew&scope=bot\`\`\`')
+            .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         message.channel.send(inviteEmbed)

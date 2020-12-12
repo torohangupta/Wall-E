@@ -29,6 +29,7 @@ module.exports = {
                 { name: `\u200B`, value: `Helping edit someone's code? add "diff" after the first 3 accent marks, like this, \\\`\\\`\\\`diff, and use "+" and "-" to suggest lines to add/remove! It will look like this:\`\`\`diff\n- This is a line of coke.\n+ This is a line of code.\`\`\`` },
                 { name: `\u200B`, value: `Finally, Discord supports formatting based off the language as well. If I want to send MATLAB code, I would add "matlab" after the first 3 accent marks, like \\\`\\\`\\\`matlab, and Discord will format the MATLAB code accordingly, like this:\`\`\`matlab\nclear, clc\n% Rohan Gupta\n\n% Define variables\nvariable = 1;\n\nif variable = 1\n     disp('Hello World!')\nelse\n     disp('variable does not equal 1')\nend\n\n% end\`\`\`` }
             )
+            .setTimestamp(Date.now())
 
         // get nickname, if user doesn't have a set nickname, return username
         if (!message.member.nickname) {

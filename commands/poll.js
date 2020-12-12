@@ -44,6 +44,7 @@ module.exports = {
             .addFields(
                 { name: pollmsg, value: `\u200B` }
             )
+            .setTimestamp(Date.now())
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         message.channel.send(pollEmbed).then(m => {

@@ -97,6 +97,7 @@ module.exports = {
                     { name: `\u200B`, value: `\u200B`, inline: true },
                     { name: `\u200B`, value: `**Joined ${message.guild}:**\n${serverDateJoined}\n${serverTimeJoined}\nTime on Server: ${daysOnServer} Days`, inline: true }
                 )
+                .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             message.channel.send(profileEmbed)

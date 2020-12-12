@@ -54,6 +54,7 @@ module.exports = {
             .addFields(
                 { name: `\u200B`, value: `\`\`\`${m8responses[choice]}.\`\`\`` }
             )
+            .setTimestamp(Date.now())
             .setFooter(`Asked by: ${message.author.username}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // Send embed & log run data

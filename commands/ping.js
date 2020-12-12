@@ -27,6 +27,7 @@ module.exports = {
 			.setTitle(`🏓 Pong!`)
 			.setColor(`ABD1C9`)
 			.setDescription(`Client Ping: ${Date.now()-message.createdTimestamp}ms.\nAPI Latency: ${message.client.ws.ping}ms`)
+			.setTimestamp(Date.now())
 			.setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
 		message.channel.send(pingEmbed)
