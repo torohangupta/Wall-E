@@ -13,7 +13,7 @@ module.exports = {
     args: false,
     needsTaggedUser: false,
     needsPermissions: false,
-    guildOnly: false,
+    guildOnly: true,
     developerOnly: false,
 
     execute(message, args) {
@@ -43,6 +43,6 @@ module.exports = {
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         message.channel.send(quoteEmbed)
-        message.client.channels.cache.get(consoleChannel).send(`OutofContextQuotes log: quote choice: ${quoteSelection}, '${outofcontextquotes[quoteSelection]}'. Asked by ${uName}.`);
+        message.client.channels.cache.get(consoleChannel).send(`OutofContextQuotes log: Quote choice: ${quoteSelection}, '${outofcontextquotes[quoteSelection]}'. Asked by ${uName}.`);
     },
 };

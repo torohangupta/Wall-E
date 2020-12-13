@@ -13,7 +13,7 @@ module.exports = {
     args: true,
     needsTaggedUser: false,
     needsPermissions: false,
-    guildOnly: false,
+    guildOnly: true,
     developerOnly: false,
 
     execute(message, args) {
