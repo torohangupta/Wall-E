@@ -6,7 +6,7 @@ module.exports = {
 
     name: `outofcontextquotes`,
     aliases: [`outofcontextquotes`, `nocontextquotes`, `oocq`, `ncq`],
-    description: `This is a description`,
+    description: `Shares a random, out of context quote`,
     usage: ``,
     requiredPermissions: ``,
 
