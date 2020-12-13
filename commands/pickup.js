@@ -6,7 +6,7 @@ module.exports = {
 
     name: `pickup`,
     aliases: [`pickup`, `pickupline`],
-    description: `Shares a random, out of context quote`,
+    description: `Helps the user shoot their shot`,
     usage: ``,
     requiredPermissions: ``,
 
