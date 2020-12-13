@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-const { pickuplines } = require(`../../Development Release/messages.json`);
-const { consoleChannel } = require(`../../Development Release/config.json`);
+const { pickuplines } = require(`../messages.json`);
+const { consoleChannel } = require(`../config.json`);
 
 module.exports = {
 
