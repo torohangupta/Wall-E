@@ -7,7 +7,7 @@ module.exports = {
     name: `pickup`,
     aliases: [`pickup`, `pickupline`],
     description: `Helps the user shoot their shot`,
-    usage: ``,
+    usage: `@[user]`,
     requiredPermissions: ``,
 
     args: false,
