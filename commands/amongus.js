@@ -79,6 +79,14 @@ module.exports = {
                         message.client.channels.cache.get(consoleChannel).send(`Deleted Among Us Game Manager, requested by \`${uName}\``);
                     })
                     .catch(console.error);
+                    
+                // Delete passed command & log deletion in console
+                message.delete()
+                    .then(msg => {
+                        console.log(`Deleted '${message}' from ${uName}`)
+                        message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
+                    })
+                    .catch(console.error);
             });
 
 
