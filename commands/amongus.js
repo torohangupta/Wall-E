@@ -6,7 +6,7 @@ module.exports = {
     name: `amongus`,
     aliases: [`aus`],
     description: `Among Us Game Manager`,
-    usage: ` OR ~amongus (lobby_code)`,
+    usage: `OR ~amongus [lobby code]`,
     requiredPermissions: ``,
 
     args: false,
@@ -79,7 +79,7 @@ module.exports = {
                         message.client.channels.cache.get(consoleChannel).send(`Deleted Among Us Game Manager, requested by \`${uName}\``);
                     })
                     .catch(console.error);
-                    
+
                 // Delete passed command & log deletion in console
                 message.delete()
                     .then(msg => {
