@@ -98,10 +98,8 @@ function currentTime() {
     } else {
         standardHours = hours;
     }
-    cstHours = standardHours-6;
-    if (cstHours < 1) {
-        cstHours = cstHours+12;
-    }
+    cstHours = standardHours - 6;
+    if (cstHours < 1) { cstHours = cstHours + 12; }
 
     str += cstHours + ":" + minutes + ":" + seconds + " ";
     if (hours > 11) {
