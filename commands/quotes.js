@@ -4,8 +4,8 @@ const { consoleChannel } = require(`../config.json`);
 
 module.exports = {
 
-    name: `outofcontextquotes`,
-    aliases: [`outofcontextquotes`, `nocontextquotes`, `oocq`, `ncq`],
+    name: `quotes`,
+    aliases: [`quote`, `quotes`, `outofcontextquotes`, `ncq`],
     description: `Shares a random, out of context quote`,
     usage: ``,
     requiredPermissions: ``,
@@ -19,12 +19,8 @@ module.exports = {
     execute(message, args) {
 
         // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-        }
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         // Delete passed command & log deletion in console
         message.delete()
