@@ -69,7 +69,7 @@ client.on('message', message => {
     try {
         command.execute(message, args);
         console.log(`Running ${command.name}, requested by ${message.author}`)
-        client.channels.cache.get(consoleChannel).send(`**${currentTime()} - Wall-E - Command Run**\n\`\`\`\nUser: ${userGuildName(message)}\nGuild: ${message.member.guild.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
+        client.channels.cache.get(consoleChannel).send(`**${currentTime()} - Wall-E - Command Run**\n\`\`\`\nUser: ${userGuildName(message)}\nGuild: ${message.member.guild.name}\nChannel: ${message.channel.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
 
     } catch (error) {
         console.error(error);

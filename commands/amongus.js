@@ -18,13 +18,8 @@ module.exports = {
     execute(message, args) {
 
         // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-
-        }
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         msgDescription = `React with the following to mute/unmute people during rounds!`;
         if (args[0] && args[0].length == 6) msgDescription += `\n\nGame Code: \`${args[0]}\``
@@ -34,7 +29,6 @@ module.exports = {
             .setTitle(`Welcome to the Among Us Game Manager`)
             .setDescription(msgDescription)
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-
 
 
         message.channel.send(amongUs).then(auMsg => {
@@ -48,6 +42,16 @@ module.exports = {
             // unmute all players in vc
             const unmuteCollector = auMsg.createReactionCollector(unmute);
             unmuteCollector.on('collect', (reaction, user) => {
+
+                // user is not in a VC, reset embed reactions
+                if(!message.guild.members.cache.get(user.id).voice.channelID) {
+                    auMsg.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                    auMsg.react(`🔈`);
+                    auMsg.react(`🔇`);
+                    auMsg.react(`❌`);
+                    return;
+                }
+
                 message.member.voice.channel.members.forEach(function (guildMemberId) {
                     guildMemberId.voice.setMute(false);
                 })
@@ -60,6 +64,16 @@ module.exports = {
             // mute all players in vc
             const muteCollector = auMsg.createReactionCollector(mute);
             muteCollector.on('collect', (reaction, user) => {
+
+                // user is not in a VC, reset embed reactions
+                if(!message.guild.members.cache.get(user.id).voice.channelID) {
+                    auMsg.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
+                    auMsg.react(`🔈`);
+                    auMsg.react(`🔇`);
+                    auMsg.react(`❌`);
+                    return;
+                }
+
                 message.member.voice.channel.members.forEach(function (guildMemberId) {
                     guildMemberId.voice.setMute(true);
                 })
@@ -75,7 +89,7 @@ module.exports = {
             collectorDelete.on('collect', (reaction, user) => {
                 auMsg.delete()
                     .then(msg => {
-                        console.log(`Deleted Among Us Game Manager, requested by \`${uName}\``)
+                        console.log(`Deleted \`Among Us Game Manager\`, requested by \`${uName}\``)
                         message.client.channels.cache.get(consoleChannel).send(`Deleted Among Us Game Manager, requested by \`${uName}\``);
                     })
                     .catch(console.error);
