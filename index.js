@@ -94,12 +94,16 @@ function currentTime() {
         seconds = "0" + seconds
     }
     if (hours > 12) {
-        hoursNormalized = hours - 12;
+        stardardHours = hours - 12;
     } else {
-        hoursNormalized = hours;
+        stardardHours = hours;
+    }
+    cstHours = standardHours-6;
+    if (cstHours < 1) {
+        cstHours = cstHours+12;
     }
 
-    str += hoursNormalized + ":" + minutes + ":" + seconds + " ";
+    str += stardardHours + ":" + minutes + ":" + seconds + " ";
     if (hours > 11) {
         str += "PM"
     } else {
