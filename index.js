@@ -94,9 +94,9 @@ function currentTime() {
         seconds = "0" + seconds
     }
     if (hours > 12) {
-        stardardHours = hours - 12;
+        standardHours = hours - 12;
     } else {
-        stardardHours = hours;
+        standardHours = hours;
     }
     cstHours = standardHours-6;
     if (cstHours < 1) {
