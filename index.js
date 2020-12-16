@@ -103,7 +103,7 @@ function currentTime() {
         cstHours = cstHours+12;
     }
 
-    str += stardardHours + ":" + minutes + ":" + seconds + " ";
+    str += cstHours + ":" + minutes + ":" + seconds + " ";
     if (hours > 11) {
         str += "PM"
     } else {
