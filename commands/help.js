@@ -24,13 +24,9 @@ module.exports = {
         var selectionRxns = [`🔴`, `🟠`, `🟡`, `🟢`, `🔵`, `🟣`];
 
         // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-
-        }
+        // get author's username/nickname if it exists
+        uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         // Create commands vector & store all live commands in allcmds
         const { commands } = message.client;
