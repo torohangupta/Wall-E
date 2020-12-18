@@ -85,7 +85,6 @@ module.exports = {
 
                 // set support status ticket to completed & waiting for secondary confirmation
                 deleteCollector.on('collect', (reaction, user) => {
-                    console.log(`here`)
                     sc.setName(`🟢-support-${message.author.username}`)
                 });
 
