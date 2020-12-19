@@ -185,6 +185,7 @@ module.exports = {
                     // give role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.add(role);
                     message.author.send(`You have added the role \`${role.name}\` in **Online College**.`)
+                    message.react(`✔️`)
                 }
 
             } else {
@@ -216,6 +217,7 @@ module.exports = {
                     // remove role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.remove(role);
                     message.author.send(`You have removed the role \`${role.name}\` in **Online College**.`)
+                    message.react(`✔️`)
                 }
 
             } else {
