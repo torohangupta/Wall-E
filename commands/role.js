@@ -55,11 +55,11 @@ module.exports = {
         // command handling
         if (createAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
             // CREATE ROLE
-            createRole(roleArg.toLowercase());
+            createRole(roleArg.toLowerCase());
 
         } else if (deleteAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
             // DELETE ROLE
-            deleteRole(roleArg.toLowercase());
+            deleteRole(roleArg.toLowerCase());
 
         } else if (viewAliases.includes(cmdArg)) {
             // VIEW ALL ROLES
