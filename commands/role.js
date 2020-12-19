@@ -4,9 +4,9 @@ const { consoleChannel } = require(`../config.json`);
 module.exports = {
 
     name: `role`,
-    aliases: [`role`, `classrole`, `cr`],
+    aliases: [`role`, `class`, `classrole`, `cr`],
     description: `Use this command to get class roles!`,
-    usage: `view/add/remove <class_code>`,
+    usage: `view/add/remove <class-code>`,
     requiredPermissions: ``,
 
     args: true,
@@ -37,11 +37,23 @@ module.exports = {
             `765414388248215574`, // Trusted Members
             `692097738283810896`, // Members
             `692094440881520671`, // @everyone
+            // Majors
+            `789736589470990367`, // AER E
+            `789737168062251029`, // A B E
+            `789738250335289374`, // CON E
+            `789738504393195541`, // CIV E
+            `789738716913467393`, // E E
+            `789738852315168799`, // E M
+            `789739007239520266`, // I E
+            `789739213276971028`, // MAT E
+            `789739407744827463`, // M E
+
             // Bots
             `692100602297188382`, // Bot Overlords
             `789623704538578985`, // MEE6
             `783033684491370498`, // LaTeX
             `692099919602909254`, // Rythm
+            `789733296077537282`, // Zira
             `779433406710415401`, // Wall-E
             `788914781880188928`  // Wall-E Dev
         ];
