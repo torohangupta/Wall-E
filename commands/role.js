@@ -163,16 +163,33 @@ module.exports = {
             allServerRoles = message.member.guild.roles.cache.sort((a, b) => b.position - a.position).map(r => r)
 
             // create a blank variable for selfassignable roles & remove blacklisted roles from assignable roles
-            var assignableRoles = ``;
+            var assignableRoles = [];
             allServerRoles.forEach(role => {
-                if (!blacklistedRoleIDs.includes(role.id)) { assignableRoles += `${message.member.guild.roles.cache.get(role.id)}, `; }
+                if (!blacklistedRoleIDs.includes(role.id)) {
+                    assignableRoles.push(message.member.guild.roles.cache.get(role.id));
+                }
             });
+
+            const { aere, abe, cone, ce, ee, em, me, ie, mate, meche, other } = roleOrganizer(assignableRoles);
 
             // create embed with list of assignable roles
             const assignableRolesEmbed = new MessageEmbed()
                 .setTitle(`Self-Assignable Roles`)
                 .setColor(`c8102e`)
-                .setDescription(assignableRoles.slice(0, assignableRoles.length - 2))
+                // .setColor(`36393F`) <= Borderless Embed
+                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:\n\`\`\`~role add/remove <class-code>\`\`\``)
+                .addFields(
+                    { name : `🚀 - Aerospace Engineering` , value : aere.join(`, `) },
+                    { name : `🚜 - Agricultural & Bio-Systems Engineering` , value : abe.join(`, `) },
+                    { name : `🚧 - Construction Engineering` , value : cone.join(`, `) },
+                    { name : `🌉 - Civil Engineering` , value : ce.join(`, `) },
+                    { name : `💡 - Electrical Engineering` , value : ee.join(`, `) },
+                    { name : `🔩 - Engineering Mechanics` , value : em.join(`, `) },
+                    { name : `🏭 - Industrial Engineering` , value : ie.join(`, `) },
+                    { name : `🧱 - Materials Science & Engineering` , value : mate.join(`, `) },
+                    { name : `⚙️ - Mechanical Engineering` , value : meche.join(`, `) },
+                    { name : `🧠 - Miscellaneous Courses` , value : other.join(`, `) },
+                )
                 .setFooter(`Don't see your class here? Create a support ticket using ~support`)
 
             // send message with all assignable roles
@@ -181,27 +198,29 @@ module.exports = {
         }
 
         function addRoles(roleName) {
+            
             // check to make sure the role exists, if the role doesn't exist
             if (message.member.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase())) {
 
                 // if the role exists, find & store it in role
                 role = message.member.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase());
 
-                // if the roleid is not user blacklisted, give role, otherwise let user know that the role is blacklisted.
                 if (blacklistedRoleIDs.includes(role.id)) {
+                    // let user know the role is blacklisted and must be manually assigned
                     message.channel.send(`You cannot add that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
+                    message.react(`❌`);
                     return;
 
                 } else {
-
                     // give role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.add(role);
-                    message.author.send(`You have added the role \`${role.name}\` in **Online College**.`)
-                    message.react(`✔️`)
+                    message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
+                    message.react(`✔️`);
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`)
+                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
+                message.react(`❌`);
             }
         }
 
@@ -219,22 +238,66 @@ module.exports = {
                     return;
                 }
 
-                // if the roleid is not user blacklisted, give role, otherwise let user know that the role is blacklisted.
                 if (blacklistedRoleIDs.includes(role.id)) {
+                    // let user know the role is blacklisted and must be manually removed
                     message.channel.send(`You cannot remove that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
                     return;
 
                 } else {
-
                     // remove role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.remove(role);
-                    message.author.send(`You have removed the role \`${role.name}\` in **Online College**.`)
-                    message.react(`✔️`)
+                    message.author.send(`You have removed the role \`${role.name}\` in **Online College**.`);
+                    message.react(`✔️`);
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`)
+                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
+                message.react(`❌`);
             }
+        }
+
+        function roleOrganizer(roles) {
+
+            // initialize major catogeries
+            aere = [];
+            abe = [];
+            cone = [];
+            ce = [];
+            ee = [];
+            em = [];
+            me = [];
+            ie = [];
+            mate = [];
+            meche = [];
+            other = [];
+
+            // sort roles by major
+            roles.forEach(role => {
+                if (role.name.includes(`aere`)) {
+                    aere.push(role)
+                } else if (role.name.includes(`abe`)) {
+                    abe.push(role)
+                } else if (role.name.includes(`cone`)) {
+                    cone.push(role)
+                } else if (role.name.includes(`ce`)) {
+                    ce.push(role)
+                } else if (role.name.includes(`ee`)) {
+                    ee.push(role)
+                } else if (role.name.includes(`em`)) {
+                    em.push(role)
+                } else if (role.name.includes(`ie`)) {
+                    ie.push(role)
+                } else if (role.name.includes(`mate`)) {
+                    mate.push(role)
+                } else if (role.name.includes(`me`)) {
+                    meche.push(role)
+                } else {
+                    other.push(role)
+                }
+            });
+
+            // return class role arrays
+            return { aere, abe, cone, ce, ee, em, me, ie, mate, meche, other }
         }
     },
 };
