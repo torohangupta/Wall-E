@@ -36,6 +36,7 @@ module.exports = {
             `692097359005351947`, // Supreme Overseers
             `765414388248215574`, // Trusted Members
             `692097738283810896`, // Members
+            `790031205407784991`, // Server Boosters
             `692094440881520671`, // @everyone
             // Majors
             `789736589470990367`, // AER E
