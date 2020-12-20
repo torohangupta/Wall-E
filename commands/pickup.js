@@ -18,17 +18,13 @@ module.exports = {
 
     execute(message, args) {
 
+        // get nickname, if user doesn't have a set nickname, return username
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
+
         // get all tagged users & save first tagged user in user
         taggedusers = message.mentions.users.map(u => u);
         taggedUser = taggedusers[0];
-
-        // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-        }
 
         // get a random pickupline index from list of available pickuplines
         const lineSelection = Math.floor(Math.random() * pickuplines.length);

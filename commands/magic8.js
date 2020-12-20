@@ -19,16 +19,12 @@ module.exports = {
     execute(message, args) {
 
         // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-        }
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         // Delete passed command & log deletion in console
         message.delete()
-            .then(msg => {
+            .then(() => {
                 console.log(`Deleted '${message}' from ${uName}`)
                 message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
             })
@@ -58,7 +54,7 @@ module.exports = {
         // Send embed & log run data
         message.channel.send(m8embed)
 
-        console.log(`magic8 log: Question: '${question}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`)
+        console.log(`Magic8 log: Question: '${question}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`)
         message.client.channels.cache.get(consoleChannel).send(`Magic8 log: Question: '${question}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`);
     },
 };

@@ -16,11 +16,9 @@ module.exports = {
 
 	execute(message) {
 
-        if (!message.member.nickname) {
-            uName = message.author.username;
-        } else {
-            uName = message.member.nickname;
-		}
+        // get nickname, if user doesn't have a set nickname, return username
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
 		const pingEmbed = new MessageEmbed()
 			.setAuthor('Wall-E Ping Command', 'https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg')

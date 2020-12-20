@@ -17,14 +17,11 @@ module.exports = {
 
     execute(message, args) {
 
-        // comment to add change & test reaction collector persistance
-
         // initalize page number & store the selection reactions in an array
         var currpg = 0;
         var selectionRxns = [`🔴`, `🟠`, `🟡`, `🟢`, `🔵`, `🟣`];
 
         // get nickname, if user doesn't have a set nickname, return username
-        // get author's username/nickname if it exists
         uName = message.member.nickname;
         if (!uName) uName = message.author.username;
 
@@ -74,7 +71,7 @@ module.exports = {
 
             // Delete passed command & log deletion in console
             message.delete()
-            .then(msg => {
+            .then(() => {
                 console.log(`Deleted '${message}' from \`${uName}\``)
                 message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
             })
@@ -124,7 +121,7 @@ module.exports = {
                     emojiCollectors[i] = helpMessage.createReactionCollector(emojiFilters[i]);
 
                     // turning on the reaction collectors
-                    emojiCollectors[i].on('collect', (reaction, user) => {
+                    emojiCollectors[i].on('collect', () => {
 
                         // edit help embed with command selection
                         helpMessage.edit(commandEmbed(commands, allcmds, helpSelection(currpg, selectionRxns[i], selectionRxns, helpMessage))).then(m => {
@@ -137,7 +134,7 @@ module.exports = {
 
                 // reaction collector & filter to start the help command
                 const collectoryes = helpMessage.createReactionCollector(yesFilter);
-                collectoryes.on('collect', (reaction, user) => {
+                collectoryes.on('collect', () => {
 
                     helpPage(currpg, selectionRxns, allcmds, totpg, helpMessage);
 
@@ -145,7 +142,7 @@ module.exports = {
 
                 // reaction collector & filter to go to the previous page & ensure that embed remains within lower bounds of the number of pages
                 const clbackwards = helpMessage.createReactionCollector(backwards);
-                clbackwards.on('collect', (reaction, user) => {
+                clbackwards.on('collect', () => {
 
                     if (currpg - 1 < 0) {
                         message.channel.send(`That page doesn't exist!`)
@@ -158,7 +155,7 @@ module.exports = {
 
                 // reaction collector & filter to go to the next page & ensure that embed remains within upper bounds of the number of pages
                 const clforwards = helpMessage.createReactionCollector(forwards);
-                clforwards.on('collect', (reaction, user) => {
+                clforwards.on('collect', () => {
 
                     if (currpg + 2 > totpg) {
                         message.channel.send(`That page doesn't exist!`)
@@ -171,7 +168,7 @@ module.exports = {
 
                 // reaction collector to delete the help embed & log event to console
                 const collectorDelete = helpMessage.createReactionCollector(deleteFilter);
-                collectorDelete.on('collect', (reaction, user) => {
+                collectorDelete.on('collect', () => {
                     helpMessage.delete()
                         .then(msg => {
                             console.log(`Deleted help embed, requested by \`${uName}\``)

@@ -17,10 +17,9 @@ module.exports = {
 
     execute(message, args) {
 
-        /*
-        TODO:
-        - Reorganize code, create 2 .setTitle lines & first option lines
-        */
+        // get nickname, if user doesn't have a set nickname, return username
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         // Creating uniform string with arguments
         let str = '';
@@ -38,17 +37,17 @@ module.exports = {
             .setTitle(optSpltr[0])
             .setColor(`E94B3C`)
             .setTimestamp(Date.now())
-            .setFooter(`Asked by: ${message.member.nickname}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
+            .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // Define optFields
         var optField = `${letters[0]} : ${optSpltr[1]}\n`;
 
         // andy's death options embed
-        if (numOptions/numOptions == 1) {
+        if (numOptions / numOptions == 1) {
 
             optionsEmbed.setTitle(optSpltr[1])
             var optField = `${letters[0]} : ${optSpltr[2]}\n`;
-            
+
             for (let i = 1; i <= numOptions - 1; i++) {
                 optField += letters[i] + ` : ` + optSpltr[2] + `\n`;
             } // for numOptions, options, list optSpltr[2] as each option
@@ -71,7 +70,7 @@ module.exports = {
                 // Delete passed command & log deletion in console
                 message.delete()
                     .then(msg => {
-                        console.log(`Deleted '${message}' from ${msg.author.username}`)
+                        console.log(`Deleted '${message}' from ${uName}`)
                     })
                     .catch(console.error);
 

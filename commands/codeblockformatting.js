@@ -15,7 +15,11 @@ module.exports = {
     guildOnly: false,
     developerOnly: false,
 
-    execute(message, args) {
+    execute(message) {
+
+        // get nickname, if user doesn't have a set nickname, return username
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         const cbfEmbed = new MessageEmbed()
             .setAuthor('Wall-E Bot', 'https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg')
@@ -30,15 +34,6 @@ module.exports = {
                 { name: `\u200B`, value: `Finally, Discord supports formatting based off the language as well. If I want to send MATLAB code, I would add "matlab" after the first 3 accent marks, like \\\`\\\`\\\`matlab, and Discord will format the MATLAB code accordingly, like this:\`\`\`matlab\nclear, clc\n% Rohan Gupta\n\n% Define variables\nvariable = 1;\n\nif variable = 1\n     disp('Hello World!')\nelse\n     disp('variable does not equal 1')\nend\n\n% end\`\`\`` }
             )
             .setTimestamp(Date.now())
-
-        // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-
-        }
 
         // get nickname, if user doesn't have a set nickname, return username
         if (!message.member.nickname) {
@@ -60,7 +55,7 @@ module.exports = {
                     .then(message.client.channels.cache.get(consoleChannel).send(`Deleted cbf embed, requested by \`${uName}\``))
                     .catch(console.error);
                 message.delete()
-                .then(console.log(`Deleted cbf request command, requested by \`${uName}\``))
+                    .then(console.log(`Deleted cbf request command, requested by \`${uName}\``))
                     .then(message.client.channels.cache.get(consoleChannel).send(`Deleted cbf request command, requested by \`${uName}\``))
                     .catch(console.error);
             });

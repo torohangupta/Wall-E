@@ -86,7 +86,7 @@ module.exports = {
             const deleteFilter = (reaction, user) => { return reaction.emoji.name == '❌' && user.id == message.author.id; };
             // reaction collector to delete the help embed & log event to console
             const collectorDelete = auMsg.createReactionCollector(deleteFilter);
-            collectorDelete.on('collect', (reaction, user) => {
+            collectorDelete.on('collect', () => {
                 auMsg.delete()
                     .then(msg => {
                         console.log(`Deleted \`Among Us Game Manager\`, requested by \`${uName}\``)
@@ -96,7 +96,7 @@ module.exports = {
 
                 // Delete passed command & log deletion in console
                 message.delete()
-                    .then(msg => {
+                    .then(() => {
                         console.log(`Deleted '${message}' from ${uName}`)
                         message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
                     })

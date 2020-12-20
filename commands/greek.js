@@ -15,11 +15,15 @@ module.exports = {
     guildOnly: false,
     developerOnly: false,
 
-    execute(message, args) {
+    execute(message) {
+
+        // get nickname, if user doesn't have a set nickname, return username
+        let uName = message.member.nickname;
+        if (!uName) uName = message.author.username;
 
         // Delete passed command & log deletion in console
         message.delete()
-            .then(msg => {
+            .then(() => {
                 console.log(`Deleted '${message}' from ${uName}`)
                 message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
             })
@@ -35,22 +39,8 @@ module.exports = {
                 { name: `\u200B`, value: `**Lowercase:**\n\`\`\`α, β, γ, δ, ε, ζ, η, θ, ι, κ, λ, μ,\nν, ξ, ο, π, ρ, σ, τ, υ, φ, χ, ψ, ω\`\`\`` }
             )
             .setTimestamp(Date.now())
+            .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            uName = message.author.username;
-
-        } else {
-            uName = message.member.nickname;
-        }
-
-        // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            greekLettersEmbed.setFooter(`Requested by: ${message.author.username}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-
-        } else {
-            greekLettersEmbed.setFooter(`Requested by: ${message.member.nickname}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-        }
         message.channel.send(greekLettersEmbed).then(m => {
             m.react(`❌`)
 
@@ -58,9 +48,9 @@ module.exports = {
 
             // reaction collector to delete the help embed & log event to console
             const collectorDelete = m.createReactionCollector(deleteFilter);
-            collectorDelete.on('collect', (reaction, user) => {
+            collectorDelete.on('collect', () => {
                 m.delete()
-                    .then(msg => {
+                    .then(() => {
                         console.log(`Deleted greek embed, requested by \`${uName}\``)
                         message.client.channels.cache.get(consoleChannel).send(`Deleted greek embed, requested by \`${uName}\``);
                     })
