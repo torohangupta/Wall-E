@@ -63,12 +63,6 @@ module.exports = {
             ],
         }).then(sc => {
 
-            // change support ticket status to being helped
-            const scMsgCollectorHelping = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
-            scMsgCollectorHelping.on(`end`, c => {
-                sc.setName(`🟠-support-${message.author.username}`)
-            })
-
             // create message logging
             msgLog = [];
             logIndex = 0;
@@ -76,6 +70,12 @@ module.exports = {
             msgLoggingCollector.on(`collect`, c => {
                 msgLog[logIndex] = `**${c.author.username}** - ${c.content}`;
                 logIndex++
+            })
+
+            // change support ticket status to being helped
+            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
+            helpingCollector.on(`end`, c => {
+                sc.setName(`🟠-support-${message.author.username}`)
             })
 
             // create support embed
@@ -86,48 +86,57 @@ module.exports = {
                 .setTimestamp()
 
             // send user tag, embed & react to embed
-            sc.send(`${message.author},`)
-            sc.send(supportEmbed).then(supportEmbed => {
-                supportEmbed.react(`❌`)
+            sc.send(`${message.author},`).then(() => {
+                sc.send(supportEmbed).then(supportEmbed => {
+                    supportEmbed.react(`❌`)
 
-                // create filter for completion & deletion
-                const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
-                const deleteCollector = supportEmbed.createReactionCollector(closeTicketFilter, { max: 2 });
+                    // create filter & collector to mark ticket as completed
+                    const helpedCollectorFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
+                    const helpedCollector = supportEmbed.createReactionCollector(helpedCollectorFilter, { max: 1 });
 
-                // set support status ticket to completed & waiting for secondary confirmation
-                deleteCollector.on('collect', (reaction, user) => {
-                    sc.setName(`🟢-support-${message.author.username}`)
-                });
+                    // set support status ticket to completed & waiting for secondary confirmation
+                    helpedCollector.on('collect', (reaction, userMarkedCompleted) => {
+                        sc.setName(`🟢-support-${message.author.username}`)
 
-                // delete support ticket channel after 2 valid reactions
-                deleteCollector.on('end', collected => {
+                        // create filter & collector to delete ticket
+                        const deleteCollecterFilter = (reaction, user) => {
+                            return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id && userMarkedCompleted.id != user.id;
+                        };
+                        const deleteCollector = supportEmbed.createReactionCollector(deleteCollecterFilter, { max: 1 });
 
-                    // stop all message collectors
-                    msgLoggingCollector.stop();
-                    scMsgCollectorHelping.stop();
+                        // delete support ticket channel after 2 valid reactions
+                        deleteCollector.on('end', () => {
 
-                    // create transcript embed
-                    const transcriptEmbed = new MessageEmbed()
-                    .setAuthor(`Wall-E Support`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
-                        .setTitle(`Support Ticket Transcript - ${message.author.username}`)
-                        .setColor(`FF5733`)
-                        .setDescription(msgLog.join(`\n`))
-                        .setTimestamp()
-                        .setFooter(`Ticket opened by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-                    
-                    // send a copy of the transcript embed to the user and another to the log-support channel
-                    message.author.send(`Here is a transcript of your support ticket:`)
-                    message.author.send(transcriptEmbed)
-                    message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
+                            // stop all message collectors
+                            msgLoggingCollector.stop();
+                            helpingCollector.stop();
 
-                    sc.delete()
-                        .then(msg => {
-                            console.log(`Deleted \`${authorName}\`'s support ticket channel.`)
-                            message.client.channels.cache.get(consoleChannel).send(`Deleted \`${authorName}\`'s support ticket channel.`);
-                        })
-                        .catch(console.error);
-                });
-            }).catch(console.error);
-        }).catch(console.error);
+                            // create transcript embed
+                            const transcriptEmbed = new MessageEmbed()
+                                .setAuthor(`Wall-E Support`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
+                                .setTitle(`Support Ticket Transcript - ${message.author.username}`)
+                                .setColor(`FF5733`)
+                                .setDescription(msgLog.join(`\n`))
+                                .setTimestamp()
+                                .setFooter(`Ticket opened by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
+
+                            // send a copy of the transcript embed to the user and another to the log-support channel
+                            message.author.send(`Here is a transcript of your support ticket:`)
+                            message.author.send(transcriptEmbed)
+                            message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
+
+                            // end the helped collector
+                            helpedCollector.stop()
+
+                            sc.delete()
+                                .then(() => {
+                                    console.log(`Deleted \`${authorName}\`'s support ticket channel.`)
+                                    message.client.channels.cache.get(consoleChannel).send(`Deleted \`${authorName}\`'s support ticket channel.`);
+                                })
+                        });
+                    });
+                })
+            })
+        })
     },
 }
