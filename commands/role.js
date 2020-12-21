@@ -87,6 +87,7 @@ module.exports = {
 
         } else {
             message.channel.send(`Error: You did not list a valid argument.\nYou can type \`~role\`, \`~classrole\`, \`~cr\` and then **ONE** of the following:\n> \`view\`/\`viewall\` (view all self-assignable roles),\n> \`add\` (add a role)\n> \`remove\` (remove a role).`);
+            message.react(`❌`);
         }
 
         function createRole(roleName) {
@@ -129,10 +130,12 @@ module.exports = {
                     })
                 })
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been created.`)
+                message.react(`✔️`);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been created in **Online College**.`);
 
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
+                message.react(`❌`);
                 message.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
                 console.error();
             }
@@ -147,7 +150,9 @@ module.exports = {
 
             // try to delete the role
             try {
-                message.channel.send(`The role \`${roleName.toLowerCase()}\` has been deleted.`)
+                message.member.guild.roles.cache.find(role => role.name === roleName).delete();
+                message.channel.send(`The role \`${roleName.toLowerCase()}\` has been deleted.`);
+                message.react(`❌`);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been deleted in **Online College**.`);
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
@@ -176,20 +181,39 @@ module.exports = {
             const assignableRolesEmbed = new MessageEmbed()
                 .setTitle(`Self-Assignable Roles`)
                 .setColor(`c8102e`)
-                // .setColor(`36393F`) <= Borderless Embed
-                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:\n\`\`\`~role add/remove <class-code>\`\`\``)
-                .addFields(
-                    { name : `🚀 - Aerospace Engineering` , value : aere.join(`, `) },
-                    { name : `🚜 - Agricultural & Bio-Systems Engineering` , value : abe.join(`, `) },
-                    { name : `🚧 - Construction Engineering` , value : cone.join(`, `) },
-                    { name : `🌉 - Civil Engineering` , value : ce.join(`, `) },
-                    { name : `💡 - Electrical Engineering` , value : ee.join(`, `) },
-                    { name : `🔩 - Engineering Mechanics` , value : em.join(`, `) },
-                    { name : `🏭 - Industrial Engineering` , value : ie.join(`, `) },
-                    { name : `🧱 - Materials Science & Engineering` , value : mate.join(`, `) },
-                    { name : `⚙️ - Mechanical Engineering` , value : meche.join(`, `) },
-                    { name : `🧠 - Miscellaneous Courses` , value : other.join(`, `) },
-                )
+                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:
+                \`\`\`~role add/remove <class-code>\`\`\`
+
+                🚀 - Aerospace Engineering
+                ${aere.join(`, `)}
+
+                🚜 - Agricultural & Bio-Systems Engineering
+                ${abe.join(`, `)}
+
+                🚧 - Construction Engineering
+                ${cone.join(`, `)}
+
+                🌉 - Civil Engineering
+                ${ce.join(`, `)}
+
+                💡 - Electrical Engineering
+                ${ee.join(`, `)}
+
+                🔩 - Engineering Mechanics
+                ${em.join(`, `)}
+
+                🏭 - Industrial Engineering
+                ${ie.join(`, `)}
+
+                🧱 - Materials Science & Engineering
+                ${mate.join(`, `)}
+
+                ⚙️ - Mechanical Engineering
+                ${me.join(`, `)}
+
+                🧠 - Miscellaneous Courses
+                ${other.join(`, `)}
+                `)
                 .setFooter(`Don't see your class here? Create a support ticket using ~support`)
 
             // send message with all assignable roles
@@ -234,13 +258,15 @@ module.exports = {
 
                 // make sure user has the role they are trying to remove
                 if (!message.member._roles.includes(role.id)) {
-                    message.channel.send(`You do not have that role. You can add roles using \`~role add <class>\`. If you need additional help, please create a support ticket using \`~support\`.`)
+                    message.channel.send(`You do not have that role. You can add roles using \`~role add <class>\`. If you need additional help, please create a support ticket using \`~support\`.`);
+                    message.react(`❌`);
                     return;
                 }
 
                 if (blacklistedRoleIDs.includes(role.id)) {
                     // let user know the role is blacklisted and must be manually removed
                     message.channel.send(`You cannot remove that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
+                    message.react(`❌`);
                     return;
 
                 } else {
