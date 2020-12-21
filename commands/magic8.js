@@ -5,9 +5,9 @@ const { consoleChannel } = require(`../config.json`);
 module.exports = {
 
     name: `magic8`,
-    aliases: [`magic8`, `m8`],
+    aliases: [`magic8`, `m8`, `8ball`],
     description: `Wisdom of the magic 8 ball answers your questions`,
-    usage: `[question]`,
+    usage: `<question>`,
     requiredPermissions: ``,
 
     args: true,
