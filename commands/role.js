@@ -175,7 +175,7 @@ module.exports = {
                 }
             });
 
-            const { aere, abe, cone, ce, ee, em, me, ie, mate, meche, other } = roleOrganizer(assignableRoles);
+            const { aere, abe, cone, ce, ee, em, ie, mate, me, other } = roleOrganizer(assignableRoles);
 
             // create embed with list of assignable roles
             const assignableRolesEmbed = new MessageEmbed()
@@ -316,14 +316,14 @@ module.exports = {
                 } else if (role.name.includes(`mate`)) {
                     mate.push(role)
                 } else if (role.name.includes(`me`)) {
-                    meche.push(role)
+                    me.push(role)
                 } else {
                     other.push(role)
                 }
             });
 
             // return class role arrays
-            return { aere, abe, cone, ce, ee, em, me, ie, mate, meche, other }
+            return { aere, abe, cone, ce, ee, em, ie, mate, me, other }
         }
     },
 };
