@@ -42,6 +42,7 @@ module.exports = {
             `789736589470990367`, // AER E
             `789737168062251029`, // A B E
             `789738250335289374`, // CON E
+            `791025436603318302`, // CH E
             `789738504393195541`, // CIV E
             `791014295634837564`, // CYS E
             `789738716913467393`, // E E
@@ -187,6 +188,7 @@ module.exports = {
                     { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}` },
                     { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}` },
                     { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
+                    { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}` },
                     { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}` },
                     { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}` },
                     { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}` },
@@ -269,6 +271,7 @@ module.exports = {
             aere = [];
             abe = [];
             cone = [];
+            che = [];
             ce = [];
             ee = [];
             em = [];
@@ -286,6 +289,8 @@ module.exports = {
                     abe.push(role)
                 } else if (role.name.includes(`cone`)) {
                     cone.push(role)
+                } else if (role.name.includes(`che`)) {
+                    che.push(role)
                 } else if (role.name.includes(`ce`)) {
                     ce.push(role)
                 } else if (role.name.includes(`ee`)) {
