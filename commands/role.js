@@ -43,6 +43,7 @@ module.exports = {
             `789737168062251029`, // A B E
             `789738250335289374`, // CON E
             `789738504393195541`, // CIV E
+            `791014295634837564`, // CYS E
             `789738716913467393`, // E E
             `789738852315168799`, // E M
             `789739007239520266`, // I E
@@ -181,39 +182,19 @@ module.exports = {
             const assignableRolesEmbed = new MessageEmbed()
                 .setTitle(`Self-Assignable Roles`)
                 .setColor(`c8102e`)
-                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:
-                \`\`\`~role add/remove <class-code>\`\`\`
-
-                🚀 - Aerospace Engineering
-                ${aere.join(`, `)}
-
-                🚜 - Agricultural & Bio-Systems Engineering
-                ${abe.join(`, `)}
-
-                🚧 - Construction Engineering
-                ${cone.join(`, `)}
-
-                🌉 - Civil Engineering
-                ${ce.join(`, `)}
-
-                💡 - Electrical Engineering
-                ${ee.join(`, `)}
-
-                🔩 - Engineering Mechanics
-                ${em.join(`, `)}
-
-                🏭 - Industrial Engineering
-                ${ie.join(`, `)}
-
-                🧱 - Materials Science & Engineering
-                ${mate.join(`, `)}
-
-                ⚙️ - Mechanical Engineering
-                ${me.join(`, `)}
-
-                🧠 - Miscellaneous Courses
-                ${other.join(`, `)}
-                `)
+                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:\n\`\`\`~role add/remove <class-code>\`\`\``)
+                .addFields(
+                    { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}` },
+                    { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}` },
+                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
+                    { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}` },
+                    { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}` },
+                    { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}` },
+                    { name: `\u200B`, value: `🏭 - Industrial Engineering\n${ie.join(`, `)}` },
+                    { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}` },
+                    { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}` },
+                    { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}` }
+                )
                 .setFooter(`Don't see your class here? Create a support ticket using ~support`)
 
             // send message with all assignable roles
