@@ -67,8 +67,14 @@ module.exports = {
             msgLog = [];
             logIndex = 0;
             const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle);
-            msgLoggingCollector.on(`collect`, c => {
-                msgLog[logIndex] = `**${c.author.username}** - ${c.content}`;
+            msgLoggingCollector.on(`collect`, m => {
+                if (m.embeds[0]) {
+                    msgLog[logIndex] = `**${m.author.username}** - [Message Embed]`;
+                } else if (message.attachments.map(a => a)[0]) {
+                    msgLog[logIndex] = `**${m.author.username}** - [Message Attachment]`;
+                } else {
+                    msgLog[logIndex] = `**${m.author.username}** - ${m.content}`;
+                }
                 logIndex++
             })
 
