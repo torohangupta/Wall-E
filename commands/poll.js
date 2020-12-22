@@ -34,10 +34,9 @@ module.exports = {
 
         var pollEmbed = new MessageEmbed()
             .setTitle(`New Poll:`)
-            .setDescription(`\u200B`)
             .setColor(`4F674F`)
             .addFields(
-                { name: pollmsg, value: `\u200B` }
+                { name: `\u200B`, value: pollmsg }
             )
             .setTimestamp(Date.now())
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
