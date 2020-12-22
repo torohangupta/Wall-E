@@ -44,12 +44,15 @@ module.exports = {
             `789738250335289374`, // CON E
             `791025436603318302`, // CH E
             `789738504393195541`, // CIV E
+            `791045991397851136`, // COM S
+            `791045815304323124`, // CPR E
             `791014295634837564`, // CYS E
             `789738716913467393`, // E E
             `789738852315168799`, // E M
             `789739007239520266`, // I E
             `789739213276971028`, // MAT E
             `789739407744827463`, // M E
+            `791045679023390720`, // S E
             // Bots
             `692100602297188382`, // Bot Overlords
             `789623704538578985`, // MEE6
@@ -177,7 +180,7 @@ module.exports = {
                 }
             });
 
-            const { aere, abe, cone, ce, ee, em, ie, mate, me, other } = roleOrganizer(assignableRoles);
+            const { aere, abe, cone, ce, ee, em, ie, mate, me, se, cpre, coms, other } = roleOrganizer(assignableRoles);
 
             // create embed with list of assignable roles
             const assignableRolesEmbed = new MessageEmbed()
@@ -187,14 +190,17 @@ module.exports = {
                 .addFields(
                     { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}` },
                     { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}` },
-                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
                     { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}` },
                     { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}` },
+                    { name: `\u200B`, value: `💾 - Computer Engineering\n${cpre.join(`, `)}` },
+                    { name: `\u200B`, value: `⌨️ - Computer Science\n${coms.join(`, `)}` },
+                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
                     { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}` },
                     { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}` },
                     { name: `\u200B`, value: `🏭 - Industrial Engineering\n${ie.join(`, `)}` },
                     { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}` },
                     { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}` },
+                    { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}` },
                     { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}` }
                 )
                 .setFooter(`Don't see your class here? Create a support ticket using ~support`)
@@ -279,6 +285,9 @@ module.exports = {
             ie = [];
             mate = [];
             meche = [];
+            coms = [];
+            se = [];
+            cpre = [];
             other = [];
 
             // sort roles by major
@@ -303,13 +312,19 @@ module.exports = {
                     mate.push(role)
                 } else if (role.name.includes(`me`)) {
                     me.push(role)
+                } else if (role.name.includes(`se`)) {
+                    se.push(role)
+                } else if (role.name.includes(`cpre`)) {
+                    cpre.push(role)
+                } else if (role.name.includes(`coms`)) {
+                    coms.push(role)
                 } else {
                     other.push(role)
                 }
             });
 
             // return class role arrays
-            return { aere, abe, cone, ce, ee, em, ie, mate, me, other }
+            return { aere, abe, cone, ce, ee, em, ie, mate, me, se, cpre, coms, other }
         }
     },
 };
