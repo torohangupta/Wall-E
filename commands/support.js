@@ -66,11 +66,11 @@ module.exports = {
             // create message logging
             msgLog = [];
             logIndex = 0;
-            const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle);
+            const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(`support-${message.author.username}`));
             msgLoggingCollector.on(`collect`, m => {
                 if (m.embeds[0]) {
                     msgLog[logIndex] = `**${m.author.username}** - [Message Embed]`;
-                } else if (message.attachments.map(a => a)[0]) {
+                } else if (m.attachments.map(a => a)[0]) {
                     msgLog[logIndex] = `**${m.author.username}** - [Message Attachment]`;
                 } else {
                     msgLog[logIndex] = `**${m.author.username}** - ${m.content}`;
@@ -79,7 +79,7 @@ module.exports = {
             })
 
             // change support ticket status to being helped
-            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
+            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle && m.channel.name.includes(`support-${message.author.username}`), { max: 1 });
             helpingCollector.on(`end`, c => {
                 sc.setName(`🟠-support-${message.author.username}`)
             })
