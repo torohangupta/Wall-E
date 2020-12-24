@@ -127,8 +127,8 @@ module.exports = {
                                 .setFooter(`Ticket opened by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
                             // send a copy of the transcript embed to the user and another to the log-support channel
-                            message.author.send(`Here is a transcript of your support ticket:`)
-                            message.author.send(transcriptEmbed)
+                            // message.author.send(`Here is a transcript of your support ticket:`)
+                            // message.author.send(transcriptEmbed)
                             message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
 
                             // end the helped collector
