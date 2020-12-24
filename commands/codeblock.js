@@ -4,7 +4,7 @@ const { consoleChannel } = require(`../config.json`)
 module.exports = {
 
     name: `codeblockformatting`,
-    aliases: [`codeblockformatting`, `cbf`, `code`],
+    aliases: [`codeblock`, `codeblockformatting`, `cbf`, `code`],
     description: `Instructions on how to format a code block`,
     usage: ``,
     requiredPermissions: ``,
@@ -34,14 +34,7 @@ module.exports = {
                 { name: `\u200B`, value: `Finally, Discord supports formatting based off the language as well. If I want to send MATLAB code, I would add "matlab" after the first 3 accent marks, like \\\`\\\`\\\`matlab, and Discord will format the MATLAB code accordingly, like this:\`\`\`matlab\nclear, clc\n% Rohan Gupta\n\n% Define variables\nvariable = 1;\n\nif variable = 1\n     disp('Hello World!')\nelse\n     disp('variable does not equal 1')\nend\n\n% end\`\`\`` }
             )
             .setTimestamp(Date.now())
-
-        // get nickname, if user doesn't have a set nickname, return username
-        if (!message.member.nickname) {
-            cbfEmbed.setFooter(`Requested by: ${message.author.username}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-
-        } else {
-            cbfEmbed.setFooter(`Requested by: ${message.member.nickname}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
-        }
+            .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         message.channel.send(cbfEmbed).then(m => {
             m.react('❌')
