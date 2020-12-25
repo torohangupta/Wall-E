@@ -65,7 +65,9 @@ module.exports = {
 
         // convert user arguments to lowercase
         cmdArg = args[0].toLowerCase();
-        if (args[1]) { roleArg = args[1].toLowerCase(); }
+        if (args[1]) {
+            roleArg = args[1].toLowerCase();
+        }
 
         // command handling
         if (createAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
@@ -155,12 +157,10 @@ module.exports = {
             try {
                 message.member.guild.roles.cache.find(role => role.name === roleName).delete();
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been deleted.`);
-                message.react(`✔️`);
+                message.react(`❌`);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been deleted in **Online College**.`);
-
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
-                message.react(`❌`);
                 message.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
                 console.error();
             }
@@ -175,7 +175,7 @@ module.exports = {
             // create a blank variable for selfassignable roles & remove blacklisted roles from assignable roles
             var assignableRoles = [];
             allServerRoles.forEach(role => {
-                if (!blacklistedRoleIDs.includes(role.id)) {
+                if (!uppercaseChecker(role.name) && role.id != message.channel.guild.roles.everyone) {
                     assignableRoles.push(message.member.guild.roles.cache.get(role.id));
                 }
             });
@@ -188,20 +188,20 @@ module.exports = {
                 .setColor(`c8102e`)
                 .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:\n\`\`\`~role add/remove <class-code>\`\`\``)
                 .addFields(
-                    { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}` },
-                    { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}` },
-                    { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}` },
-                    { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}` },
-                    { name: `\u200B`, value: `💾 - Computer Engineering\n${cpre.join(`, `)}` },
-                    { name: `\u200B`, value: `⌨️ - Computer Science\n${coms.join(`, `)}` },
-                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
-                    { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}` },
-                    { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}` },
+                    { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}`},
+                    { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}`},
+                    { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}`},
+                    { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}`},
+                    { name: `\u200B`, value: `💾 - Computer Engineering\n${cpre.join(`, `)}`},
+                    { name: `\u200B`, value: `⌨️ - Computer Science\n${coms.join(`, `)}`},
+                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}`},
+                    { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}`},
+                    { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}`},
                     { name: `\u200B`, value: `🏭 - Industrial Engineering\n${ie.join(`, `)}` },
-                    { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}` },
-                    { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}` },
-                    { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}` },
-                    { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}` }
+                    { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}`},
+                    { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}`},
+                    { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}`},
+                    { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}`}
                 )
                 .setFooter(`Don't see your class here? Create a support ticket using ~support`)
 
