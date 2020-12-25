@@ -65,7 +65,7 @@ module.exports = {
 
         // convert user arguments to lowercase
         cmdArg = args[0].toLowerCase();
-        if (args[1]) { returnroleArg = args[1].toLowerCase(); }
+        if (args[1]) { roleArg = args[1].toLowerCase(); }
 
         // command handling
         if (createAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
