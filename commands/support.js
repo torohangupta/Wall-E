@@ -92,7 +92,7 @@ module.exports = {
                 .setTimestamp()
 
             // send user tag, embed & react to embed
-            sc.send(`${message.author},`).then(() => {
+            sc.send(`@here, ${message.author} has a support ticket!`).then(() => {
                 sc.send(supportEmbed).then(supportEmbed => {
                     supportEmbed.react(`❌`)
 
