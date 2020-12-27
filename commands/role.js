@@ -326,5 +326,9 @@ module.exports = {
             // return class role arrays
             return { aere, abe, cone, ce, ee, em, ie, mate, me, se, cpre, coms, other }
         }
+
+        function uppercaseChecker(str) {
+            return (/[A-Z]/.test(str));
+        }
     },
 };
