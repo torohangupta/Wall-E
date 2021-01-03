@@ -25,15 +25,22 @@ module.exports = {
 
         transcriptLogChannel = `789907442582028308`;
 
-        // get author's username/nickname if it exists
-        authorName = message.member.nickname;
-        if (!authorName) authorName = message.author.username;
+        // initialize user cache
+        const userCache = {};
+        userCache[message.author.id] = [];
+
+        // store nickname in user cache index 0
+        userCache[message.author.id][0] = message.member.nickname;
+        if (!userCache[message.author.id][0]) userCache[message.author.id][0] = message.author.username;
+
+        // store user in user cache index 1
+        userCache[message.author.id][1] = message.author;
 
         // Delete passed command & log deletion in console
         message.delete()
             .then(msg => {
-                console.log(`Deleted '${msg}' from ${authorName}`)
-                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${msg}\` from \`${authorName}\``);
+                console.log(`Deleted '${msg}' from ${userCache[message.author.id][0]}`)
+                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${msg}\` from \`${userCache[message.author.id][0]}\``);
             })
             .catch(console.error);
 
@@ -63,30 +70,42 @@ module.exports = {
             ],
         }).then(sc => {
 
-            // create message logging
-            msgLog = [];
-            logIndex = 0;
-            const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(`support-${message.author.username}`));
+            // create message logging caches
+            const msgLogCache = {};
+            const logIndexCache = {};
+
+            // create transcript unique to user & channel
+            msgLogCache[message.author.id] = [];
+            logIndexCache[message.author.id] = 0;
+
+            // create cache for mods who marked as complete and closed the ticket
+            const ticketDoneModsCache = {};
+            ticketDoneModsCache[message.author.id] = [];
+
+
+            const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(message.author.username));
             msgLoggingCollector.on(`collect`, m => {
+
+                // log the messages sent in the channel
                 if (m.embeds[0]) {
-                    msgLog[logIndex] = `**${m.author.username}** - [Message Embed]`;
+                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Embed]`;
                 } else if (m.attachments.map(a => a)[0]) {
-                    msgLog[logIndex] = `**${m.author.username}** - [Message Attachment]`;
+                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Attachment]`;
                 } else {
-                    msgLog[logIndex] = `**${m.author.username}** - ${m.content}`;
+                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - ${m.content}`;
                 }
-                logIndex++
+                logIndexCache[message.author.id]++
             })
 
             // change support ticket status to being helped
-            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
+            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle && m.channel.name.includes(`support-${userCache[message.author.id][1].username}`), { max: 1 });
             helpingCollector.on(`end`, c => {
                 sc.setName(`🟠-support-${message.author.username}`)
             })
 
             // create support embed
             const supportEmbed = new MessageEmbed()
-                .setTitle(`New support ticket - ${message.author.username}`)
+                .setTitle(`New support ticket - ${userCache[message.author.id][1].username}`)
                 .setDescription(`User: ${message.author}\n\nPlease list the issue/problem you're having. Please be as detailed as possible.\nA mod will get back to you ASAP.`)
                 .setColor(`FF5733`)
                 .setTimestamp()
@@ -102,7 +121,12 @@ module.exports = {
 
                     // set support status ticket to completed & waiting for secondary confirmation
                     helpedCollector.on('collect', (reaction, userMarkedCompleted) => {
+
+                        // change ticket indicator to completed
                         sc.setName(`🟢-support-${message.author.username}`)
+
+                        // log user who marked ticket as completed
+                        ticketDoneModsCache[message.author.id][0] = userMarkedCompleted;
 
                         // create filter & collector to delete ticket
                         const deleteCollecterFilter = (reaction, user) => {
@@ -111,7 +135,10 @@ module.exports = {
                         const deleteCollector = supportEmbed.createReactionCollector(deleteCollecterFilter, { max: 1 });
 
                         // delete support ticket channel after 2 valid reactions
-                        deleteCollector.on('end', () => {
+                        deleteCollector.on('collect', (reacton, userClosedTicket) => {
+
+                            // log user who closed ticket
+                            ticketDoneModsCache[message.author.id][1] = userClosedTicket;
 
                             // stop all message collectors
                             msgLoggingCollector.stop();
@@ -120,15 +147,18 @@ module.exports = {
                             // create transcript embed
                             const transcriptEmbed = new MessageEmbed()
                                 .setAuthor(`Wall-E Support`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
-                                .setTitle(`Support Ticket Transcript - ${message.author.username}`)
+                                .setTitle(`Support Ticket Transcript - ${userCache[message.author.id][1].username}`)
                                 .setColor(`FF5733`)
-                                .setDescription(msgLog.join(`\n`))
+                                .setDescription(msgLogCache[message.author.id].join(`\n`))
+                                .addFields(
+                                    { name: `\u200B`, value: `Ticket completed by: ${ticketDoneModsCache[message.author.id][0]}\nTicket closed by: ${ticketDoneModsCache[message.author.id][1]}` }
+                                )
                                 .setTimestamp()
-                                .setFooter(`Ticket opened by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
+                                .setFooter(`Ticket opened by: ${userCache[message.author.id][0]}`, userCache[message.author.id][1].displayAvatarURL({ format: "png", dynamic: true }))
 
                             // send a copy of the transcript embed to the user and another to the log-support channel
-                            message.author.send(`Here is a transcript of your support ticket:`)
-                            message.author.send(transcriptEmbed)
+                            userCache[message.author.id][1].send(`Here is a transcript of your support ticket:`)
+                            userCache[message.author.id][1].send(transcriptEmbed)
                             message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
 
                             // end the helped collector
@@ -136,8 +166,8 @@ module.exports = {
 
                             sc.delete()
                                 .then(() => {
-                                    console.log(`Deleted \`${authorName}\`'s support ticket channel.`)
-                                    message.client.channels.cache.get(consoleChannel).send(`Deleted \`${authorName}\`'s support ticket channel.`);
+                                    console.log(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`)
+                                    message.client.channels.cache.get(consoleChannel).send(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`);
                                 })
                         });
                     });
