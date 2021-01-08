@@ -34,7 +34,6 @@ module.exports = {
         // Create embed & populate common fields
         var optionsEmbed = new MessageEmbed()
             .setAuthor(`New Poll:`)
-            .setTitle(optSpltr[0])
             .setColor(`E94B3C`)
             .setTimestamp(Date.now())
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
@@ -53,7 +52,7 @@ module.exports = {
             } // for numOptions, options, list optSpltr[2] as each option
 
             optionsEmbed.addFields(
-                { name: `\u200B`, value: optField }
+                { name: `\u200B`, value: `**${optSpltr[0]}**\n\n${optField}` }
             ) // Add options to embed
 
             return message.channel.send(optionsEmbed).then(optEmb => {
@@ -80,7 +79,7 @@ module.exports = {
                 }
 
                 optionsEmbed.addFields(
-                    { name: `\u200B`, value: optField }
+                    { name: `\u200B`, value: `**${optSpltr[0]}**\n\n${optField}` }
                 ) // Add options to embed
 
                 message.channel.send(optionsEmbed).then(optEmb => {
