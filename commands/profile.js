@@ -79,7 +79,7 @@ module.exports = {
                     status += `<:idle:784546469017026580> Idle`;
                     break;
                 case `dnd`:
-                    status += `<:dnd:784546468539138058>  Do Not Distrub`;
+                    status += `<:dnd:784546468539138058> Do Not Distrub`;
                     break;
                 case `offline`:
                     status += `<:offline:784546469100388352> Offline`;

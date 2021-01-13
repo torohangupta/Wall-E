@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-const { outofcontextquotes } = require(`../messages.json`);
-const { consoleChannel } = require(`../config.json`);
+const { outofcontextquotes } = require(`../resources/quotes.json`);
+const { consoleChannel } = require(`../resources/config.json`);
 
 module.exports = {
 

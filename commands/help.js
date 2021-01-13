@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const { prefix, consoleChannel } = require(`../config.json`);
+const { prefix, consoleChannel } = require(`../resources/config.json`);
+const { coloredCircles, checkmark, crossmark } = require(`../resources/emojis.json`)
 
 module.exports = {
 
@@ -19,7 +20,6 @@ module.exports = {
 
         // initalize page number & store the selection reactions in an array
         var currpg = 0;
-        var selectionRxns = [`🔴`, `🟠`, `🟡`, `🟢`, `🔵`, `🟣`];
 
         // get nickname, if user doesn't have a set nickname, return username
         uName = message.member.nickname;
@@ -28,7 +28,7 @@ module.exports = {
         // Create commands vector & store all live commands in allcmds
         const { commands } = message.client;
         const allcmds = commands.map(command => command.name);
-        const totpg = Math.ceil(allcmds.length / selectionRxns.length);
+        const totpg = Math.ceil(allcmds.length / coloredCircles.length);
 
         // if command argument includes a valid command name, push that specific embed, otherwise run the general help command
         if (args[0]) {
@@ -53,10 +53,10 @@ module.exports = {
 
                 // send embed for command & react
                 message.channel.send(commandEmbed(commands, allcmds, command.name)).then(m => {
-                    m.react(`❌`)
+                    m.react(crossmark.emote)
 
                     // create reaction filter & reaction collector
-                    const deleteFilter = (reaction, user) => { return reaction.emoji.name == '❌' && user.id == message.author.id; };
+                    const deleteFilter = (reaction, user) => { return reaction.emoji.id == crossmark.id && user.id == message.author.id; };
                     const collectorDelete = m.createReactionCollector(deleteFilter);
                     collectorDelete.on('collect', (reaction, user) => {
                         m.delete()
@@ -85,22 +85,22 @@ module.exports = {
                     \`\`\`~help [command name]\`\`\`\n\nWall-E's list of current commands include: \`\`\`${commands.map(command => command.name).join(', ')}\`\`\``)
                 .setColor(`CC743C`)
                 .addFields(
-                    { name: `\u200B`, value: `✅ : Start\n❌ : Cancel` }
+                    { name: `\u200B`, value: `${checkmark.emote} : Start\n${crossmark.emote} : Cancel` }
                 )
                 .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             // Send intro embed & react
             message.channel.send(helpMain).then(helpMessage => {
-                helpMessage.react(`✅`)
-                helpMessage.react(`❌`)
+                helpMessage.react(checkmark.emote)
+                helpMessage.react(crossmark.emote)
 
                 // Message Filters
                 const yesFilter = (reaction, user) => {
-                    return reaction.emoji.name == '✅' && user.id == message.author.id;
+                    return reaction.emoji.id == checkmark.id && user.id == message.author.id;
                 };
                 const deleteFilter = (reaction, user) => {
-                    return reaction.emoji.name == '❌' && user.id == message.author.id;
+                    return reaction.emoji.id == crossmark.id && user.id == message.author.id;
                 };
                 const backwards = (reaction, user) => {
                     return reaction.emoji.name == '◀️' && user.id == message.author.id;
@@ -110,22 +110,22 @@ module.exports = {
                 };
 
                 // Create blank arrays for filters & collectors
-                var emojiFilters = Array.apply(null, Array(selectionRxns.length)).map(function () { });
-                var emojiCollectors = Array.apply(null, Array(selectionRxns.length)).map(function () { });
+                var emojiFilters = Array.apply(null, Array(coloredCircles.length)).map(function () { });
+                var emojiCollectors = Array.apply(null, Array(coloredCircles.length)).map(function () { });
 
                 // for loop to create reaction filters, ReactionCollectors() and parse variables to commandEmbed()
-                for (let i = 0; i <= selectionRxns.length - 1; i++) {
+                for (let i = 0; i <= coloredCircles.length - 1; i++) {
 
                     // reaction filters & reaction collector initialization
-                    emojiFilters[i] = (reaction, user) => { return reaction.emoji.name == selectionRxns[i] && user.id == message.author.id; };
+                    emojiFilters[i] = (reaction, user) => { return reaction.emoji.name == coloredCircles[i] && user.id == message.author.id; };
                     emojiCollectors[i] = helpMessage.createReactionCollector(emojiFilters[i]);
 
                     // turning on the reaction collectors
                     emojiCollectors[i].on('collect', () => {
 
                         // edit help embed with command selection
-                        helpMessage.edit(commandEmbed(commands, allcmds, helpSelection(currpg, selectionRxns[i], selectionRxns, helpMessage))).then(m => {
-                            m.react(`❌`)
+                        helpMessage.edit(commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))).then(m => {
+                            m.react(crossmark.emote)
                         })
 
                     });
@@ -136,7 +136,7 @@ module.exports = {
                 const collectoryes = helpMessage.createReactionCollector(yesFilter);
                 collectoryes.on('collect', () => {
 
-                    helpPage(currpg, selectionRxns, allcmds, totpg, helpMessage);
+                    helpPage(currpg, coloredCircles, allcmds, totpg, helpMessage);
 
                 });
 
@@ -149,7 +149,7 @@ module.exports = {
 
                     } else { currpg = currpg - 1 }
 
-                    helpPage(currpg, selectionRxns, allcmds, totpg, helpMessage);
+                    helpPage(currpg, coloredCircles, allcmds, totpg, helpMessage);
 
                 });
 
@@ -162,7 +162,7 @@ module.exports = {
 
                     } else { currpg = currpg + 1 }
 
-                    helpPage(currpg, selectionRxns, allcmds, totpg, helpMessage);
+                    helpPage(currpg, coloredCircles, allcmds, totpg, helpMessage);
 
                 });
 
@@ -207,7 +207,7 @@ module.exports = {
                 .setColor(`CC743C`)
                 .addFields(
                     { name: `\u200B`, value: helpPage },
-                    { name: `\u200B`, value: ` Select ◀️ or ▶️ to navigate through pages or select ❌ to cancel` }
+                    { name: `\u200B`, value: ` Select ◀️ or ▶️ to navigate through pages or select ${crossmark.emote} to cancel` }
                 )
                 .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}\nPage ${pageNo + 1} of ${lastpg}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
@@ -221,11 +221,11 @@ module.exports = {
                 mainMsg.react(`◀️`)
                 mainMsg.react(`▶️`)
             }
-            mainMsg.react(`❌`)
+            mainMsg.react(crossmark.emote)
 
             // React with selection emojis
             for (let i = 0; i <= cmdNo; i++) {
-                mainMsg.react(selectionRxns[i])
+                mainMsg.react(coloredCircles[i])
             }
 
             // send the message & exit the function
@@ -316,7 +316,7 @@ module.exports = {
                 .addFields(
                     { name: `\u200B`, value: specificInfo },
                     { name: `\u200B`, value: commandRestrictions },
-                    { name: `\u200B`, value: `Select ❌ to close this help window` }
+                    { name: `\u200B`, value: `Select ${crossmark.emote} to close this help window` }
                 )
                 .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))

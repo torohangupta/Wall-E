@@ -32,6 +32,7 @@ module.exports = {
 
         var pollmsg = str.trim();
 
+        // create embed for poll
         var pollEmbed = new MessageEmbed()
             .setTitle(`New Poll:`)
             .setColor(`4F674F`)
@@ -41,10 +42,10 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
+        // post embed for poll and react with check or cross
         message.channel.send(pollEmbed).then(m => {
-            m.react('✅')
-            m.react('❌')
+            m.react(`<:checkmark:798610690968387614>`)
+            m.react(`<:crossmark:798610690968387685>`)
         })
-
     },
 };

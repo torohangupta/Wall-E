@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { consoleChannel } = require(`../config.json`)
+const { consoleChannel } = require(`../resources/config.json`)
 
 module.exports = {
 

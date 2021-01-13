@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { consoleChannel, userIDs } = require(`../config.json`)
+const { consoleChannel, userIDs } = require(`../resources/config.json`)
 
 module.exports = {
 
@@ -19,8 +19,7 @@ module.exports = {
 
         // limit usage to online college
         if (message.member.guild.name != `Online College`) {
-            message.channel.send(`I'm sorry, you can't use this command here. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
-            return;
+            return message.channel.send(`I'm sorry, you can't use this command here. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
         transcriptLogChannel = `789907442582028308`;
@@ -46,8 +45,7 @@ module.exports = {
 
         // check to make sure user doesn't already have a support ticket open
         if (message.guild.channels.cache.find(c => c.name.includes(`support-${message.author.username}`))) {
-            message.channel.send(`You already have a support ticket open. Please close that one before opening a new one.`);
-            return;
+            return message.channel.send(`You already have a support ticket open. Please close that one before opening a new one.`);
         }
 
         // create support text channel for message.author & send messages & create reaction collector. Set support ticket status to waiting for user input/issue.
@@ -94,6 +92,8 @@ module.exports = {
                 } else {
                     msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - ${m.content}`;
                 }
+
+                // iterate the transcript logging counter
                 logIndexCache[message.author.id]++
             })
 
@@ -164,6 +164,7 @@ module.exports = {
                             // end the helped collector
                             helpedCollector.stop()
 
+                            // delete the support channel
                             sc.delete()
                                 .then(() => {
                                     console.log(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`)

@@ -1,4 +1,4 @@
-const { userIDs } = require(`../config.json`);
+const { userIDs } = require(`../resources/config.json`);
 
 module.exports = {
 

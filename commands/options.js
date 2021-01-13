@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { letters } = require(`../emojis.json`)
+const { letters } = require(`../resources/emojis.json`)
 
 module.exports = {
 

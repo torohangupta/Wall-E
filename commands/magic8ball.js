@@ -1,11 +1,11 @@
 const { MessageEmbed } = require("discord.js");
-const { magic8responses } = require(`../messages.json`);
-const { consoleChannel } = require(`../config.json`);
+const { magic8responses } = require(`../resources/8ball.json`);
+const { consoleChannel } = require(`../resources/config.json`);
 
 module.exports = {
 
-    name: `magic8`,
-    aliases: [`magic8`, `m8`, `8ball`],
+    name: `magic8ball`,
+    aliases: [`magic8ball`, `magic8`, `m8`, `8ball`],
     description: `Wisdom of the magic 8 ball answers your questions`,
     usage: `<question>`,
     requiredPermissions: ``,

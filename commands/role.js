@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const { consoleChannel } = require(`../config.json`);
+const { consoleChannel } = require(`../resources/config.json`);
+const { checkmark, crossmark } = require(`../resources/emojis.json`)
 
 module.exports = {
 
@@ -19,8 +20,7 @@ module.exports = {
 
         // limit usage to online college
         if (message.member.guild.name != `Online College`) {
-            message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
-            return;
+            return message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
         // subcommand aliases
@@ -92,7 +92,7 @@ module.exports = {
 
         } else {
             message.channel.send(`Error: You did not list a valid argument.\nYou can type \`~role\`, \`~classrole\`, \`~cr\` and then **ONE** of the following:\n> \`view\`/\`viewall\` (view all self-assignable roles),\n> \`add\` (add a role)\n> \`remove\` (remove a role).`);
-            message.react(`❌`);
+            message.react(crossmark.emote);
         }
 
         function createRole(roleName) {
@@ -135,12 +135,12 @@ module.exports = {
                     })
                 })
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been created.`)
-                message.react(`✔️`);
+                message.react(checkmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been created in **Online College**.`);
 
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
-                message.react(`❌`);
+                message.react(crossmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
                 console.error();
             }
@@ -157,7 +157,7 @@ module.exports = {
             try {
                 message.member.guild.roles.cache.find(role => role.name === roleName).delete();
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been deleted.`);
-                message.react(`❌`);
+                message.react(crossmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been deleted in **Online College**.`);
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
@@ -212,7 +212,7 @@ module.exports = {
 
         function addRoles(roleName) {
             
-            // check to make sure the role exists, if the role doesn't exist
+            // check to make sure the role exists
             if (message.member.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase())) {
 
                 // if the role exists, find & store it in role
@@ -221,25 +221,25 @@ module.exports = {
                 if (blacklistedRoleIDs.includes(role.id)) {
                     // let user know the role is blacklisted and must be manually assigned
                     message.channel.send(`You cannot add that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
-                    message.react(`❌`);
+                    message.react(crossmark.emote);
                     return;
 
                 } else {
                     // give role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.add(role);
                     message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
-                    message.react(`✔️`);
+                    message.react(checkmark.emote);
                 }
 
             } else {
                 message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
-                message.react(`❌`);
+                message.react(crossmark.emote);
             }
         }
 
         function removeRoles(roleName) {
 
-            // check to make sure the role exists, if the role doesn't exist
+            // check to make sure the role exists
             if (message.member.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase())) {
 
                 // if the role exists, find & store it in role
@@ -248,26 +248,26 @@ module.exports = {
                 // make sure user has the role they are trying to remove
                 if (!message.member._roles.includes(role.id)) {
                     message.channel.send(`You do not have that role. You can add roles using \`~role add <class>\`. If you need additional help, please create a support ticket using \`~support\`.`);
-                    message.react(`❌`);
+                    message.react(crossmark.emote);
                     return;
                 }
 
                 if (blacklistedRoleIDs.includes(role.id)) {
                     // let user know the role is blacklisted and must be manually removed
                     message.channel.send(`You cannot remove that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
-                    message.react(`❌`);
+                    message.react(crossmark.emote);
                     return;
 
                 } else {
                     // remove role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.remove(role);
                     message.author.send(`You have removed the role \`${role.name}\` in **Online College**.`);
-                    message.react(`✔️`);
+                    message.react(checkmark.emote);
                 }
 
             } else {
                 message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
-                message.react(`❌`);
+                message.react(crossmark.emote);
             }
         }
 
