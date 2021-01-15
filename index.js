@@ -17,7 +17,7 @@ for (const file of commandFiles) {
 // Sends "Ready!" to the console once the bot is online and ready
 client.once('ready', () => {
     console.clear();
-    console.log('Wall-E');
+    console.log('Wall-E is online!');
     client.user.setActivity('rohan write bad code', { type: 'WATCHING' })
 });
 
