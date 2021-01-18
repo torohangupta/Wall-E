@@ -25,8 +25,15 @@ module.exports = {
         transcriptLogChannel = `789907442582028308`;
 
         // initialize user cache
-        const userCache = {};
-        userCache[message.author.id] = [];
+        try {
+            userCache[message.author.id] = [];
+        } catch {
+            console.log(`Initializing user cache`)
+            userCache = {};
+
+            userCache[message.author.id] = [];
+        }
+
 
         // store nickname in user cache index 0
         userCache[message.author.id][0] = message.member.nickname;
@@ -68,18 +75,34 @@ module.exports = {
             ],
         }).then(sc => {
 
-            // create message logging caches
-            const msgLogCache = {};
-            const logIndexCache = {};
-
             // create transcript unique to user & channel
-            msgLogCache[message.author.id] = [];
-            logIndexCache[message.author.id] = 0;
+            try {
+                msgLogCache[message.author.id] = [];
+                logIndexCache[message.author.id] = 0;
+
+            } catch {
+                // create message logging caches
+                console.log(`Initializing message logging cache`)
+                msgLogCache = {};
+                logIndexCache = {};
+
+                // create transcript unique to user & channel
+                msgLogCache[message.author.id] = [];
+                logIndexCache[message.author.id] = 0;
+            }
+
+
 
             // create cache for mods who marked as complete and closed the ticket
-            const ticketDoneModsCache = {};
-            ticketDoneModsCache[message.author.id] = [];
+            try {
+                ticketDoneModsCache[message.author.id] = [];
 
+            } catch {
+                console.log(`Initializing cache for mods who marked as complete and closed the ticket`)
+                ticketDoneModsCache = {};
+
+                ticketDoneModsCache[message.author.id] = [];
+            }
 
             const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(message.author.username));
             msgLoggingCollector.on(`collect`, m => {
