@@ -73,7 +73,7 @@ module.exports = {
             // const logIndexCache = {};
 
             // create transcript unique to user & channel
-            // msgLogCache[message.author.id] = [];
+            msgLogCache[message.author.id] = [];
             logIndexCache[message.author.id] = 0;
 
             // create cache for mods who marked as complete and closed the ticket
