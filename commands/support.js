@@ -25,7 +25,7 @@ module.exports = {
         transcriptLogChannel = `789907442582028308`;
 
         // initialize user cache
-        // const userCache = {};
+        const userCache = {};
         userCache[message.author.id] = [];
 
         // store nickname in user cache index 0
@@ -69,15 +69,15 @@ module.exports = {
         }).then(sc => {
 
             // create message logging caches
-            // const msgLogCache = {};
-            // const logIndexCache = {};
+            const msgLogCache = {};
+            const logIndexCache = {};
 
             // create transcript unique to user & channel
             msgLogCache[message.author.id] = [];
             logIndexCache[message.author.id] = 0;
 
             // create cache for mods who marked as complete and closed the ticket
-            // const ticketDoneModsCache = {};
+            const ticketDoneModsCache = {};
             ticketDoneModsCache[message.author.id] = [];
 
 
