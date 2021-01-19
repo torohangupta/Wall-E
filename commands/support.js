@@ -121,7 +121,7 @@ module.exports = {
             })
 
             // change support ticket status to being helped
-            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle && m.channel.name.includes(`support-${userCache[message.author.id][1].username}`), { max: 1 });
+            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
             helpingCollector.on(`end`, c => {
                 sc.setName(`🟠-support-${message.author.username}`)
             })
