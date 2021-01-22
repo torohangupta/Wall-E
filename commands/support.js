@@ -24,14 +24,41 @@ module.exports = {
 
         transcriptLogChannel = `789907442582028308`;
 
-        // initialize user cache
+        // try to access user caches, if they don't exist, create them
+        // initialize/access user cache
         try {
             userCache[message.author.id] = [];
         } catch {
             console.log(`Initializing user cache`)
             userCache = {};
-
             userCache[message.author.id] = [];
+        }
+
+        // initialize/access transcript indexing cache
+        try {
+            logIndexCache[message.author.id] = 0;
+        } catch {
+            console.log(`Initializing message logging index`)
+            logIndexCache = {};            
+            logIndexCache[message.author.id] = 0;
+        }
+
+        // initialize/access transcript cache
+        try {
+            msgLogCache[message.author.id] = [];
+        } catch {
+            console.log(`Initializing message logging cache`)
+            msgLogCache = {};
+            msgLogCache[message.author.id] = [];
+        }
+
+        // initialize/access moderator interaction cache
+        try {
+            ticketDoneModsCache[message.author.id] = [];
+        } catch {
+            console.log(`Initializing cache for mods who marked as complete and closed the ticket`)
+            ticketDoneModsCache = {};
+            ticketDoneModsCache[message.author.id] = [];
         }
 
 
@@ -74,35 +101,6 @@ module.exports = {
                 },
             ],
         }).then(sc => {
-
-            // create transcript unique to user & channel
-            try {
-                msgLogCache[message.author.id] = [];
-                logIndexCache[message.author.id] = 0;
-
-            } catch {
-                // create message logging caches
-                console.log(`Initializing message logging cache`)
-                msgLogCache = {};
-                logIndexCache = {};
-
-                // create transcript unique to user & channel
-                msgLogCache[message.author.id] = [];
-                logIndexCache[message.author.id] = 0;
-            }
-
-
-
-            // create cache for mods who marked as complete and closed the ticket
-            try {
-                ticketDoneModsCache[message.author.id] = [];
-
-            } catch {
-                console.log(`Initializing cache for mods who marked as complete and closed the ticket`)
-                ticketDoneModsCache = {};
-
-                ticketDoneModsCache[message.author.id] = [];
-            }
 
             const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(message.author.username));
             msgLoggingCollector.on(`collect`, m => {
