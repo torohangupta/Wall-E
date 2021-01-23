@@ -104,18 +104,24 @@ module.exports = {
 
             const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(message.author.username));
             msgLoggingCollector.on(`collect`, m => {
+                console.log(`here1`)
 
                 // log the messages sent in the channel
                 if (m.embeds[0]) {
                     msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Embed]`;
+                    console.log(`embed`)
                 } else if (m.attachments.map(a => a)[0]) {
                     msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Attachment]`;
+                    console.log(`attachment`)
                 } else {
                     msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - ${m.content}`;
+                    console.log(`msg`)
                 }
+                
 
                 // iterate the transcript logging counter
                 logIndexCache[message.author.id]++
+                console.log(logIndexCache[message.author.id])
             })
 
             // change support ticket status to being helped
@@ -190,6 +196,11 @@ module.exports = {
                                 .then(() => {
                                     console.log(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`)
                                     message.client.channels.cache.get(consoleChannel).send(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`);
+
+                                    console.log(userCache)
+                                    console.log(logIndexCache)
+                                    console.log(msgLogCache)
+                                    console.log(ticketDoneModsCache)
                                 })
                         });
                     });
