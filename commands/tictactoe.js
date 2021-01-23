@@ -2,8 +2,8 @@ const { MessageEmbed } = require(`discord.js`);
 
 module.exports = {
 
-    name: `Tic-Tac-Toe`,
-    aliases: [`Tic-Tac-Toe`, `tic-tac-toe`, `tictactoe`, `ttt`],
+    name: `TicTacToe`,
+    aliases: [`TicTacToe`, `tictactoe`, `ttt`],
     description: `Play Tic-Tac-Toe with a friend!`,
     usage: `<@user>`,
     requiredPermissions: ``,

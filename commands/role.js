@@ -232,7 +232,7 @@ module.exports = {
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
+                message.channel.send(`That role doesn't exist yet or you included a space in the classcode if you did, remove the space and try again. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
                 message.react(crossmark.emote);
             }
         }
