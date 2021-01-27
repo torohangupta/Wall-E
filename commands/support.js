@@ -121,7 +121,7 @@ module.exports = {
                     const completedTicket = supportEmbed.createReactionCollector(completedTicketFilter, { max: 1 });
 
                     // reaction collector for completed ticket
-                    completedTicket.on(`end`, (reaction, user) => {
+                    completedTicket.on(`collect`, (reaction, user) => {
                         // change ticket indicator to completed
                         suppportChan.setName(`🟢-support-${message.author.username}`)
 
@@ -130,10 +130,12 @@ module.exports = {
 
                         // reaction collector to close ticket
                         const closeTicket = supportEmbed.createReactionCollector(closeTicketFilter, { max: 1 });
-                        closeTicket.on(`end`, (reaction, user) => {
+                        closeTicket.on(`collect`, (reaction, user) => {
 
-                            // stop open collectors
+                            // stop all collectors
                             msgLoggingCollector.stop();
+                            completedTicket.stop();
+                            closeTicket.stop();
 
                             // log user who marked ticket as completed
                             supportCache[message.author.id].closedMod = user;
@@ -145,7 +147,7 @@ module.exports = {
                                 .setColor(`FF5733`)
                                 .setDescription(supportCache[message.author.id].transcriptLog.join(`\n`))
                                 .addFields(
-                                    { name: `\u200B`, value: `Ticket completed by: ${supportCache[message.author.id].completedMod.username}\nTicket closed by: ${supportCache[message.author.id].closedMod.username}` }
+                                    { name: `\u200B`, value: `Ticket completed by: ${supportCache[message.author.id].completedMod}\nTicket closed by: ${supportCache[message.author.id].closedMod}` }
                                 )
                                 .setTimestamp()
                                 .setFooter(`Ticket opened by: ${supportCache[message.author.id].user.username}`, supportCache[message.author.id].user.displayAvatarURL({ format: "png", dynamic: true }))
