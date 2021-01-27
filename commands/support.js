@@ -24,56 +24,32 @@ module.exports = {
 
         transcriptLogChannel = `789907442582028308`;
 
-        // try to access user caches, if they don't exist, create them
-        // initialize/access user cache
+        // try to access cache, if the cache doesn't exist, create it
         try {
-            userCache[message.author.id] = [];
+            // try to initialize the cache
+            supportCache[message.author.id] = {}
+
         } catch {
-            console.log(`Initializing user cache`)
-            userCache = {};
-            userCache[message.author.id] = [];
+            // if the cache doesn't exist (i.e. first run on startup), create the cache object & log event
+            console.log(`Initializing Cache`);
+            supportCache = {};
+
+        } finally {
+            // create the object
+            supportCache[message.author.id] = {
+                user: message.author,
+                loggingIndex: 0,
+                completedMod: null,
+                closedMod: null,
+                transcriptLog: []
+            }
         }
-
-        // initialize/access transcript indexing cache
-        try {
-            logIndexCache[message.author.id] = 0;
-        } catch {
-            console.log(`Initializing message logging index`)
-            logIndexCache = {};            
-            logIndexCache[message.author.id] = 0;
-        }
-
-        // initialize/access transcript cache
-        try {
-            msgLogCache[message.author.id] = [];
-        } catch {
-            console.log(`Initializing message logging cache`)
-            msgLogCache = {};
-            msgLogCache[message.author.id] = [];
-        }
-
-        // initialize/access moderator interaction cache
-        try {
-            ticketDoneModsCache[message.author.id] = [];
-        } catch {
-            console.log(`Initializing cache for mods who marked as complete and closed the ticket`)
-            ticketDoneModsCache = {};
-            ticketDoneModsCache[message.author.id] = [];
-        }
-
-
-        // store nickname in user cache index 0
-        userCache[message.author.id][0] = message.member.nickname;
-        if (!userCache[message.author.id][0]) userCache[message.author.id][0] = message.author.username;
-
-        // store user in user cache index 1
-        userCache[message.author.id][1] = message.author;
 
         // Delete passed command & log deletion in console
         message.delete()
             .then(msg => {
-                console.log(`Deleted '${msg}' from ${userCache[message.author.id][0]}`)
-                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${msg}\` from \`${userCache[message.author.id][0]}\``);
+                console.log(`Deleted '${msg}' from ${msg.author}`)
+                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${msg}\` from \`${msg.author}\``);
             })
             .catch(console.error);
 
@@ -96,116 +72,100 @@ module.exports = {
                     allow: ['VIEW_CHANNEL'],
                 },
                 {
-                    id: message.author.id,
+                    id: supportCache[message.author.id].user.id,
                     allow: ['VIEW_CHANNEL'],
                 },
             ],
-        }).then(sc => {
+        }).then(suppportChan => {
 
-            const msgLoggingCollector = sc.createMessageCollector(m => m.author.id != userIDs.walle && m.channel.name.includes(message.author.username));
+            // create message collectors & reaction filters to change the channel indicator to in progress and log messages
+            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].user.username));
+            const inProgressCollector = suppportChan.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
+            const completedTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
+            const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
+
+            // message collector to collect & log messages in cache
             msgLoggingCollector.on(`collect`, m => {
-                console.log(`here1`)
 
                 // log the messages sent in the channel
                 if (m.embeds[0]) {
-                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Embed]`;
-                    console.log(`embed`)
+                    supportCache[message.author.id].transcriptLog[supportCache[message.author.id].loggingIndex] = `**${m.author.username}** - [Message Embed]`;
                 } else if (m.attachments.map(a => a)[0]) {
-                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - [Message Attachment]`;
-                    console.log(`attachment`)
+                    supportCache[message.author.id].transcriptLog[supportCache[message.author.id].loggingIndex] = `**${m.author.username}** - [Message Attachment]`;
                 } else {
-                    msgLogCache[message.author.id][logIndexCache[message.author.id]] = `**${m.author.username}** - ${m.content}`;
-                    console.log(`msg`)
+                    supportCache[message.author.id].transcriptLog[supportCache[message.author.id].loggingIndex] = `**${m.author.username}** - ${m.content}`;
                 }
-                
 
                 // iterate the transcript logging counter
-                logIndexCache[message.author.id]++
-                console.log(logIndexCache[message.author.id])
+                supportCache[message.author.id].loggingIndex++
             })
 
             // change support ticket status to being helped
-            const helpingCollector = sc.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
-            helpingCollector.on(`end`, c => {
-                sc.setName(`🟠-support-${message.author.username}`)
+            inProgressCollector.on(`end`, () => {
+                suppportChan.setName(`🟠-support-${message.author.username}`)
             })
 
             // create support embed
             const supportEmbed = new MessageEmbed()
-                .setTitle(`New support ticket - ${userCache[message.author.id][1].username}`)
+                .setTitle(`New support ticket - ${message.author.username}`)
                 .setDescription(`User: ${message.author}\n\nPlease list the issue/problem you're having. Please be as detailed as possible.\nA mod will get back to you ASAP.`)
                 .setColor(`FF5733`)
                 .setTimestamp()
 
             // send user tag, embed & react to embed
-            sc.send(`@here, ${message.author} has a support ticket!`).then(() => {
-                sc.send(supportEmbed).then(supportEmbed => {
-                    supportEmbed.react(`❌`)
+            suppportChan.send(`@here, ${message.author} has a support ticket!`).then(() => {
+                suppportChan.send(supportEmbed).then(supportEmbed => {
+                    supportEmbed.react(`❌`);
 
-                    // create filter & collector to mark ticket as completed
-                    const helpedCollectorFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
-                    const helpedCollector = supportEmbed.createReactionCollector(helpedCollectorFilter, { max: 1 });
+                    // create reaction collectors
+                    const completedTicket = supportEmbed.createReactionCollector(completedTicketFilter, { max: 1 });
 
-                    // set support status ticket to completed & waiting for secondary confirmation
-                    helpedCollector.on('collect', (reaction, userMarkedCompleted) => {
-
+                    // reaction collector for completed ticket
+                    completedTicket.on(`end`, (reaction, user) => {
                         // change ticket indicator to completed
-                        sc.setName(`🟢-support-${message.author.username}`)
+                        suppportChan.setName(`🟢-support-${message.author.username}`)
 
                         // log user who marked ticket as completed
-                        ticketDoneModsCache[message.author.id][0] = userMarkedCompleted;
+                        supportCache[message.author.id].completedMod = user;
 
-                        // create filter & collector to delete ticket
-                        const deleteCollecterFilter = (reaction, user) => {
-                            return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id && userMarkedCompleted.id != user.id;
-                        };
-                        const deleteCollector = supportEmbed.createReactionCollector(deleteCollecterFilter, { max: 1 });
+                        // reaction collector to close ticket
+                        const closeTicket = supportEmbed.createReactionCollector(closeTicketFilter, { max: 1 });
+                        closeTicket.on(`end`, (reaction, user) => {
 
-                        // delete support ticket channel after 2 valid reactions
-                        deleteCollector.on('collect', (reacton, userClosedTicket) => {
-
-                            // log user who closed ticket
-                            ticketDoneModsCache[message.author.id][1] = userClosedTicket;
-
-                            // stop all message collectors
+                            // stop open collectors
                             msgLoggingCollector.stop();
-                            helpingCollector.stop();
+
+                            // log user who marked ticket as completed
+                            supportCache[message.author.id].closedMod = user;
 
                             // create transcript embed
                             const transcriptEmbed = new MessageEmbed()
                                 .setAuthor(`Wall-E Support`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
-                                .setTitle(`Support Ticket Transcript - ${userCache[message.author.id][1].username}`)
+                                .setTitle(`Support Ticket Transcript - ${supportCache[message.author.id].user.username}`)
                                 .setColor(`FF5733`)
-                                .setDescription(msgLogCache[message.author.id].join(`\n`))
+                                .setDescription(supportCache[message.author.id].transcriptLog.join(`\n`))
                                 .addFields(
-                                    { name: `\u200B`, value: `Ticket completed by: ${ticketDoneModsCache[message.author.id][0]}\nTicket closed by: ${ticketDoneModsCache[message.author.id][1]}` }
+                                    { name: `\u200B`, value: `Ticket completed by: ${supportCache[message.author.id].completedMod.username}\nTicket closed by: ${supportCache[message.author.id].closedMod.username}` }
                                 )
                                 .setTimestamp()
-                                .setFooter(`Ticket opened by: ${userCache[message.author.id][0]}`, userCache[message.author.id][1].displayAvatarURL({ format: "png", dynamic: true }))
+                                .setFooter(`Ticket opened by: ${supportCache[message.author.id].user.username}`, supportCache[message.author.id].user.displayAvatarURL({ format: "png", dynamic: true }))
+
 
                             // send a copy of the transcript embed to the user and another to the log-support channel
-                            userCache[message.author.id][1].send(`Here is a transcript of your support ticket:`)
-                            userCache[message.author.id][1].send(transcriptEmbed)
-                            message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
-
-                            // end the helped collector
-                            helpedCollector.stop()
+                            supportCache[message.author.id].user.send(`Here is a transcript of your support ticket:`).then(() => {
+                                supportCache[message.author.id].user.send(transcriptEmbed)
+                                message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
+                            });
 
                             // delete the support channel
-                            sc.delete()
-                                .then(() => {
-                                    console.log(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`)
-                                    message.client.channels.cache.get(consoleChannel).send(`Deleted \`${userCache[message.author.id][0]}\`'s support ticket channel.`);
-
-                                    console.log(userCache)
-                                    console.log(logIndexCache)
-                                    console.log(msgLogCache)
-                                    console.log(ticketDoneModsCache)
-                                })
+                            suppportChan.delete().then(() => {
+                                console.log(`Deleted \`${supportCache[message.author.id].user.username}\`'s support ticket channel.`)
+                                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${supportCache[message.author.id].user.username}\`'s support ticket channel.`);
+                            });
                         });
-                    });
-                })
-            })
-        })
-    },
+                    })
+                });
+            });
+        });
+    }
 }
