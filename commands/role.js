@@ -22,6 +22,9 @@ module.exports = {
         if (message.member.guild.name != `Online College`) {
             return message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
+        
+        // id for #updates
+        updatesChannel = `801893303444045854`;
 
         // subcommand aliases
         createAliases = [`create`, `new`];
@@ -229,7 +232,7 @@ module.exports = {
                     message.guild.members.cache.get(message.author.id).roles.add(role);
                     message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
                     message.react(checkmark.emote);
-                    message.client.channels.cache.get(`801893303444045854`).send(`📥 **New channel added!** - \`${role.name}\``);
+                    message.client.channels.cache.get(updatesChannel).send(`📥 **New channel added!** - \`${role.name}\``);
                 }
 
             } else {
