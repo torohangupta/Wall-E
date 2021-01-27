@@ -140,6 +140,7 @@ module.exports = {
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been created.`)
                 message.react(checkmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been created in **Online College**.`);
+                message.client.channels.cache.get(updatesChannel).send(`📥  **New channel added!** - \`${roleName.toLowerCase()}\``);
 
             } catch (error) {
                 message.channel.send(`There was an error. Please create a support ticket by typing \`~support\`.`);
@@ -232,7 +233,6 @@ module.exports = {
                     message.guild.members.cache.get(message.author.id).roles.add(role);
                     message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
                     message.react(checkmark.emote);
-                    message.client.channels.cache.get(updatesChannel).send(`📥  **New channel added!** - \`${roleName.toLowerCase()}\``);
                 }
 
             } else {
