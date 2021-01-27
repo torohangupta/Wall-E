@@ -58,7 +58,7 @@ module.exports = {
             .catch(console.error);
 
         // check to make sure user doesn't already have a support ticket open
-        if (message.guild.channels.cache.find(c => c.name.includes(`${message.author.username}`))) {
+        if (message.guild.channels.cache.find(c => c.name.includes(`support-${message.author.username.toLowerCase()}`))) {
             return message.channel.send(`You already have a support ticket open. Please close that one before opening a new one.`);
         }
 
@@ -83,7 +83,7 @@ module.exports = {
         }).then(suppportChan => {
 
             // create message collectors & reaction filters to change the channel indicator to in progress and log messages
-            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].user.username));
+            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].user.username.toLowerCase()));
             const inProgressCollector = suppportChan.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
             const completedTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
             const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
