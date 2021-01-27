@@ -86,7 +86,6 @@ module.exports = {
             const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].user.username.toLowerCase()));
             const inProgressCollector = suppportChan.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
             const completedTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
-            const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
 
             // message collector to collect & log messages in cache
             msgLoggingCollector.on(`collect`, m => {
@@ -133,6 +132,7 @@ module.exports = {
                         supportCache[message.author.id].completedMod = user;
 
                         // reaction collector to close ticket
+                        const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
                         const closeTicket = supportEmbed.createReactionCollector(closeTicketFilter, { max: 1 });
                         closeTicket.on(`collect`, (reaction, user) => {
 
