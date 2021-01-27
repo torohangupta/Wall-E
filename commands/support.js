@@ -22,9 +22,8 @@ module.exports = {
             return message.channel.send(`I'm sorry, you can't use this command here. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
-        // tbsht
         if (args[0] && message.author.id == userIDs.rohan) {
-            return console.log(supportCache[args[0]]);
+            return console.log(supportCache[message.author.id]);
         }
 
         transcriptLogChannel = `789907442582028308`;
@@ -59,7 +58,7 @@ module.exports = {
             .catch(console.error);
 
         // check to make sure user doesn't already have a support ticket open
-        if (message.guild.channels.cache.find(c => c.name.includes(`support-${message.author.username}`))) {
+        if (message.guild.channels.cache.find(c => c.name.includes(`${message.author.username}`))) {
             return message.channel.send(`You already have a support ticket open. Please close that one before opening a new one.`);
         }
 
@@ -150,8 +149,8 @@ module.exports = {
                                 .setAuthor(`Wall-E Support`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
                                 .setTitle(`Support Ticket Transcript - ${supportCache[message.author.id].user.username}`)
                                 .setColor(`FF5733`)
+                                .setDescription(supportCache[message.author.id].transcriptLog.join(`\n`))
                                 .addFields(
-                                    { name: `\u200B`, value: supportCache[message.author.id].transcriptLog.join(`\n`) },
                                     { name: `\u200B`, value: `Ticket completed by: ${supportCache[message.author.id].completedMod}\nTicket closed by: ${supportCache[message.author.id].closedMod}` }
                                 )
                                 .setTimestamp()
@@ -162,9 +161,7 @@ module.exports = {
                             supportCache[message.author.id].user.send(`Here is a transcript of your support ticket:`).then(() => {
                                 supportCache[message.author.id].user.send(transcriptEmbed)
                                 message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
-
-                                // tbsht
-                                console.log(supportCache[message.author.id])
+                                console.log(supportCache[message.author.id]);
                             });
 
                             // delete the support channel
