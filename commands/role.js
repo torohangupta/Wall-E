@@ -229,6 +229,7 @@ module.exports = {
                     message.guild.members.cache.get(message.author.id).roles.add(role);
                     message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
                     message.react(checkmark.emote);
+                    message.client.channels.cache.get(`801893303444045854`).send(`📥 **New channel added!** - \`${role.name}\``);
                 }
 
             } else {
