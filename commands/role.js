@@ -139,7 +139,7 @@ module.exports = {
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been created in **Online College**.`);
 
             } catch (error) {
-                message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
+                message.channel.send(`There was an error. Please create a support ticket by typing \`~support\`.`);
                 message.react(crossmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
                 console.error();
@@ -160,7 +160,7 @@ module.exports = {
                 message.react(crossmark.emote);
                 message.client.channels.cache.get(consoleChannel).send(`The role \`${roleName.toLowerCase()}\` has been deleted in **Online College**.`);
             } catch (error) {
-                message.channel.send(`There was an error. Please create a support ticket using \`~support\`.`);
+                message.channel.send(`There was an error. Please create a support ticket by typing \`~support\`.`);
                 message.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
                 console.error();
             }
@@ -186,7 +186,7 @@ module.exports = {
             const assignableRolesEmbed = new MessageEmbed()
                 .setTitle(`Self-Assignable Roles`)
                 .setColor(`c8102e`)
-                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, use:\n\`\`\`~role add/remove <class-code>\`\`\``)
+                .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, type:\n\`\`\`~role add/remove <class-code>\`\`\``)
                 .addFields(
                     { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}`},
                     { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}`},
@@ -203,7 +203,7 @@ module.exports = {
                     { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}`},
                     { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}`}
                 )
-                .setFooter(`Don't see your class here? Create a support ticket using ~support`)
+                .setFooter(`Don't see your class here? Create a support ticket by typing ~support`)
 
             // send message with all assignable roles
             message.channel.send(assignableRolesEmbed)
@@ -220,7 +220,7 @@ module.exports = {
 
                 if (blacklistedRoleIDs.includes(role.id)) {
                     // let user know the role is blacklisted and must be manually assigned
-                    message.channel.send(`You cannot add that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
+                    message.channel.send(`You cannot add that role. If you think that is a mistake, please create a support ticket by typing \`~support\`.`);
                     message.react(crossmark.emote);
                     return;
 
@@ -233,7 +233,7 @@ module.exports = {
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet or you included a space in the classcode. If you did, remove the space and try again. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
+                message.channel.send(`That role doesn't exist yet or you included a space in the classcode. If you did, remove the space and try again. If you would like a channel with the role, please type \`~support\` to create a support ticket & request for the role.`);
                 message.react(crossmark.emote);
             }
         }
@@ -248,14 +248,14 @@ module.exports = {
 
                 // make sure user has the role they are trying to remove
                 if (!message.member._roles.includes(role.id)) {
-                    message.channel.send(`You do not have that role. You can add roles using \`~role add <class>\`. If you need additional help, please create a support ticket using \`~support\`.`);
+                    message.channel.send(`You do not have that role. You can add roles using \`~role add <class>\`. If you need additional help, please create a support ticket by typing \`~support\`.`);
                     message.react(crossmark.emote);
                     return;
                 }
 
                 if (blacklistedRoleIDs.includes(role.id)) {
                     // let user know the role is blacklisted and must be manually removed
-                    message.channel.send(`You cannot remove that role. If you think that is a mistake, please create a support ticket using \`~support\`.`);
+                    message.channel.send(`You cannot remove that role. If you think that is a mistake, please create a support ticket by typing \`~support\`.`);
                     message.react(crossmark.emote);
                     return;
 
@@ -267,7 +267,7 @@ module.exports = {
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please use \`~support\` to create a support ticket & request for the role.`);
+                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please type \`~support\` to create a support ticket & request for the role.`);
                 message.react(crossmark.emote);
             }
         }
