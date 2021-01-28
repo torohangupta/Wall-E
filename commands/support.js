@@ -42,6 +42,7 @@ module.exports = {
             // create the object
             supportCache[message.author.id] = {
                 user: message.author,
+                usernameCompatible: message.author.username.toLowerCase().slice().trim().split(/ +/).join(`-`);
                 loggingIndex: 0,
                 completedMod: null,
                 closedMod: null,
@@ -58,12 +59,12 @@ module.exports = {
             .catch(console.error);
 
         // check to make sure user doesn't already have a support ticket open
-        if (message.guild.channels.cache.find(c => c.name.includes(`support-${message.author.username.toLowerCase()}`))) {
+        if (message.guild.channels.cache.find(c => c.name.includes(`support-${supportCache[message.author.id].usernameCompatible}`))) {
             return message.channel.send(`You already have a support ticket open. Please close that one before opening a new one.`);
         }
 
         // create support text channel for message.author & send messages & create reaction collector. Set support ticket status to waiting for user input/issue.
-        message.guild.channels.create(`🔴-support-${message.author.username}`, {
+        message.guild.channels.create(`🔴-support-${supportCache[message.author.id].usernameCompatible}`, {
             type: `text`,
             parent: message.guild.channels.cache.find(c => c.name == `Support` && c.type == 'category'),
             permissionOverwrites: [
@@ -83,7 +84,7 @@ module.exports = {
         }).then(suppportChan => {
 
             // create message collectors & reaction filters to change the channel indicator to in progress and log messages
-            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].user.username.toLowerCase()));
+            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].usernameCompatible));
             const inProgressCollector = suppportChan.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
             const completedTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
 
