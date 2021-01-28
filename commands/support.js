@@ -42,7 +42,7 @@ module.exports = {
             // create the object
             supportCache[message.author.id] = {
                 user: message.author,
-                usernameCompatible: message.author.username.toLowerCase().slice().trim().split(/ +/).join(`-`);
+                usernameCompatible: message.author.username.toLowerCase().slice().trim().split(/ +/).join(`-`),
                 loggingIndex: 0,
                 completedMod: null,
                 closedMod: null,
