@@ -22,7 +22,7 @@ module.exports = {
         if (message.member.guild.name != `Online College`) {
             return message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
-        
+
         // id for #updates
         updatesChannel = `801893303444045854`;
 
@@ -63,7 +63,14 @@ module.exports = {
             `692099919602909254`, // Rythm
             `789733296077537282`, // Zira
             `779433406710415401`, // Wall-E
-            `788914781880188928`  // Wall-E Dev
+            `788914781880188928`,  // Wall-E Dev
+            // Year
+            `804213020610789376`, // Incoming/Prospective
+            `804213426515345428`, // Freshman
+            `804213586779045898`, // Sophomore
+            `804213800098070528`, // Junior
+            `804214005102542848`, // Senior
+            `804216647975174144`  // Graduated
         ];
 
         // convert user arguments to lowercase
@@ -192,20 +199,20 @@ module.exports = {
                 .setColor(`c8102e`)
                 .setDescription(`Here's a list of all self-assignable roles on the server. To get/remove any of them, type:\n\`\`\`~role add/remove <class-code>\`\`\``)
                 .addFields(
-                    { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}`},
-                    { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}`},
-                    { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}`},
-                    { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}`},
-                    { name: `\u200B`, value: `💾 - Computer Engineering\n${cpre.join(`, `)}`},
-                    { name: `\u200B`, value: `⌨️ - Computer Science\n${coms.join(`, `)}`},
-                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}`},
-                    { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}`},
-                    { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}`},
+                    { name: `\u200B`, value: `🚀 - Aerospace Engineering\n${aere.join(`, `)}` },
+                    { name: `\u200B`, value: `🚜 - Agricultural & Bio-Systems Engineering\n${abe.join(`, `)}` },
+                    { name: `\u200B`, value: `🔬 - Chemical Engineering\n${che.join(`, `)}` },
+                    { name: `\u200B`, value: `🌉 - Civil Engineering\n${ce.join(`, `)}` },
+                    { name: `\u200B`, value: `💾 - Computer Engineering\n${cpre.join(`, `)}` },
+                    { name: `\u200B`, value: `⌨️ - Computer Science\n${coms.join(`, `)}` },
+                    { name: `\u200B`, value: `🚧 - Construction Engineering\n${cone.join(`, `)}` },
+                    { name: `\u200B`, value: `💡 - Electrical Engineering\n${ee.join(`, `)}` },
+                    { name: `\u200B`, value: `🔩 - Engineering Mechanics\n${em.join(`, `)}` },
                     { name: `\u200B`, value: `🏭 - Industrial Engineering\n${ie.join(`, `)}` },
-                    { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}`},
-                    { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}`},
-                    { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}`},
-                    { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}`}
+                    { name: `\u200B`, value: `🧱 - Materials Science & Engineering\n${mate.join(`, `)}` },
+                    { name: `\u200B`, value: `⚙️ - Mechanical Engineering\n${me.join(`, `)}` },
+                    { name: `\u200B`, value: `💻 - Software Engineering\n${se.join(`, `)}` },
+                    { name: `\u200B`, value: `🧠 - Miscellaneous Courses\n${other.join(`, `)}` }
                 )
                 .setFooter(`Don't see your class here? Create a support ticket by typing ~support`)
 
@@ -215,7 +222,7 @@ module.exports = {
         }
 
         function addRoles(roleName) {
-            
+
             // check to make sure the role exists
             if (message.member.guild.roles.cache.find(r => r.name.toLowerCase() === roleName.toLowerCase())) {
 
