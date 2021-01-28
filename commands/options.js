@@ -21,12 +21,7 @@ module.exports = {
         let uName = message.member.nickname;
         if (!uName) uName = message.author.username;
 
-        // Creating uniform string with arguments
-        let str = '';
-        for (let i = 1; i <= args.length; i++) {
-            str += args[i - 1] + ' ';
-        }
-        var optSpltr = str.split('; ')
+        var optSpltr = args.join(` `).split('; ')
 
         // try to parse first argument as number
         var numOptions = parseInt(args[0]);
@@ -66,12 +61,6 @@ module.exports = {
             var numOptions = optSpltr.length - 1;
 
             if (numOptions >= 2 && numOptions <= 20) {
-                // Delete passed command & log deletion in console
-                message.delete()
-                    .then(msg => {
-                        console.log(`Deleted '${message}' from ${uName}`)
-                    })
-                    .catch(console.error);
 
                 // dynamically create the options block based on number of options passed
                 for (let i = 1; i <= numOptions - 1; i++) {
