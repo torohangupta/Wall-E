@@ -24,10 +24,8 @@ module.exports = {
         var pollEmbed = new MessageEmbed()
             .setTitle(`New Poll:`)
             .setColor(`4F674F`)
-            .addFields(
-                { name: `\u200B`, value: args.join(` `) }
-            )
-            .setTimestamp(Date.now())
+            .setDescription(args.join(` `))
+            .setTimestamp()
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // post embed for poll and react with check or cross
