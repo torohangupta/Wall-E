@@ -22,28 +22,13 @@ module.exports = {
         let uName = message.member.nickname;
         if (!uName) uName = message.author.username;
 
-        // Delete passed command & log deletion in console
-        message.delete()
-            .then(() => {
-                console.log(`Deleted '${message}' from ${uName}`)
-                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
-            })
-            .catch(console.error);
-
-        // Isolate question
-        let str = '';
-        for (let i = 1; i <= args.length; i++) {
-            str += args[i - 1] + ' ';
-        }
-        var question = str.trim();
-
         // Generate random length
         var choice = Math.floor(Math.random() * magic8responses.length);
 
         // generate embed with response
         const m8embed = new MessageEmbed()
             .setAuthor(`Magic-8 Ball`, `https://magic-8ball.com/assets/images/Our_magic_8_ball.png`)
-            .setTitle(question)
+            .setTitle(args.join(` `))
             .setColor(`00539C`)
             .addFields(
                 { name: `\u200B`, value: `\`\`\`${magic8responses[choice]}.\`\`\`` }
