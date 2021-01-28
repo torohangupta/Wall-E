@@ -20,24 +20,12 @@ module.exports = {
         let uName = message.member.nickname;
         if (!uName) uName = message.author.username;
 
-        // Delete a message
-        message.delete()
-            .then(msg => console.log(`Deleted '${message}' from ${msg.author.username}`))
-            .catch(console.error);
-
-        let str = '';
-        for (let i = 1; i <= args.length; i++) {
-            str += args[i - 1] + ' ';
-        }
-
-        var pollmsg = str.trim();
-
         // create embed for poll
         var pollEmbed = new MessageEmbed()
             .setTitle(`New Poll:`)
             .setColor(`4F674F`)
             .addFields(
-                { name: `\u200B`, value: pollmsg }
+                { name: `\u200B`, value: args.join(` `) }
             )
             .setTimestamp(Date.now())
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
