@@ -20,10 +20,6 @@ module.exports = {
             .then(msg => console.log(`Deleted '${message}' from ${msg.author.username}`))
             .catch(console.error);
 
-        let str = '';
-        for (let i = 1; i <= args.length; i++) {
-            str += args[i - 1] + ' ';
-        }
-        message.channel.send(str.trim());
+        message.channel.send(args.join(` `));
     },
 };
