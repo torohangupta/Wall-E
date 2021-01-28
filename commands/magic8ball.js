@@ -39,7 +39,7 @@ module.exports = {
         // Send embed & log run data
         message.channel.send(m8embed)
 
-        console.log(`Magic8 log: Question: '${question}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`)
-        message.client.channels.cache.get(consoleChannel).send(`Magic8 log: Question: '${question}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`);
+        console.log(`Magic8 log: Question: '${args.join(` `)}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`)
+        message.client.channels.cache.get(consoleChannel).send(`Magic8 log: Question: '${args.join(` `)}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`);
     },
 };
