@@ -29,8 +29,10 @@ module.exports = {
         // subcommand aliases
         createAliases = [`create`, `new`];
         deleteAliases = [`delete`, `del`];
+        addAliases = [`add`, `join`];
+        removeAliases = [`remove`, `leave`];
         viewAliases = [`view`, `viewall`];
-        clearAliases = [`clearall`, `leaveall`];
+        clearAliases = [`removeall`, `leaveall`];
 
 
         // command blacklisted roles
@@ -93,11 +95,11 @@ module.exports = {
             // VIEW ALL ROLES
             viewRoles();
 
-        } else if (cmdArg == `add`) {
+        } else if (addAliases.includes(cmdArg)) {
             // ADD ROLE
             addRoles(roleArg);
 
-        } else if (cmdArg == `remove`) {
+        } else if (removeAliases.includes(cmdArg)) {
             // REMOVE ROLE
             removeRoles(roleArg);
 
@@ -106,7 +108,7 @@ module.exports = {
             clearAllRoles();
 
         } else {
-            message.channel.send(`Error: You did not list a valid argument.\nYou can type \`~role\`, \`~classrole\`, \`~cr\` and then **ONE** of the following:\n> \`view\`/\`viewall\` (view all self-assignable roles),\n> \`add\` (add a role)\n> \`remove\` (remove a role).`);
+            message.channel.send(`Error: You did not list a valid argument.\nYou can type \`~role\`, \`~class\`, \`~classrole\`, \`~cr\` and then **ONE** of the following:\n> \`view\`/\`viewall\` (view all self-assignable roles),\n> \`add\` (add a role)\n> \`remove\` (remove a role).`);
             message.react(crossmark.emote);
         }
 
