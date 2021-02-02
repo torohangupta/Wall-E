@@ -30,6 +30,7 @@ module.exports = {
         createAliases = [`create`, `new`];
         deleteAliases = [`delete`, `del`];
         viewAliases = [`view`, `viewall`];
+        clearAliases = [`clearall`, `leaveall`];
 
 
         // command blacklisted roles
@@ -100,6 +101,10 @@ module.exports = {
             // REMOVE ROLE
             removeRoles(roleArg);
 
+        } else if (clearAliases.includes(cmdArg)) {
+            // REMOVE ALL ROLES
+            clearAllRoles();
+
         } else {
             message.channel.send(`Error: You did not list a valid argument.\nYou can type \`~role\`, \`~classrole\`, \`~cr\` and then **ONE** of the following:\n> \`view\`/\`viewall\` (view all self-assignable roles),\n> \`add\` (add a role)\n> \`remove\` (remove a role).`);
             message.react(crossmark.emote);
@@ -142,6 +147,8 @@ module.exports = {
                                 allow: [`VIEW_CHANNEL`],
                             }
                         ],
+                    }).then(chan => {
+                        chan.send(`Welcome to the ${chan} channel. Thank you for adding the class. Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!`);
                     })
                 })
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been created.`)
@@ -280,6 +287,23 @@ module.exports = {
                 message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please type \`~support\` to create a support ticket & request for the role.`);
                 message.react(crossmark.emote);
             }
+        }
+
+        function clearAllRoles() {
+            // get all user role IDs
+            userRoleIDs = message.member._roles;
+
+            // for each valid role, remove it
+            userRoleIDs.forEach(roleID => {
+                if(!blacklistedRoleIDs.includes(roleID)) {
+                    role = message.member.guild.roles.cache.find(r => r.id === roleID);
+    
+                    // remove role & dm confirmation
+                    message.guild.members.cache.get(message.author.id).roles.remove(role);
+                }
+            })
+            message.author.send(`You have left all of your classes in **Online College**.`);
+            message.react(checkmark.emote);
         }
 
         function roleOrganizer(roles) {
