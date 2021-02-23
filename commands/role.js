@@ -130,7 +130,7 @@ module.exports = {
                     // create support text channel for message.author & send messages & create reaction collector. Set support ticket status to waiting for user input/issue.
                     message.guild.channels.create(roleName.toLowerCase(), {
                         type: `text`,
-                        parent: message.guild.channels.cache.find(c => c.name == `Unsorted Courses` && c.type == 'category'),
+                        parent: message.guild.channels.cache.find(c => c.name.toLowerCase().includes(`unsorted courses`) && c.type == 'category'),
                         permissionOverwrites: [
                             {
                                 id: message.channel.guild.roles.everyone,
