@@ -27,11 +27,11 @@ module.exports = {
             .setColor(`2C5F2D`)
             .setDescription(`Here's a quick tutorial on how to format code blocks in Discord. If your're sharing code in Discord, using code block formatting will make it a lot easier to read and understand the code.`)
             .addFields(
-                { name: `\u200B`, value: `When sending code, put 3 accent marks (\\\`\\\`\\\`) before and after the code to format it as a code block.` },
+                { name: `\u200B`, value: `When sending code, put 3 backticks (under the \`ESC\` key) (\\\`\\\`\\\`) before and after the code to format it as a code block.` },
                 { name: `\u200B`, value: `**This:**\n\\\`\\\`\\\`\nThis is a code block\n\\\`\\\`\\\``, inline: true },
                 { name: `\u200B`, value: `**Will result in:** \`\`\` This is a code block! \`\`\``, inline: true },
-                { name: `\u200B`, value: `Helping edit someone's code? add "diff" after the first 3 accent marks, like this, \\\`\\\`\\\`diff, and use "+" and "-" to suggest lines to add/remove! It will look like this:\`\`\`diff\n- This is a line of coke.\n+ This is a line of code.\`\`\`` },
-                { name: `\u200B`, value: `Finally, Discord supports formatting based off the language as well. If I want to send MATLAB code, I would add "matlab" after the first 3 accent marks, like \\\`\\\`\\\`matlab, and Discord will format the MATLAB code accordingly, like this:\`\`\`matlab\nclear, clc\n% Rohan Gupta\n\n% Define variables\nvariable = 1;\n\nif variable = 1\n     disp('Hello World!')\nelse\n     disp('variable does not equal 1')\nend\n\n% end\`\`\`` }
+                { name: `\u200B`, value: `Helping edit someone's code? add "diff" after the first 3 backticks, like this, \\\`\\\`\\\`diff, and use "+" and "-" to suggest lines to add/remove! It will look like this:\`\`\`diff\n- This is a line of coke.\n+ This is a line of code.\`\`\`` },
+                { name: `\u200B`, value: `Finally, Discord supports formatting based off the language as well. If I want to send MATLAB code, I would add "matlab" after the first 3 backticks, like \\\`\\\`\\\`matlab, and Discord will format the MATLAB code accordingly, like this:\`\`\`matlab\nclear, clc\n% Rohan Gupta\n\n% Define variables\nvariable = 1;\n\nif variable = 1\n     disp('Hello World!')\nelse\n     disp('variable does not equal 1')\nend\n\n% end\`\`\`` }
             )
             .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
