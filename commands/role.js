@@ -23,6 +23,11 @@ module.exports = {
             return message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
+        // do not allow usage in #newbie-help
+        if (message.channel.id == 789753521628119040) {
+            return message.channel.send(`You need to agree to the rules first! Go to <#788156185680936970> and agree to the rules before adding your classes!`);
+        }
+
         // id for #updates
         updatesChannel = `801893303444045854`;
 
@@ -66,7 +71,7 @@ module.exports = {
             `692099919602909254`, // Rythm
             `789733296077537282`, // Zira
             `779433406710415401`, // Wall-E
-            `788914781880188928`,  // Wall-E Dev
+            `788914781880188928`, // Wall-E Dev
             // Year
             `804213020610789376`, // Incoming/Prospective
             `804213426515345428`, // Freshman
