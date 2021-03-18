@@ -78,7 +78,10 @@ module.exports = {
             `804213586779045898`, // Sophomore
             `804213800098070528`, // Junior
             `804214005102542848`, // Senior
-            `804216647975174144`  // Graduated
+            `804216647975174144`, // Graduated
+            // School Roles
+            `822197848057446450`, // Professors
+            `822198428892397608`  // TAs
         ];
 
         // convert user arguments to lowercase
