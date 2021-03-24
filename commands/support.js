@@ -22,10 +22,6 @@ module.exports = {
             return message.channel.send(`I'm sorry, you can't use this command here. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
-        if (args[0] && message.author.id == userIDs.rohan) {
-            return console.log(supportCache[message.author.id]);
-        }
-
         transcriptLogChannel = `789907442582028308`;
 
         // try to access cache, if the cache doesn't exist, create it
