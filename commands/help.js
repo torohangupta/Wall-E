@@ -43,14 +43,6 @@ module.exports = {
 
             } else {
 
-                // Delete passed command & log deletion in console
-                message.delete()
-                    .then(msg => {
-                        console.log(`Deleted '${message}' from ${uName}`)
-                        message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
-                    })
-                    .catch(console.error);
-
                 // send embed for command & react
                 message.channel.send(commandEmbed(commands, allcmds, command.name)).then(m => {
                     m.react(crossmark.emote)
@@ -68,14 +60,6 @@ module.exports = {
             }
 
         } else {
-
-            // Delete passed command & log deletion in console
-            message.delete()
-            .then(() => {
-                console.log(`Deleted '${message}' from \`${uName}\``)
-                message.client.channels.cache.get(consoleChannel).send(`Deleted \`${message}\` from \`${uName}\``);
-            })
-            .catch(console.error);
 
             // Create intro embed
             const helpMain = new MessageEmbed()
