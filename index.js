@@ -29,6 +29,11 @@ client.on('message', message => {
         return message.client.channels.cache.get(dmChannel).send(`${message.author.username} just sent a DM: ${message}`);
     }
 
+    // april fools day prank
+    if (message.channel == `692490903654367253` || message.channel == `745392734797562026` || message.channel == `768639339663327233`) {
+        message.react(`<:gohawks:827044384917684245>`);
+    }
+
     // if a message does not contain the prefix for the bot OR is from another bot, ignore the message
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
