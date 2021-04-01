@@ -19,7 +19,7 @@ module.exports = {
     execute(message, args) {
 
         // limit usage to online college
-        if (message.member.guild.name != `Online College`) {
+        if (message.member.guild.id != `692094440881520671`) {
             return message.channel.send(`I'm sorry, you can't use this command in this server. This command was custom written for the **Online College** Discord Server & will not work properly here.`);
         }
 
