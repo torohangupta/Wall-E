@@ -312,7 +312,7 @@ module.exports = {
                     message.guild.members.cache.get(message.author.id).roles.remove(role);
                 }
             })
-            message.author.send(`You have left all of your classes in **Online College**.`);
+            message.author.send(`You have left all of your classes in **Online College**! Congratulations on completing the semester! 🎉`);
             message.react(checkmark.emote);
         }
 
