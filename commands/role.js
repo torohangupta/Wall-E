@@ -158,7 +158,7 @@ module.exports = {
                             }
                         ],
                     }).then(chan => {
-                        chan.send(`Welcome to the ${chan} channel. Thank you for adding the class. Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!`);
+                        chan.send(`Welcome to the ${chan} channel & thank you for adding the class! If you are seeing this message, that means it is probably a new channel. Don't hesitate to share the server with your classmates to see more of them in the server/channel! Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!`);
                     })
                 })
                 message.channel.send(`The role \`${roleName.toLowerCase()}\` has been created.`)
@@ -255,12 +255,12 @@ module.exports = {
                 } else {
                     // give role & dm confirmation
                     message.guild.members.cache.get(message.author.id).roles.add(role);
-                    message.author.send(`You have added the role \`${role.name}\` in **Online College**.`);
+                    message.author.send(`You have joined \`${role.name}\` in **Online College**!`);
                     message.react(checkmark.emote);
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet or you included a space in the classcode. If you did, remove the space and try again. If you would like a channel with the role, please type \`~support\` to create a support ticket & request for the role.`);
+                message.channel.send(`That class doesn't exist yet or you included a space in the class code. If you did, remove the space and try again. If you would like a channel for that class, please type \`~support\` and request for the class!`);
                 message.react(crossmark.emote);
             }
         }
@@ -294,7 +294,7 @@ module.exports = {
                 }
 
             } else {
-                message.channel.send(`That role doesn't exist yet. If you would like a channel with the role, please type \`~support\` to create a support ticket & request for the role.`);
+                message.channel.send(`That class doesn't exist yet! If you would like a channel for that class, please type \`~support\` to request for the class!`);
                 message.react(crossmark.emote);
             }
         }
