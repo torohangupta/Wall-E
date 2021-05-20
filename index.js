@@ -7,6 +7,7 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 // Indexes all the available commands from the ./commands filepath & stores in the commands array
 for (const file of commandFiles) {
@@ -20,6 +21,16 @@ client.once('ready', () => {
     console.log('Wall-E is online!');
     client.user.setActivity('rohan write bad code', { type: 'WATCHING' })
 });
+
+// Event registering 
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args, client));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args, client));
+	}
+}
 
 // Command handling
 client.on('message', message => {
