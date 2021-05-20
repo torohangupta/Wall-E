@@ -26,7 +26,7 @@ module.exports = {
 					newState.guild.channels.create(`🔊│Comm ${i}`, {
 						type: 'voice',
 						parent: newState.channel.parentID,
-						position: i,
+						position: newState.channel.rawPosition+i,
 						bitrate: 64000
 					}).then(vc => {
 						newState.channel.members.map(m => m.voice.setChannel(vc.id));
