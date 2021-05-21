@@ -15,13 +15,6 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-// Sends "Ready!" to the console once the bot is online and ready
-client.once('ready', () => {
-    console.clear();
-    console.log('Wall-E is online!');
-    client.user.setActivity('rohan write bad code', { type: 'WATCHING' })
-});
-
 // Event registering 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
