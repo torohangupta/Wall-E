@@ -6,9 +6,9 @@ module.exports = {
 		newCommButtons = [`844268130674671646`, `844021820663005204`];
 		// order: gamers, WEdev
 
-		// delete channel if eveyone leaves
+		// delete channel if eveyone leaves, included OC as blacklisted guild
 		try {
-			if (oldState.channel.name.includes(`🔊│Comm`) && !oldState.channel.members.size) {
+			if (oldState.channel.name.includes(`🔊│Comm`) && !oldState.channel.members.size && oldState.guild.id != `692094440881520671`) {
 				oldState.channel.delete();
 			}
 		} catch {
