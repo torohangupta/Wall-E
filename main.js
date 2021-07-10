@@ -7,5 +7,5 @@ console.clear();
 console.log(`Stating Wall-E...`);
 
 // startup releases
-console.log(`Launching public release...`).then(public_release);
-console.log(`Launching Online College release...`).then(onlineCollege_release);
+public_release.then(console.log(`Launching public release...`));
+onlineCollege_release.then(console.log(`Launching Online College release...`));
