@@ -6,6 +6,10 @@ const onlineCollege_release = require(`./release_oc/oc_index`);
 console.clear();
 console.log(`Stating Wall-E...`);
 
-// startup releases
-public_release.then(console.log(`Launching public release...`));
-onlineCollege_release.then(console.log(`Launching Online College release...`));
+// starting public release
+public_release;
+console.log(`Launching public release...`);
+
+// starting online college release
+onlineCollege_release;
+console.log(`Launching Online College release...`);
