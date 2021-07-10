@@ -5,8 +5,8 @@ const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/conf
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync(`./release_public/commands`).filter(file => file.endsWith(`.js`));
-const eventFiles = fs.readdirSync('./release_public/events').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 // Indexes all the available commands from the ./commands filepath & stores in the commands array
 for (const file of commandFiles) {
@@ -72,7 +72,7 @@ client.on('message', message => {
     try {
         command.execute(message, args);
         console.log(`Running ${command.name}, requested by ${message.author}`)
-        client.channels.cache.get(consoleChannel).send(`**${currentTime()} - Wall-E - Command Run**\n\`\`\`\nUser: ${userGuildName(message)}\nGuild: ${message.member.guild.name}\nChannel: ${message.channel.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
+        client.channels.cache.get(consoleChannel).send(`**Wall-E - Command Run**\n\`\`\`\nUser: ${message.author.username}\nGuild: ${message.member.guild.name}\nChannel: ${message.channel.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
 
     } catch (error) {
         console.error(error);
