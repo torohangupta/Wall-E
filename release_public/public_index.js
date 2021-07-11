@@ -5,8 +5,8 @@ const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/conf
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(`./release_public/commands`).filter(file => file.endsWith(`.js`));
+const eventFiles = fs.readdirSync('./release_public/events').filter(file => file.endsWith('.js'));
 
 // Indexes all the available commands from the ./commands filepath & stores in the commands array
 for (const file of commandFiles) {
