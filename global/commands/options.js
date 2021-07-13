@@ -50,7 +50,7 @@ module.exports = {
                 { name: `\u200B`, value: `**${optSpltr[0]}**\n\n${optField}` }
             ) // Add options to embed
 
-            return message.channel.send({embeds: optionsEmbed}).then(optEmb => {
+            return message.channel.send({embeds: [optionsEmbed]}).then(optEmb => {
                 for (let i = 0; i <= numOptions - 1; i++) {
                     optEmb.react(letters[i])
                 } // React with emojis
