@@ -21,7 +21,7 @@ Update Notes
 
 | Date | Release | Release | Update Notes |
 | - | - | - | - |
-| 7/13/21 | Both | 2.1.0 | *Updated various lines to align with new syntax for `MessageOptions`, regenerated tokens to make Wall-E public* |
+| 7/13/21 | Both | 2.1.0 | *Updated various lines to align with new syntax for `MessageOptions`, regenerated tokens to make Wall-E's repository public* |
 | 7/12/21 | Both | 2.0.0 | *Updated `package.json` to reflect `node` engine version update (12.18.3 > 16.4.2) and `Discord.js` package change to development release (12.5.1 > 13.0.0-dev). Updated code to reflect changes*  |
 
 >*Note: Not all updates will be documented here. Extremely minor patches/changes/refactors will be done, and to see a log of those changes, please view the commit messages on the main branch.*\
