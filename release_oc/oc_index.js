@@ -7,8 +7,9 @@ const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.commands = new Discord.Collection();
 
 // path to global
-const global_cmds = `./../global/commands`;
-const global_evnts = `./../global/events`;
+// const global_cmds = `./../global/commands`;
+// const global_evnts = `./../global/events`;
+console.log(fs.readdirSync(`./`))
 
 // locate all command files for development release and live release
 const lCommandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
@@ -28,7 +29,7 @@ for (const file of lEventFiles) {
 }
 
 for (const file of gEventFiles) {
-    const event = require(`${global_evnts}/${file}`);
+    const event = require(`./../global/events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));
     } else {
@@ -42,7 +43,7 @@ for (const file of lCommandFiles) {
     client.commands.set(command.name, command);
 }
 for (const file of gCommandFiles) {
-    const command = require(`${global_cmds}/${file}`);
+    const command = require(`./../global/commands/${file}`);
     client.commands.set(command.name, command);
 }
 

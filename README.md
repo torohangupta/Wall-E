@@ -13,12 +13,14 @@ Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, howe
 <br/>
 
 ## Release versions:
-![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.1.1-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.1.1-lightgreen)
+![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.2.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.2.0-lightgreen)
+
 
 Update Notes
 
 | Date | Release | Release | Update Notes |
 | - | - | - | - |
+| 7/13/21 | Both | 2.2.x | *Stable production release* |
 | 7/13/21 | Both | 2.1.x | *Updated various lines to align with new syntax for `MessageOptions`, regenerated tokens to make Wall-E's repository public* |
 | 7/12/21 | Both | 2.0.0 | *Updated `package.json` to reflect `node` engine version update (12.18.3 > 16.4.2) and `Discord.js` package change to development release (12.5.1 > 13.0.0-dev). Updated code to reflect changes*  |
 
