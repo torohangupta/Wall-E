@@ -6,20 +6,20 @@ const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/conf
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.commands = new Discord.Collection();
 
-// path to "global" commands
-const global_cmds = require(`./../global/commands`);
-const global_evnts = require(`./../global/events`);
+// path to global
+const global_cmds = `./../global/commands`;
+const global_evnts = `./../global/events`;
 
 // locate all command files for development release and live release
-const lCommandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
-const gCommandFiles = fs.readdirSync(global_cmds).filter(file => file.endsWith(`.js`));
+const lCommandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
+const gCommandFiles = fs.readdirSync(`./../global/commands`).filter(file => file.endsWith(`.js`));
 
 // locate all event files for development release and live release
-const lEventFiles = fs.readdirSync('./release_oc/events').filter(file => file.endsWith('.js'));
-const gEventFiles = fs.readdirSync(global_evnts).filter(file => file.endsWith('.js'));
+const lEventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const gEventFiles = fs.readdirSync(`./../global/events`).filter(file => file.endsWith('.js'));
 
 for (const file of lEventFiles) {
-    const event = require(`./release_oc/events/${file}`);
+    const event = require(`./events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));
     } else {
