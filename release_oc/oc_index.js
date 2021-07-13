@@ -16,7 +16,7 @@ const gCommandFiles = fs.readdirSync(`./global/commands`).filter(file => file.en
 
 // locate all event files for development release and live release
 const lEventFiles = fs.readdirSync('./release_oc/events').filter(file => file.endsWith('.js'));
-const gEventFiles = fs.readdirSync(`./global/events`).filter(file => file.endsWith('.js'));
+const gEventFiles = fs.readdirSync(`./../global/events`).filter(file => file.endsWith('.js'));
 
 for (const file of lEventFiles) {
     const event = require(`./events/${file}`);
@@ -105,4 +105,4 @@ client.on('messageCreate', message => {
 });
 
 // login to Discord with bot token
-client.login(process.env.TOKEN_ONLINECOLLEGE_RELEASE);
+client.login(process.env.TOKEN_ONLINECOLLEGE_RELEASE);client.login(`ODYzNTQ3MzIxNjMwNzIwMDUw.YOofHQ.GhT_EyJz7RTaXcJl6W8dSQvignc`);
