@@ -2,30 +2,52 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/config.json');
 
-const client = new Discord.Client();
+// create new discord client with proper intents
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
-const eventFiles = fs.readdirSync('./release_oc/events').filter(file => file.endsWith('.js'));
+// path to "global" commands
+const global_cmds = require(`./../global/commands`);
+const global_evnts = require(`./../global/events`);
 
-// Indexes all the available commands from the ./commands filepath & stores in the commands array
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+// locate all command files for development release and live release
+const lCommandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
+const gCommandFiles = fs.readdirSync(global_cmds).filter(file => file.endsWith(`.js`));
+
+// locate all event files for development release and live release
+const lEventFiles = fs.readdirSync('./release_oc/events').filter(file => file.endsWith('.js'));
+const gEventFiles = fs.readdirSync(global_evnts).filter(file => file.endsWith('.js'));
+
+for (const file of lEventFiles) {
+    const event = require(`./release_oc/events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args, client));
+    }
+}
+
+for (const file of gEventFiles) {
+    const event = require(`${global_evnts}/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args, client));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args, client));
+    }
+}
+
+// index all available commands
+for (const file of lCommandFiles) {
+    const command = require(`./release_oc/commands/${file}`);
+    client.commands.set(command.name, command);
+}
+for (const file of gCommandFiles) {
+    const command = require(`${global_cmds}/${file}`);
     client.commands.set(command.name, command);
 }
 
-// Event Handling 
-for (const file of eventFiles) {
-	const event = require(`./events/${file}`);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args, client));
-	}
-}
-
 // Command handling
-client.on('message', message => {
+client.on('messageCreate', message => {
 
     // logs any DM that is sent to Wall-E that isn't a command
     if (message.channel.type === 'dm' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
@@ -80,7 +102,7 @@ client.on('message', message => {
         client.channels.cache.get(consoleChannel).send(`There was an error trying to execute \`${command.name}\`, requested by \`${message.author.username}\`\n\`\`\`${error}\`\`\``);
     }
 
-}); 
+});
 
 // login to Discord with bot token
 client.login(process.env.TOKEN_ONLINECOLLEGE_RELEASE);
