@@ -6,7 +6,6 @@ A Discord bot written in JavaScript, on the Node.js environment, using the Disco
 <br/>
 
 ## General Information
-___
 This repository contains all of the live public and private versions of Wall-E currently being hosted on the free tier of Heroku. The bot can also be hosted on a personal machine using Windows PowerShell, provided you have `Node.js` engine and the Discord JavaScipt library, `Discord.js` installed.
 
 Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, however the ability to be able to change it is planned.
@@ -14,13 +13,13 @@ Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, howe
 <br/>
 
 ## Release versions:
-___
-![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.1.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.1.0-lightgreen)
+![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.2.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.2.0-lightgreen)
 
 Update Notes
 
 | Date | Release | Release | Update Notes |
 | - | - | - | - |
+| 7/13/21 | Both | 2.2.0 | *Stable production release* |
 | 7/13/21 | Both | 2.1.0 | *Updated various lines to align with new syntax for `MessageOptions`, regenerated tokens to make Wall-E's repository public* |
 | 7/12/21 | Both | 2.0.0 | *Updated `package.json` to reflect `node` engine version update (12.18.3 > 16.4.2) and `Discord.js` package change to development release (12.5.1 > 13.0.0-dev). Updated code to reflect changes*  |
 
@@ -30,7 +29,6 @@ Update Notes
 <br/>
 
 ## Commands
-___
 Commands available to all releases of Wall-E are listed here. Certain releases of Wall-E will have additional commands
 | Command | Description |
 | - | - |
