@@ -11,12 +11,12 @@ const global_cmds = `./../global/commands`;
 const global_evnts = `./../global/events`;
 
 // locate all command files for development release and live release
-const lCommandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
-const gCommandFiles = fs.readdirSync(`./../global/commands`).filter(file => file.endsWith(`.js`));
+const lCommandFiles = fs.readdirSync(`./release_public/commands`).filter(file => file.endsWith(`.js`));
+const gCommandFiles = fs.readdirSync(`./global/commands`).filter(file => file.endsWith(`.js`));
 
 // locate all event files for development release and live release
-const lEventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-const gEventFiles = fs.readdirSync(`./../global/events`).filter(file => file.endsWith('.js'));
+const lEventFiles = fs.readdirSync('./release_public/events').filter(file => file.endsWith('.js'));
+const gEventFiles = fs.readdirSync(`./global/events`).filter(file => file.endsWith('.js'));
 
 for (const file of lEventFiles) {
     const event = require(`./events/${file}`);
