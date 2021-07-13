@@ -3,20 +3,33 @@ A Discord bot written in JavaScript, on the Node.js environment, using the Disco
 
 ![Node.js Version](https://img.shields.io/badge/Node.js-v._12.18.3-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._6.14.6-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._12.5.1-lightblue)
 
+<br/>
 
-### General Information
+## General Information
 ___
-This repository contains all of the live public and private versions of Wall-E currently being hosted on the free tier of Heroku. The bot can also be hosted on a personal machine using Windows PowerShell, provided you have `Node.js` and the Discord JavaScipt library, `Discord.js` installed.
+This repository contains all of the live public and private versions of Wall-E currently being hosted on the free tier of Heroku. The bot can also be hosted on a personal machine using Windows PowerShell, provided you have `Node.js` engine and the Discord JavaScipt library, `Discord.js` installed.
 
-### Release versions:
+Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, however the ability to be able to change it is planned.
+
+<br/>
+
+## Release versions:
 ___
-![Public Release Version](https://img.shields.io/badge/Public_Release-v._1.0.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._1.0.0-lightgreen)
+![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.0.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.0.0-lightgreen)
 
+Update Notes
 
-### Commands
+| Date | Release | Release | Update Notes |
+| - | - | - | - |
+| 7/12/21 | Both | 2.0.x | *Updated `package.json` to reflect `node` engine version update (12.18.3 > 16.4.2) and `Discord.JS` package change to development release (12.5.1 > 13.0.0-dev). Updated code to reflect changes*  |
+
+*Note: Not all updates will be documented here. Extremely minor patches/changes/refactors will be done, and to see a log of those changes, please view the commits messages on the main branch*
+
+<br/>
+
+## Commands
 ___
 Commands available to all releases of Wall-E are listed here. Certain releases of Wall-E will have additional commands
 | Command | Description |
-| ------ | ------ |
-| `~help <command (optional)>` | this command gets you help |
-|command   |desc|
+| - | - |
+| `~help` | Use this command to get help! |
