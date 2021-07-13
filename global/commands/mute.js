@@ -45,7 +45,7 @@ module.exports = {
                     .setColor(`006E33`)
 
                 // mute the tagged user(s), send the muted embed message, create a reaction collector & react to the message
-                message.channel.send(mutedEmbed).then(unmuteMsg => {
+                message.channel.send({embeds: mutedEmbed}).then(unmuteMsg => {
                     unmuteMsg.react(`🔈`)
 
                     // mute the tagged user(s)
@@ -57,7 +57,7 @@ module.exports = {
 
                         // remove all reaction from the embed, edit the embed & unmute the tagged user(s)
                         unmuteMsg.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
-                        unmuteMsg.edit(unmutedEmbed)
+                        unmuteMsg.edit({embeds: unmutedEmbed})
                         guildMember.voice.setMute(false)
 
                     });

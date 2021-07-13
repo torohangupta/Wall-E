@@ -29,7 +29,7 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        return message.channel.send(inviteEmbed);
+        return message.channel.send({embeds: inviteEmbed});
 
     },
 };

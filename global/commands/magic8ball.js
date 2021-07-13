@@ -37,7 +37,7 @@ module.exports = {
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // Send embed & log run data
-        message.channel.send(m8embed)
+        message.channel.send({embeds: m8embed})
 
         console.log(`Magic8 log: Question: '${args.join(` `)}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`)
         message.client.channels.cache.get(consoleChannel).send(`Magic8 log: Question: '${args.join(` `)}' Reply choice: ${choice}, '${magic8responses[choice]}'. Asked by ${uName}.`);

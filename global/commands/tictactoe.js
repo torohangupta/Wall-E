@@ -36,7 +36,7 @@ module.exports = {
             return message.channel.send(`You can't play against a bot!`);
         }
 
-        message.channel.send(gameUI(gameboard, p2, p1, `⭕`, `❌`, ``, `game-strt`)).then(gameMsg => {
+        message.channel.send({embeds: gameUI(gameboard, p2, p1, `⭕`, `❌`, ``, `game-strt`)}).then(gameMsg => {
 
             // create message collector for the channnel
             const moveCollector = gameMsg.channel.createMessageCollector(m => m.author.id == p1.id || m.author.id == p2.id, { time: 600000 });

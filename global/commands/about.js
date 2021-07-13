@@ -14,19 +14,19 @@ module.exports = {
 
     execute(message, args) {
         const embed = new MessageEmbed()
-            .setColor(`#0099ff`)
-            .setTitle(`Wall-E`)
+            .setColor(`#eb9850`)
+            .setAuthor(`Wall-E`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
+            .setTitle(`About`)
             .setDescription(`A general server management bot, Wall-E now helps run and manage servers with helpful commands and functions.`)
             .setThumbnail(`https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
             .addFields(
-                { name: `\u200B`, value: `${discord.emote} - [Development Server](https://discord.gg/J8mhrke77j)\n${github.emote} - [GitHub Repository](https://github.com/torohangupta/Wall-E)\n${join.emote} - [Invite Link](https://discord.com/oauth2/authorize?client_id=738513970930909194&permissions=8&scope=bot)` },
-                { name: `\u200B`, value: `\u200B` },
-                { name: `About`, value: `\`~about\``, inline: true },
-                { name: `Help`, value: `\`~help\``, inline: true },
+                { name: `Links`, value: `${discord.emote} - Development Server: [Link](https://discord.gg/J8mhrke77j)\n${github.emote} - GitHub Repository: [Link](https://github.com/torohangupta/Wall-E)\n${join.emote} - Invite to your server: [Link](https://discord.com/oauth2/authorize?client_id=738513970930909194&permissions=8&scope=bot)` },
+                // { name: `\u200B`, value: `\u200B` },
+                { name: `Help`, value: `\`~about\`` }
             )
-            .setFooter(`Wall-E/Wall-E Development - 2021`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
+            .setFooter(`Wall-E/Wall-E Development`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
             .setTimestamp();
     
-    channel.send(exampleEmbed);
+    message.channel.send({ embeds: [embed] }); // djs v13
     },
 };
