@@ -6,7 +6,7 @@ const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/conf
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.commands = new Discord.Collection();
 
-console.log(fs.readdirSync(__dirname))
+console.log(fs.readdirSync(`./`))
 
 // path to global
 const global_cmds = `./../global/commands`;
@@ -14,11 +14,11 @@ const global_evnts = `./../global/events`;
 
 // locate all command files for development release and live release
 const lCommandFiles = fs.readdirSync(`./release_public/commands`).filter(file => file.endsWith(`.js`));
-const gCommandFiles = fs.readdirSync(`./../global/commands`).filter(file => file.endsWith(`.js`));
+const gCommandFiles = fs.readdirSync(`./global/commands`).filter(file => file.endsWith(`.js`));
 
 // locate all event files for development release and live release
 const lEventFiles = fs.readdirSync('./release_public/events').filter(file => file.endsWith('.js'));
-const gEventFiles = fs.readdirSync(`./../global/events`).filter(file => file.endsWith('.js'));
+const gEventFiles = fs.readdirSync(`./global/events`).filter(file => file.endsWith('.js'));
 
 for (const file of lEventFiles) {
     const event = require(`./events/${file}`);
@@ -30,7 +30,7 @@ for (const file of lEventFiles) {
 }
 
 for (const file of gEventFiles) {
-    const event = require(`${global_evnts}/${file}`);
+    const event = require(`./global/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));
     } else {
@@ -107,4 +107,5 @@ client.on('messageCreate', message => {
 });
 
 // login to Discord with bot token
-client.login(process.env.TOKEN_PUBLIC_RELEASE);client.login(`NzM4NTEzOTcwOTMwOTA5MTk0.XyNAuw.ICwJwgI3KBlJbiRepRjrKKAUffQ`);
+client.login(`NzM4NTEzOTcwOTMwOTA5MTk0.XyNAuw.ICwJwgI3KBlJbiRepRjrKKAUffQ`);
+// client.login(process.env.TOKEN_PUBLIC_RELEASE);
