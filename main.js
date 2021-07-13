@@ -4,7 +4,7 @@ const onlineCollege_release = require(`./release_oc/oc_index`);
 
 // clear console and log startup events
 console.clear();
-console.log(`Stating Wall-E...`);
+console.log(`Starting Wall-E...`);
 
 // starting public release
 public_release;
