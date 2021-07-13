@@ -41,7 +41,7 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        message.channel.send(greekLettersEmbed).then(m => {
+        message.reply({ embeds: [greekLettersEmbed], allowedMentions: { repliedUser: false } }).then(m => {
             m.react(`❌`)
 
             const deleteFilter = (reaction, user) => { return reaction.emoji.name == '❌' && user.id != m.author.id};
