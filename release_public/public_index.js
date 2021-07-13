@@ -44,7 +44,7 @@ for (const file of lCommandFiles) {
     client.commands.set(command.name, command);
 }
 for (const file of gCommandFiles) {
-    const command = require(`${global_cmds}/${file}`);
+    const command = require(`./../global/events/${file}`);
     client.commands.set(command.name, command);
 }
 

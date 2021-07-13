@@ -106,5 +106,4 @@ client.on('messageCreate', message => {
 });
 
 // login to Discord with bot token
-client.login(`ODYzNTQ3MzIxNjMwNzIwMDUw.YOofHQ.GhT_EyJz7RTaXcJl6W8dSQvignc`);
-// client.login(process.env.TOKEN_ONLINECOLLEGE_RELEASE);
+client.login(process.env.TOKEN_ONLINECOLLEGE_RELEASE);
