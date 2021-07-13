@@ -114,11 +114,11 @@ module.exports = {
 
             // send user tag, embed & react to embed
             suppportChan.send(`@here, ${message.author} has a support ticket!`).then(() => {
-                suppportChan.send(supportEmbed).then(supportEmbed => {
+                suppportChan.send({ embeds: supportEmbed }).then(supportEmbed => {
                     supportEmbed.react(`❌`);
 
                     // create reaction collectors
-                    const completedTicket = supportEmbed.createReactionCollector(completedTicketFilter, { max: 1 });
+                    const completedTicket = supportEmbed.createReactionCollector({ completedTicketFilter, max: 1 });
 
                     // reaction collector for completed ticket
                     completedTicket.on(`collect`, (reaction, user) => {
@@ -130,7 +130,7 @@ module.exports = {
 
                         // reaction collector to close ticket
                         const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
-                        const closeTicket = supportEmbed.createReactionCollector(closeTicketFilter, { max: 1 });
+                        const closeTicket = supportEmbed.createReactionCollector({ closeTicketFilter, max: 1 });
                         closeTicket.on(`collect`, (reaction, user) => {
 
                             // stop all collectors

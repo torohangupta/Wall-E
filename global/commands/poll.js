@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { checkmark, crossmark } = require(`../../release_oc/resources/emojis.json`);
 
 module.exports = {
 
@@ -29,9 +30,9 @@ module.exports = {
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // post embed for poll and react with check or cross
-        message.channel.send(pollEmbed).then(m => {
-            m.react(`<:checkmark:798610690968387614>`)
-            m.react(`<:crossmark:798610690968387685>`)
+        message.channel.send({embeds: [pollEmbed]}).then(m => {
+            m.react(checkmark.emote)
+            m.react(crossmark.emote)
         })
     },
 };

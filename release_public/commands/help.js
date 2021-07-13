@@ -44,7 +44,7 @@ module.exports = {
             } else {
 
                 // send embed for command & react
-                message.channel.send(commandEmbed(commands, allcmds, command.name)).then(m => {
+                message.channel.send({embeds: commandEmbed(commands, allcmds, command.name)}).then(m => {
                     m.react(crossmark.emote)
 
                     // create reaction filter & reaction collector
@@ -108,7 +108,7 @@ module.exports = {
                     emojiCollectors[i].on('collect', () => {
 
                         // edit help embed with command selection
-                        helpMessage.edit(commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))).then(m => {
+                        helpMessage.edit({embeds: commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))}).then(m => {
                             m.react(crossmark.emote)
                         })
 
@@ -213,7 +213,7 @@ module.exports = {
             }
 
             // send the message & exit the function
-            return mainMsg.edit(helpPageEmbed);
+            return mainMsg.edit({embeds: helpPageEmbed});
 
         }
 

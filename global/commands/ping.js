@@ -28,7 +28,7 @@ module.exports = {
 			.setTimestamp(Date.now())
 			.setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-		message.channel.send(pingEmbed)
+		message.channel.send({embeds: [pingEmbed]})
 
 		// message.channel.send('https://thumbs.gfycat.com/InfatuatedIllfatedAltiplanochinchillamouse-size_restricted.gif')
 	},

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { consoleChannel } = require(`../resources/config.json`)
+const { consoleChannel } = require(`../../release_public/resources/config.json`)
 
 module.exports = {
 
@@ -36,7 +36,7 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        message.channel.send(cbfEmbed).then(m => {
+        message.reply({ embeds: [cbfEmbed], allowedMentions: { repliedUser: false } }).then(m => {
             m.react('❌')
 
             // create reaction filter & reaction collector

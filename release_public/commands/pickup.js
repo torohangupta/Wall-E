@@ -37,7 +37,7 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`${uName}'s shooting their shot!`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        taggedUser.send(pickupEmbed)
+        taggedUser.send({embeds: pickupEmbed})
         message.channel.send(`Pickup line sent!`)
         message.react(`❤️`)
         message.client.channels.cache.get(consoleChannel).send(`PickupLines log: Line choice: ${lineSelection}, '${pickuplines[lineSelection]}'. ${uName}'s the one who shot their shot.`);

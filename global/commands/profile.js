@@ -100,7 +100,7 @@ module.exports = {
                 .setTimestamp(Date.now())
                 .setFooter(`Requested by: ${authorName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-            message.channel.send(profileEmbed)
+            message.reply({embeds: [profileEmbed], allowedMentions: { repliedUser: false }})
         }
     }
 };

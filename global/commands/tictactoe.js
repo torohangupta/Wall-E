@@ -36,7 +36,7 @@ module.exports = {
             return message.channel.send(`You can't play against a bot!`);
         }
 
-        message.channel.send(gameUI(gameboard, p2, p1, `⭕`, `❌`, ``, `game-strt`)).then(gameMsg => {
+        message.channel.send({embeds: gameUI(gameboard, p2, p1, `⭕`, `❌`, ``, `game-strt`)}).then(gameMsg => {
 
             // create message collector for the channnel
             const moveCollector = gameMsg.channel.createMessageCollector(m => m.author.id == p1.id || m.author.id == p2.id, { time: 600000 });
@@ -69,10 +69,10 @@ module.exports = {
 
                             if (winChecker(`❌`, move, gameboard) == `game over`) {
                                 moveCollector.stop()
-                                gameMsg.edit(gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `game-over`))
+                                gameMsg.edit({embeds: [gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `game-over`)]})
 
                             } else {
-                                gameMsg.edit(gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `game-inprogress`))
+                                gameMsg.edit({embeds: [gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `game-inprogress`)]})
                             }
 
                             // set turn to p2
@@ -82,12 +82,12 @@ module.exports = {
                             // stalemante
                             if (movesPlayed == 9) {
                                 moveCollector.stop();
-                                gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-stalemate`));
+                                gameMsg.edit({embeds: [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-stalemate`)]});
                                 return;
                             }
 
                         } else {
-                            return gameMsg.edit(gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `err-location`));
+                            return gameMsg.edit({embeds: [gameUI(gameboard, p2, p1, `⭕`, `❌`, move, `err-location`)]});
                         }
 
                     } else {
@@ -99,10 +99,10 @@ module.exports = {
 
                             if (winChecker(`⭕`, move, gameboard) == `game over`) {
                                 moveCollector.stop();
-                                gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-over`));
+                                gameMsg.edit({embeds: [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-over`)]});
 
                             } else {
-                                gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-inprogress`));
+                                gameMsg.edit({embeds: [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-inprogress`)]});
                             }
 
                             // set turn to p1
@@ -112,12 +112,12 @@ module.exports = {
                             // stalemante
                             if (movesPlayed == 9) {
                                 moveCollector.stop();
-                                gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-stalemate`));
+                                gameMsg.edit({embeds : [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `game-stalemate`)]});
                                 return;
                             }
 
                         } else {
-                            return gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `err-location`));
+                            return gameMsg.edit({embeds: [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `err-location`)]});
                         }
                     }
 
@@ -125,7 +125,7 @@ module.exports = {
 
                 } else {
                     moveMessage.delete();
-                    return gameMsg.edit(gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `err-format`));
+                    return gameMsg.edit({embeds : [gameUI(gameboard, p1, p2, `❌`, `⭕`, move, `err-format`)]});
                 }
             })
         });
