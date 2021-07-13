@@ -30,7 +30,7 @@ for (const file of lEventFiles) {
 }
 
 for (const file of gEventFiles) {
-    const event = require(`./global/${file}`);
+    const event = require(`./../global/events/${file}`);
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));
     } else {
@@ -43,8 +43,8 @@ for (const file of lCommandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
 }
-for (const file of gEventFiles) {
-    const command = require(`./../global/events/${file}`);
+for (const file of gCommandFiles) {
+    const command = require(`./../global/commands/${file}`);
     client.commands.set(command.name, command);
 }
 
