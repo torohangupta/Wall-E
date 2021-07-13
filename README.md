@@ -15,7 +15,7 @@ Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, howe
 
 ## Release versions:
 ___
-![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.0.0-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.0.0-lightgreen)
+![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.0.1-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.0.1-lightgreen)
 
 Update Notes
 
@@ -23,7 +23,8 @@ Update Notes
 | - | - | - | - |
 | 7/12/21 | Both | 2.0.x | *Updated `package.json` to reflect `node` engine version update (12.18.3 > 16.4.2) and `Discord.JS` package change to development release (12.5.1 > 13.0.0-dev). Updated code to reflect changes*  |
 
-*Note: Not all updates will be documented here. Extremely minor patches/changes/refactors will be done, and to see a log of those changes, please view the commits messages on the main branch*
+>*Note: Not all updates will be documented here. Extremely minor patches/changes/refactors will be done, and to see a log of those changes, please view the commit messages on the main branch.*\
+> **Last updated** : `7/13/21`
 
 <br/>
 
