@@ -1,0 +1,5 @@
+.eslintrc
+indexrewrite.js
+dependencies
+node_modules
+global/resources/config.json
