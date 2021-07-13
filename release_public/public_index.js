@@ -6,7 +6,7 @@ const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/conf
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.commands = new Discord.Collection();
 
-console.log(fs.readdirSync(`./`))
+console.log(fs.readdirSync(`./global`))
 
 // path to global
 const global_cmds = `./../global/commands`;
@@ -107,5 +107,4 @@ client.on('messageCreate', message => {
 });
 
 // login to Discord with bot token
-client.login(`NzM4NTEzOTcwOTMwOTA5MTk0.XyNAuw.ICwJwgI3KBlJbiRepRjrKKAUffQ`);
-// client.login(process.env.TOKEN_PUBLIC_RELEASE);
+client.login(process.env.TOKEN_PUBLIC_RELEASE);
