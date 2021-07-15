@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'voiceStateUpdate',
 	execute(oldState, newState, client) {
+		console.log(oldState)
 
 		// target buttons
 		newCommButtons = [`844268130674671646`, `844021820663005204`];
