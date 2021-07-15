@@ -3,13 +3,8 @@ const Discord = require('discord.js');
 const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/config.json');
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`] });
 client.commands = new Discord.Collection();
-
-// path to global
-// const global_cmds = `./../global/commands`;
-// const global_evnts = `./../global/events`;
-console.log(fs.readdirSync(`./`))
 
 // locate all command files for development release and live release
 const lCommandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
