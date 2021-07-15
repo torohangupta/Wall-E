@@ -16,16 +16,16 @@ module.exports = {
 		}
 
 		// create a new voice channel with the proper position when the "create new channel button" is clicked
-		if (newCommButtons.includes(newState.channelID)) {
+		if (newCommButtons.includes(newState.channelId)) {
 
 			// get all voice channnels in the guild with type `voice` and name inluding `🔊│Comm`
-			var voiceChannels = newState.guild.channels.cache.filter(c => c.type === `voice` && c.name.includes(`🔊│Comm`)).map(c => c.name);
+			var voiceChannels = newState.guild.channels.cache.filter(c => c.type === `GUILD_VOICE` && c.name.includes(`🔊│Comm`)).map(c => c.name);
 			
 			for (let i = 1; i < voiceChannels.length + 2; i++) {				
 				if (!voiceChannels.includes(`🔊│Comm ` + i)) {
 					newState.guild.channels.create(`🔊│Comm ${i}`, {
-						type: 'voice',
-						parent: newState.channel.parentID,
+						type: 'GUILD_VOICE',
+						parent: newState.channel.parentId,
 						position: newState.channel.rawPosition+i,
 						bitrate: 64000
 					}).then(vc => {

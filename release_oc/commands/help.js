@@ -75,7 +75,7 @@ module.exports = {
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             // Send intro embed & react
-            message.channel.send(helpMain).then(helpMessage => {
+            message.channel.send({embeds: [helpMain]}).then(helpMessage => {
                 helpMessage.react(checkmark.emote)
                 helpMessage.react(crossmark.emote)
 
@@ -108,7 +108,7 @@ module.exports = {
                     emojiCollectors[i].on('collect', () => {
 
                         // edit help embed with command selection
-                        helpMessage.edit({embeds: commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))}).then(m => {
+                        helpMessage.edit({embeds: [commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))]}).then(m => {
                             m.react(crossmark.emote)
                         })
 
