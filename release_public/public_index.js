@@ -2,15 +2,13 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/config.json');
 
+if (fs.readdirSync(`./`).includes(`.env`)) {
+    require("dotenv").config();
+}
+
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES` ], partials : ['CHANNEL']});
 client.commands = new Discord.Collection();
-
-console.log(fs.readdirSync(`./global`))
-
-// path to global
-const global_cmds = `./../global/commands`;
-const global_evnts = `./../global/events`;
 
 // locate all command files for development release and live release
 const lCommandFiles = fs.readdirSync(`./release_public/commands`).filter(file => file.endsWith(`.js`));
@@ -52,7 +50,7 @@ for (const file of gCommandFiles) {
 client.on('messageCreate', message => {
 
     // logs any DM that is sent to Wall-E that isn't a command
-    if (message.channel.type === 'dm' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
+    if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
         return message.client.channels.cache.get(dmChannel).send(`${message.author.username} just sent a DM: ${message}`);
     }
 

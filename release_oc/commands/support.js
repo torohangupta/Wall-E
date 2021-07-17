@@ -38,7 +38,7 @@ module.exports = {
             // create the object
             supportCache[message.author.id] = {
                 user: message.author,
-                usernameCompatible: message.author.username.toLowerCase().slice().trim().split(/ +/).join(`-`),
+                usernameCompatible: message.author.username.toLowerCase().replace(/[^a-z]+/g, ''),
                 loggingIndex: 0,
                 completedMod: null,
                 closedMod: null,
@@ -80,8 +80,8 @@ module.exports = {
         }).then(suppportChan => {
 
             // create message collectors & reaction filters to change the channel indicator to in progress and log messages
-            const msgLoggingCollector = suppportChan.createMessageCollector(m => m.channel.name.includes(supportCache[message.author.id].usernameCompatible));
-            const inProgressCollector = suppportChan.createMessageCollector(m => m.author.id != message.author.id && m.author.id != userIDs.walle, { max: 1 });
+            const msgLoggingCollector = suppportChan.createMessageCollector({ filter: m => m.channel.name.includes(supportCache[message.author.id].usernameCompatible) });
+            const inProgressCollector = suppportChan.createMessageCollector({ filter: m => m.author.id != message.author.id && m.author.id != userIDs.walle, max: 1 });
             const completedTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != message.author.id; };
 
             // message collector to collect & log messages in cache
@@ -114,11 +114,11 @@ module.exports = {
 
             // send user tag, embed & react to embed
             suppportChan.send(`@here, ${message.author} has a support ticket!`).then(() => {
-                suppportChan.send({ embeds: supportEmbed }).then(supportEmbed => {
+                suppportChan.send({ embeds: [supportEmbed] }).then(supportEmbed => {
                     supportEmbed.react(`❌`);
 
                     // create reaction collectors
-                    const completedTicket = supportEmbed.createReactionCollector({ completedTicketFilter, max: 1 });
+                    const completedTicket = supportEmbed.createReactionCollector({ filter: completedTicketFilter, max: 1 });
 
                     // reaction collector for completed ticket
                     completedTicket.on(`collect`, (reaction, user) => {
@@ -130,7 +130,7 @@ module.exports = {
 
                         // reaction collector to close ticket
                         const closeTicketFilter = (reaction, user) => { return reaction.emoji.name == `❌` && user.id != userIDs.walle && user.id != supportCache[message.author.id].completedMod.id; }
-                        const closeTicket = supportEmbed.createReactionCollector({ closeTicketFilter, max: 1 });
+                        const closeTicket = supportEmbed.createReactionCollector({ filter: closeTicketFilter, max: 1 });
                         closeTicket.on(`collect`, (reaction, user) => {
 
                             // stop all collectors
@@ -156,8 +156,8 @@ module.exports = {
 
                             // send a copy of the transcript embed to the user and another to the log-support channel
                             supportCache[message.author.id].user.send(`Here is a transcript of your support ticket:`).then(() => {
-                                supportCache[message.author.id].user.send(transcriptEmbed)
-                                message.client.channels.cache.get(transcriptLogChannel).send(transcriptEmbed)
+                                supportCache[message.author.id].user.send({ embeds: [transcriptEmbed] })
+                                message.client.channels.cache.get(transcriptLogChannel).send({ embeds: [transcriptEmbed] })
                                 console.log(supportCache[message.author.id]);
                             });
 
