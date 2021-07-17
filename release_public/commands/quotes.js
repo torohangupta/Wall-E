@@ -38,7 +38,7 @@ module.exports = {
             .setTimestamp(Date.now())
             .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
-        message.channel.send({embeds: quoteEmbed})
+        message.channel.send({embeds: [quoteEmbed]})
         message.client.channels.cache.get(consoleChannel).send(`OutofContextQuotes log: Quote choice: ${quoteSelection}, '${outofcontextquotes[quoteSelection]}'. Asked by ${uName}.`);
     },
 };

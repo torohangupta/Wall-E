@@ -13,7 +13,7 @@ Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, howe
 <br/>
 
 ## Release versions:
-![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.2.1-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.2.0-lightgreen)
+![Public Release Version](https://img.shields.io/badge/Public_Release-v._2.2.8-lightgreen) ![Online College Release](https://img.shields.io/badge/Online_College_Release-v._2.2.5-lightgreen)
 
 
 Update Notes

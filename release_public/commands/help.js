@@ -44,12 +44,12 @@ module.exports = {
             } else {
 
                 // send embed for command & react
-                message.channel.send({embeds: commandEmbed(commands, allcmds, command.name)}).then(m => {
+                message.channel.send({ embeds: [commandEmbed(commands, allcmds, command.name)] }).then(m => {
                     m.react(crossmark.emote)
 
                     // create reaction filter & reaction collector
                     const deleteFilter = (reaction, user) => { return reaction.emoji.id == crossmark.id && user.id == message.author.id; };
-                    const collectorDelete = m.createReactionCollector(deleteFilter);
+                    const collectorDelete = m.createReactionCollector({ filter: deleteFilter });
                     collectorDelete.on('collect', (reaction, user) => {
                         m.delete()
                             .then(console.log(`Deleted help embed, requested by \`${uName}\``))
@@ -75,7 +75,7 @@ module.exports = {
                 .setFooter(`Requested by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
             // Send intro embed & react
-            message.channel.send({embeds: [helpMain]}).then(helpMessage => {
+            message.channel.send({ embeds: [helpMain] }).then(helpMessage => {
                 helpMessage.react(checkmark.emote)
                 helpMessage.react(crossmark.emote)
 
@@ -102,13 +102,13 @@ module.exports = {
 
                     // reaction filters & reaction collector initialization
                     emojiFilters[i] = (reaction, user) => { return reaction.emoji.name == coloredCircles[i] && user.id == message.author.id; };
-                    emojiCollectors[i] = helpMessage.createReactionCollector(emojiFilters[i]);
+                    emojiCollectors[i] = helpMessage.createReactionCollector({ filter: emojiFilters[i] });
 
                     // turning on the reaction collectors
                     emojiCollectors[i].on('collect', () => {
 
                         // edit help embed with command selection
-                        helpMessage.edit({embeds: [commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))]}).then(m => {
+                        helpMessage.edit({ embeds: [commandEmbed(commands, allcmds, helpSelection(currpg, coloredCircles[i], coloredCircles, helpMessage))] }).then(m => {
                             m.react(crossmark.emote)
                         })
 
@@ -117,7 +117,7 @@ module.exports = {
                 }
 
                 // reaction collector & filter to start the help command
-                const collectoryes = helpMessage.createReactionCollector(yesFilter);
+                const collectoryes = helpMessage.createReactionCollector({ filter: yesFilter });
                 collectoryes.on('collect', () => {
 
                     helpPage(currpg, coloredCircles, allcmds, totpg, helpMessage);
@@ -125,7 +125,7 @@ module.exports = {
                 });
 
                 // reaction collector & filter to go to the previous page & ensure that embed remains within lower bounds of the number of pages
-                const clbackwards = helpMessage.createReactionCollector(backwards);
+                const clbackwards = helpMessage.createReactionCollector({ filter: backwards });
                 clbackwards.on('collect', () => {
 
                     if (currpg - 1 < 0) {
@@ -138,7 +138,7 @@ module.exports = {
                 });
 
                 // reaction collector & filter to go to the next page & ensure that embed remains within upper bounds of the number of pages
-                const clforwards = helpMessage.createReactionCollector(forwards);
+                const clforwards = helpMessage.createReactionCollector({ filter: forwards });
                 clforwards.on('collect', () => {
 
                     if (currpg + 2 > totpg) {
@@ -151,7 +151,7 @@ module.exports = {
                 });
 
                 // reaction collector to delete the help embed & log event to console
-                const collectorDelete = helpMessage.createReactionCollector(deleteFilter);
+                const collectorDelete = helpMessage.createReactionCollector({ filter: deleteFilter });
                 collectorDelete.on('collect', () => {
                     helpMessage.delete()
                         .then(msg => {
@@ -188,7 +188,7 @@ module.exports = {
                 .setAuthor('Wall-E Bot Help', 'https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg')
                 .setTitle(`Command Selector`)
                 .setDescription(`Select the emoji that corresponds to the command to select it & get help for that command`)
-                .setColor(`CC743C`)
+                .setColor(`#CC743C`)
                 .addFields(
                     { name: `\u200B`, value: helpPage },
                     { name: `\u200B`, value: ` Select ◀️ or ▶️ to navigate through pages or select ${crossmark.emote} to cancel` }
@@ -213,7 +213,7 @@ module.exports = {
             }
 
             // send the message & exit the function
-            return mainMsg.edit({embeds: helpPageEmbed});
+            return mainMsg.edit({ embeds: [helpPageEmbed] });
 
         }
 
@@ -278,11 +278,11 @@ module.exports = {
 
             // Add information about command restrictions into commandRestrictions, using vb formatting to only highlight boolean values
             commandRestrictions.push(`**Command Restrictions**`)
-            commandRestrictions.push(`\`\`\`vb`);
-            commandRestrictions.push(`Needs arguments: ${command.args}`);
-            commandRestrictions.push(`Needs a tagged user: ${command.needsTaggedUser}`);
-            commandRestrictions.push(`Server Only: ${command.guildOnly}`);
-            commandRestrictions.push(`Developer Only: ${command.developerOnly}`);
+            commandRestrictions.push(`\`\`\`vb\n`);
+            commandRestrictions.push(`Needs arguments: ${command.args}\n`);
+            commandRestrictions.push(`Needs a tagged user: ${command.needsTaggedUser}\n`);
+            commandRestrictions.push(`Server Only: ${command.guildOnly}\n`);
+            commandRestrictions.push(`Developer Only: ${command.developerOnly}\n`);
             commandRestrictions.push(`\`\`\``);
 
             // check to ensure there isn't a blank variable passed to the embed field
@@ -298,8 +298,8 @@ module.exports = {
                 .setDescription(command.description)
                 .setColor(`CC743C`)
                 .addFields(
-                    { name: `\u200B`, value: specificInfo },
-                    { name: `\u200B`, value: commandRestrictions },
+                    { name: `\u200B`, value: `${specificInfo}` },
+                    { name: `\u200B`, value: `${commandRestrictions.join(``)}` },
                     { name: `\u200B`, value: `Select ${crossmark.emote} to close this help window` }
                 )
                 .setTimestamp(Date.now())

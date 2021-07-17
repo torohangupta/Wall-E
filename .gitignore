@@ -2,3 +2,4 @@
 indexrewrite.js
 dependencies
 node_modules
+.env
