@@ -1,50 +1,44 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, userIDs, consoleChannel, dmChannel } = require('./resources/config.json');
+const { prefix, userIDs} = require('./resources/config.json');
+const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`../global/dependencies/indexdeps.js`);
 
-
-if (fs.readdirSync(`./`).includes(`.env`)) {
-    require("dotenv").config();
-}
+fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES` ], partials : ['CHANNEL']});
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
+client.buttons = new Discord.Collection();
+client.slashCommands = new Discord.Collection();
 
-// locate all command files for development release and live release
-const lCommandFiles = fs.readdirSync(`./release_oc/commands`).filter(file => file.endsWith(`.js`));
-const gCommandFiles = fs.readdirSync(`./global/commands`).filter(file => file.endsWith(`.js`));
+// load all commands
+for (let dir of [`./release_oc/commands`, `./global/commands`]) {
+    // find all local and global commands
+    const commandFiles = fs.readdirSync(dir).filter(file => file.endsWith(`.js`));
+    dir.includes(`global`) ? dir = `../global/commands` : dir = `./commands`;
 
-// locate all event files for development release and live release
-const lEventFiles = fs.readdirSync('./release_oc/events').filter(file => file.endsWith('.js'));
-const gEventFiles = fs.readdirSync(`./global/events`).filter(file => file.endsWith('.js'));
-
-for (const file of lEventFiles) {
-    const event = require(`./events/${file}`);
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args, client));
-    } else {
-        client.on(event.name, (...args) => event.execute(...args, client));
+    // load all local and global commands
+    for (const file of commandFiles) {
+        const command = require(`${dir}/${file}`);
+        client.commands.set(command.name, command);
     }
 }
 
-for (const file of gEventFiles) {
-    const event = require(`./../global/events/${file}`);
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args, client));
-    } else {
-        client.on(event.name, (...args) => event.execute(...args, client));
-    }
-}
+// load all events
+for (let dir of [`./release_oc/events`, `./global/events`]) {
+    // find all local and global events
+    const eventFiles = fs.readdirSync(dir).filter(file => file.endsWith(`.js`));
+    dir.includes(`global`) ? dir = `../global/events` : dir = `./events`;
 
-// index all available commands
-for (const file of lCommandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
-}
-for (const file of gCommandFiles) {
-    const command = require(`./../global/commands/${file}`);
-    client.commands.set(command.name, command);
+    // load all local and global events
+    for (const file of eventFiles) {
+        const event = require(`${dir}/${file}`);
+        if (event.once) {
+            client.once(event.name, (...args) => event.execute(...args, client));
+        } else {
+            client.on(event.name, (...args) => event.execute(...args, client));
+        }
+    }
 }
 
 // Command handling
@@ -52,7 +46,7 @@ client.on('messageCreate', message => {
 
     // logs any DM that is sent to Wall-E that isn't a command
     if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
-        return message.client.channels.cache.get(dmChannel).send(`${message.author.username} just sent a DM: ${message}`);
+        return recievedDM(message);
     }
 
     // if a message does not contain the prefix for the bot OR is from another bot, ignore the message
@@ -66,41 +60,16 @@ client.on('messageCreate', message => {
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
 
-    // Run user checks to ensure that the command author meets the criteria to pass the command
-    if (command.developerOnly && message.author.id != userIDs.rohan) {
-        return message.channel.send(`This is a developer only command.`)
-    }
-
-    // Check for tagegd user
-    if (command.needsTaggedUser && !message.mentions.users.size) {
-        return message.channel.send(`You need to tag someone in order to use this command!`)
-    }
-
-    // check for channel type
-    if (command.guildOnly && message.channel.type === 'dm') {
-        return message.channel.send(`You need to be in a server to use this command!`);
-    }
-
-    // check to make sure the message has arguments if the command requires it
-    if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
-
-        if (command.usage) {
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-        }
-
-        return message.channel.send(reply);
-    }
+    // check to make sure that the user has all the required permissions
+    if (!permsChecker(command, message, args)) return;
 
     try {
         command.execute(message, args);
-        console.log(`Running ${command.name}, requested by ${message.author}`)
-        client.channels.cache.get(consoleChannel).send(`**Wall-E - Command Run**\n\`\`\`\nUser: ${message.author.username}\nGuild: ${message.member.guild.name}\nChannel: ${message.channel.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
+        logCommandRun(command, message);
 
     } catch (error) {
         console.error(error);
-        message.channel.send(`There was an error trying to execute that command.\n\`\`\`${error}\`\`\``);
-        client.channels.cache.get(consoleChannel).send(`There was an error trying to execute \`${command.name}\`, requested by \`${message.author.username}\`\n\`\`\`${error}\`\`\``);
+        logCommandError(command, message, error); 1
     }
 
 });
