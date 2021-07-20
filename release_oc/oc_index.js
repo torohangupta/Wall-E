@@ -6,10 +6,10 @@ const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`..
 fs.readdirSync(`./`).includes(`.env`) ? (require("dotenv").config(), prefix = `<`) : prefix = require('./resources/config.json');
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES` ], partials: ['CHANNEL'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
-client.slashCommands = new Discord.Collection();
 client.buttons = new Discord.Collection();
+client.slashCommands = new Discord.Collection();
 
 // load all commands
 for (let dir of [`./release_oc/commands`, `./global/commands`]) {
@@ -53,7 +53,7 @@ for (const file of buttonFiles) {
 	client.buttons.set(button.id, button)
 }
 
-// command handler
+// Command handling
 client.on('messageCreate', message => {
 
     // logs any DM that is sent to Wall-E that isn't a command
@@ -73,7 +73,7 @@ client.on('messageCreate', message => {
     if (!command) return;
 
     // check to make sure that the user has all the required permissions
-    if (!permsChecker(command, message, args)) return; // if the user returns false for being able to run the command, stop execution here
+    if (!permsChecker(command, message, args)) return;
 
     try {
         command.execute(message, args);

@@ -1,4 +1,4 @@
-const { consoleChannel, dmChannel, userIDs } = require(`../resources/config.json`);
+const { consoleChannel, dmChannel, prefix } = require(`../resources/config.json`);
 
 function permsChecker(command, message, args) {
     // Run user checks to ensure that the command author meets the criteria to pass the command
@@ -40,7 +40,6 @@ function logCommandRun(client, command, message) {
 }
 
 function logCommandError(client, command, message, error) {
-    message.channel.send(`test`)
     message.channel.send(`There was an error trying to execute that command.\n\`\`\`${error}\`\`\``);
     client.channels.cache.get(consoleChannel).send(`There was an error trying to execute \`${command.name}\`, requested by \`${message.author.username}\`\n\`\`\`${error}\`\`\``);
     return;
