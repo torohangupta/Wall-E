@@ -71,6 +71,7 @@ module.exports = {
 
             // determine online status
             status = `**Presence:** `
+            console.log(taggedGuildUser)
             switch (taggedGuildUser.presence.status) {
                 case `online`:
                     status += `<:online:784546469168152596> Online`;
