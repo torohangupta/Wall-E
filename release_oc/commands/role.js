@@ -17,6 +17,7 @@ module.exports = {
     developerOnly: false,
 
     execute(message, args) {
+        console.log(`here`)
 
         // limit usage to online college
         if (message.member.guild.id != `692094440881520671`) {

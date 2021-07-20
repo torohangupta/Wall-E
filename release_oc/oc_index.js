@@ -1,9 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, userIDs} = require('./resources/config.json');
+const { userIDs } = require('./resources/config.json');
 const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`../global/dependencies/indexdeps.js`);
 
-fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
+fs.readdirSync(`./`).includes(`.env`) ? (require("dotenv").config(), prefix = `<`) : prefix = require('./resources/config.json');
 
 // create new discord client with proper intents
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
@@ -41,6 +41,18 @@ for (let dir of [`./release_oc/events`, `./global/events`]) {
     }
 }
 
+const slashCommandsList = fs.readdirSync(`./release_oc/interactions/slashCommands`).filter(file => file.endsWith('.js'));
+for (const file of slashCommandsList) {
+    const slashcommand = require(`./interactions/slashCommands/${file}`);
+    client.slashCommands.set(slashcommand.name, slashcommand)
+}
+
+const buttonFiles = fs.readdirSync(`./release_oc/interactions/buttons`).filter(file => file.endsWith('.js'));
+for (const file of buttonFiles) {
+	const button = require(`./interactions/buttons/${file}`);
+	client.buttons.set(button.id, button)
+}
+
 // Command handling
 client.on('messageCreate', message => {
 
@@ -69,9 +81,34 @@ client.on('messageCreate', message => {
 
     } catch (error) {
         console.error(error);
-        logCommandError(client, command, message, error); 1
+        logCommandError(client, command, message, error);;
     }
 
+});
+
+// interaction handler (slash commands)
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const slashCommand = client.slashCommands.get(interaction.commandName);
+    await slashCommand.execute(interaction);
+});
+
+// interaction handler (buttons)
+client.on('interactionCreate', async interaction => {
+    // if the interaction is not a button press, ignore the event, otherwise log the user who triggered the event and preform the event action(s)
+    if (!interaction.isButton()) return;
+    console.log(`${interaction.member.user.username} pressed ${interaction.customId}!`)
+    // console.log(client.buttons)
+
+    const buttonPress = client.buttons.get(interaction.customId);
+    if (!buttonPress) {
+        interaction.reply({ content: `This feature is still a work in progress! If you want to check out what else is coming, check out my GitHub Repository at the link below!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true })
+        return console.log(`${interaction.member.user.username} pressed a broken button!`);
+    }
+
+    // preform the button action(s)
+    await buttonPress.execute(interaction);
 });
 
 // login to Discord with bot token
