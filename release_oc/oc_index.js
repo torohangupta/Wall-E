@@ -65,11 +65,11 @@ client.on('messageCreate', message => {
 
     try {
         command.execute(message, args);
-        logCommandRun(command, message);
+        logCommandRun(client, command, message);
 
     } catch (error) {
         console.error(error);
-        logCommandError(command, message, error); 1
+        logCommandError(client, command, message, error); 1
     }
 
 });
