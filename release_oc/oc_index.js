@@ -6,7 +6,7 @@ const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`..
 fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`], partials: ['CHANNEL'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
 client.buttons = new Discord.Collection();
 client.slashCommands = new Discord.Collection();
