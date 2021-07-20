@@ -33,12 +33,13 @@ function permsChecker(command, message, args) {
 }
 
 function logCommandRun(client, command, message) {
-    console.log(`Running ${command.name}, requested by ${message.author}`)
+    console.log(`Running ${command.name}, requested by ${message.author.username}`)
     client.channels.cache.get(consoleChannel).send(`**Wall-E - Command Run**\n\`\`\`\nUser: ${message.author.username}\nGuild: ${message.member.guild.name}\nChannel: ${message.channel.name}\n\nCommand: ${command.name}\nMessage Content: ${message}\n\`\`\``);
     return;
 }
 
 function logCommandError(client, command, message, error) {
+    message.channel.send(`test`)
     message.channel.send(`There was an error trying to execute that command.\n\`\`\`${error}\`\`\``);
     client.channels.cache.get(consoleChannel).send(`There was an error trying to execute \`${command.name}\`, requested by \`${message.author.username}\`\n\`\`\`${error}\`\`\``);
     return;
