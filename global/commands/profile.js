@@ -38,7 +38,9 @@ module.exports = {
 
 
         function embedCreator(user, taggedGuildUser, serverJoinedTimestamp, serverRoles) {
+
             name = taggedGuildUser.nickname;
+
             /*
             Inputs
                 user = user object, used to get nickname & join info for Discord & server
@@ -71,7 +73,6 @@ module.exports = {
 
             // determine online status
             status = `**Presence:** `
-            console.log(taggedGuildUser)
             switch (taggedGuildUser.presence.status) {
                 case `online`:
                     status += `<:online:784546469168152596> Online`;
