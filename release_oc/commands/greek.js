@@ -47,7 +47,7 @@ module.exports = {
             const deleteFilter = (reaction, user) => { return reaction.emoji.name == '❌' && user.id != m.author.id};
 
             // reaction collector to delete the help embed & log event to console
-            const collectorDelete = m.createReactionCollector(deleteFilter);
+            const collectorDelete = m.createReactionCollector({filter: deleteFilter});
             collectorDelete.on('collect', () => {
                 m.delete()
                     .then(() => {
