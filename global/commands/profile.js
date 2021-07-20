@@ -33,12 +33,12 @@ module.exports = {
             uniqueUserRoles = allUserRoles.slice(0, allUserRoles.length - 1).join(`, `)
 
             // send info to create profile embed
-            embedCreator(user, taggedGuildUser.nickname, taggedGuildUser.joinedTimestamp, uniqueUserRoles)
+            embedCreator(user, taggedGuildUser, taggedGuildUser.joinedTimestamp, uniqueUserRoles)
         }).catch(console.error)
 
 
-        function embedCreator(user, name, serverJoinedTimestamp, serverRoles) {
-
+        function embedCreator(user, taggedGuildUser, serverJoinedTimestamp, serverRoles) {
+            name = taggedGuildUser.nickname;
             /*
             Inputs
                 user = user object, used to get nickname & join info for Discord & server
@@ -71,7 +71,7 @@ module.exports = {
 
             // determine online status
             status = `**Presence:** `
-            switch (user.presence.status) {
+            switch (taggedGuildUser.presence.status) {
                 case `online`:
                     status += `<:online:784546469168152596> Online`;
                     break;
