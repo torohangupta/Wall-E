@@ -52,7 +52,7 @@ module.exports = {
                     guildMember.voice.setMute(true)
 
                     // create & turn on the reaction collector
-                    const unmuteCollector = unmuteMsg.createReactionCollector((reaction, reactionUser) => { return reaction.emoji.name == '🔈' && reactionUser.id == taggedUser.id });
+                    const unmuteCollector = unmuteMsg.createReactionCollector({filter: (reaction, reactionUser) => { return reaction.emoji.name == '🔈' && reactionUser.id == taggedUser.id }});
                     unmuteCollector.on('collect', () => {
 
                         // remove all reaction from the embed, edit the embed & unmute the tagged user(s)
