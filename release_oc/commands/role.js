@@ -234,7 +234,7 @@ module.exports = {
                 .setFooter(`Don't see your class here? Create a support ticket by typing ~support`)
 
             // send message with all assignable roles
-            message.channel.send(assignableRolesEmbed)
+            message.channel.send({embeds: [assignableRolesEmbed]})
 
         }
 
