@@ -26,7 +26,8 @@ function permsChecker(command, message, args) {
             reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
         }
 
-        return message.channel.send(reply);
+        message.channel.send(reply);
+        return false;
     }
 
     return true;
