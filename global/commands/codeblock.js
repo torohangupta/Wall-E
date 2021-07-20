@@ -41,7 +41,7 @@ module.exports = {
 
             // create reaction filter & reaction collector
             const deleteFilter = (reaction, user) => { return reaction.emoji.name == '❌' && user.id == message.author.id || user.id == message.mentions.users.map(u => u.id) };
-            const collectorDelete = m.createReactionCollector(deleteFilter);
+            const collectorDelete = m.createReactionCollector({filter: deleteFilter});
             collectorDelete.on('collect', (reaction, user) => {
                 m.delete()
                     .then(console.log(`Deleted cbf embed, requested by \`${uName}\``))

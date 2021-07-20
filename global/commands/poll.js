@@ -30,7 +30,7 @@ module.exports = {
             .setFooter(`Asked by: ${uName}`, message.author.displayAvatarURL({ format: "png", dynamic: true }))
 
         // post embed for poll and react with check or cross
-        message.reply({embeds: [pollEmbed]}).then(m => {
+        message.reply({embeds: [pollEmbed], allowedMentions: { repliedUser: false }}).then(m => {
             m.react(checkmark.emote)
             m.react(crossmark.emote)
         })
