@@ -86,8 +86,13 @@ module.exports = {
 
         // convert user arguments to lowercase
         cmdArg = args[0].toLowerCase();
+        
+        for(var i = 1; i < args.length; i++){
+            args[i] = args[i].toLowerCase();
+        }
+        
         if (args[1]) {
-            roleArg = args[1].toLowerCase();
+            roleArg = args[1];
         }
 
         // command handling
@@ -105,8 +110,10 @@ module.exports = {
 
         } else if (addAliases.includes(cmdArg)) {
             // ADD ROLE
-            addRoles(roleArg);
-
+            for(var i = 1; i < args.length; i++){
+                addRoles(args[i]);
+            }
+            
         } else if (removeAliases.includes(cmdArg)) {
             // REMOVE ROLE
             removeRoles(roleArg);
