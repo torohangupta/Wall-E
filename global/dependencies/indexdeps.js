@@ -1,4 +1,4 @@
-const { consoleChannel, dmChannel, prefix } = require(`../resources/config.json`);
+const { consoleChannel, dmChannel, prefix, userIDs } = require(`../resources/config.json`);
 
 function permsChecker(command, message, args) {
     // Run user checks to ensure that the command author meets the criteria to pass the command

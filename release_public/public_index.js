@@ -1,15 +1,15 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { userIDs } = require('./resources/config.json');
+const { prefix , userIDs } = require('./resources/config.json');
 const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`../global/dependencies/indexdeps.js`);
 
-fs.readdirSync(`./`).includes(`.env`) ? (require("dotenv").config(), prefix = `<`) : prefix = require('./resources/config.json');
+fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`], partials: ['CHANNEL'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
-client.slashCommands = new Discord.Collection();
 client.buttons = new Discord.Collection();
+client.slashCommands = new Discord.Collection();
 
 // load all commands
 for (let dir of [`./release_public/commands`, `./global/commands`]) {

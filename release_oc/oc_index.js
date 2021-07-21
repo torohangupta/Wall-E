@@ -81,7 +81,7 @@ client.on('messageCreate', message => {
 
     } catch (error) {
         console.error(error);
-        logCommandError(client, command, message, error);;
+        logCommandError(client, command, message, error);
     }
 
 });
