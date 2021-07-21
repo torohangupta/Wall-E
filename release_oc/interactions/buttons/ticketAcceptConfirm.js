@@ -20,6 +20,7 @@ module.exports = {
             .setDescription(`Thank you for reaching out! Please let us know\nhow we can help and a mod will be with you ASAP!`)
 
         const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 });
+        interaction.channel.send(`@here`).then(m => m.delete());
         await interaction.channel.bulkDelete(fetchedMessages);
 
         interaction.channel.send({ embeds: [ticketAcceptConfirmedEmbed] });
