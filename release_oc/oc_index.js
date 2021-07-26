@@ -55,34 +55,42 @@ for (const file of buttonFiles) {
 
 // Command handling
 client.on('messageCreate', message => {
-    console.log(message)
+    console.log(`message`)
+    // console.log(message)
 
     // logs any DM that is sent to Wall-E that isn't a command
     if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
         return recievedDM(message);
     }
-
+console.log(`here1`)
+console.log(message.author.bot)
+console.log(message.content.startsWith(prefix))
+console.log(prefix)
     // if a message does not contain the prefix for the bot OR is from another bot, ignore the message
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
-
+    if (!message.content.startsWith(prefix) || message.author.bot) {
+        return console.log(`message not prefix or bot`)
+    };
+    console.log(`here2`)
     // if the message is a command, remove the prefix & split messaage by spaces & store in args. shifts all index values down and stores zeroth in commandName
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-
+    console.log(args)
+    console.log(`her31`)
     // check all command names & aliases for commandName & stop if message isn't a command
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-
+    console.log(`here4`)
     // check to make sure that the user has all the required permissions
     if (!permsChecker(command, message, args)) return;
+    console.log(`her51`)
 
     try {
-        console.log(`trying to execute`)
+        // console.log(`trying to execute`)
         command.execute(message, args);
         logCommandRun(client, command, message);
 
     } catch (error) {
-        console.log(`there was an error`)
+        // console.log(`there was an error`)
         console.log(error);
         logCommandError(client, command, message, error);
     }
