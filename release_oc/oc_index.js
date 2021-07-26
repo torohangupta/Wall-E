@@ -91,6 +91,11 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
+    if (!slashcommand) {
+        interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
+        return console.log(`${interaction.member.user.username} used a broken slash command!`);
+    }
+
     await slashCommand.execute(interaction);
 });
 
@@ -103,7 +108,7 @@ client.on('interactionCreate', async interaction => {
 
     const buttonPress = client.buttons.get(interaction.customId);
     if (!buttonPress) {
-        interaction.reply({ content: `This feature is still a work in progress! If you want to check out what else is coming, check out my GitHub Repository at the link below!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true })
+        interaction.reply({ content: `This feature is still a work in progress! If you want to check out what else is coming, check out my GitHub Repository at the link below!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
         return console.log(`${interaction.member.user.username} pressed a broken button!`);
     }
 
