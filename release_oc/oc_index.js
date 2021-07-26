@@ -55,6 +55,7 @@ for (const file of buttonFiles) {
 
 // Command handling
 client.on('messageCreate', message => {
+    console.log(message)
 
     // logs any DM that is sent to Wall-E that isn't a command
     if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
@@ -76,11 +77,13 @@ client.on('messageCreate', message => {
     if (!permsChecker(command, message, args)) return;
 
     try {
+        console.log(`trying to execute`)
         command.execute(message, args);
         logCommandRun(client, command, message);
 
     } catch (error) {
-        console.error(error);
+        console.log(`there was an error`)
+        console.log(error);
         logCommandError(client, command, message, error);
     }
 
