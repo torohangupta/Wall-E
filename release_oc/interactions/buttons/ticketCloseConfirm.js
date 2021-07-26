@@ -49,18 +49,24 @@ module.exports = {
             .setTimestamp()
             .setFooter(`Powered by Wall-E`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
 
-        
-        // send transcript to transcript logging channel
-        interaction.client.channels.cache.get(`789907442582028308`).send({ embeds: [transcriptEmbed] }).then(interaction.client.channels.cache.get(`789907442582028308`).send({ files: [transcriptFileLocation] }));
 
-        // rewrite embed description send transcript to user(s) in ticket
-        transcriptEmbed.addFields({name: `\u200B`, value: `Below is a copy of the support ticket! Feel free to reach out if you have any questions!`})
-        ticketMembers.forEach(member => {
-            member.user.send({ embeds: [transcriptEmbed] }).then(member.user.send({ files: [transcriptFileLocation] }));
-        });
+        // try to send transcript to all user(s) involved, then send logs in the transcript logging channel
+        try {
+            // rewrite embed description send transcript to user(s) in ticket
+            transcriptEmbed.addFields({ name: `\u200B`, value: `Below is a copy of the support ticket! Feel free to reach out if you have any questions!`});
+            ticketMembers.forEach(member => {
+                member.user.send({ embeds: [transcriptEmbed] }).then(member.user.send({ files: [transcriptFileLocation] }));
+            });
 
-        // delete the support ticket
-        interaction.channel.delete();
+        } catch (error) {
+            console.log(error)
 
+        } finally {
+            // send transcript to transcript logging channel
+            interaction.client.channels.cache.get(`789907442582028308`).send({ embeds: [transcriptEmbed.spliceFields(0,1)] }).then(interaction.client.channels.cache.get(`789907442582028308`).send({ files: [transcriptFileLocation] }));
+
+            // delete the support ticket
+            interaction.channel.delete();
+        }
     }
 };
