@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "engines": {
-    "node": ">16.0.0",
+    "node": "16.4.2",
     "npm": "6.14.6"
   },
   "scripts": {
@@ -21,7 +21,7 @@
   "author": "Rohan Gupta",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^13.0.0-dev.1dcad05.1626178061",
+    "discord.js": "^13.0.0-dev.5e70694.1626955541",
     "dotenv": "^10.0.0",
     "git": "^0.1.5",
     "mongoose": "^5.11.8",
