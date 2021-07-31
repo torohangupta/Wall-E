@@ -20,6 +20,7 @@ Update Notes
 
 | Date | Release | Release | Update Notes |
 | - | - | - | - |
+| 7/30/21 | ~ | 3.0.0 | *Removed all code not necessary to run OC and fixed various issues* |
 | 7/20/21 | Online College | 2.3.0 | *Updated support ticket system to be more user friendly with buttons* |
 | 7/13/21 | Both | 2.2.x | *Stable production release* |
 | 7/13/21 | Both | 2.1.x | *Updated various lines to align with new syntax for `MessageOptions`, regenerated tokens to make Wall-E's repository public* |
