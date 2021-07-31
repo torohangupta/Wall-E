@@ -1,0 +1,46 @@
+{
+	"name": "createbutton",
+	"description": "Custom button creation tool",
+	"options": [
+        {
+			"name": "id",
+			"type": "STRING",
+			"description": "What string should be used to identify the button?",
+			"required": true
+		},
+		{
+			"name": "label",
+			"type": "STRING",
+			"description": "What text should be displayed on the button?",
+			"required": true
+		},
+        {
+			"name": "background",
+			"type": "STRING",
+			"description": "What should the background of the button look like?",
+			"required": true,
+			"choices": [
+				{
+					"name": "Purple",
+					"value": "PRIMARY"
+				},
+				{
+					"name": "Gray",
+					"value": "SECONDARY"
+				},{
+					"name": "Green",
+					"value": "SUCCESS"
+				},{
+					"name": "Red",
+					"value": "DANGER"
+				}
+			]
+		},
+		{
+			"name": "emoji",
+			"type": "STRING",
+			"description": "What emoji should be displayed on the button?",
+			"required": false
+		}
+	]
+}
