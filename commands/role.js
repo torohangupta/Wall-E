@@ -91,11 +91,11 @@ module.exports = {
         }
 
         // command handling
-        if (createAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
+        if (createAliases.includes(cmdArg) && message.member.permissions.has(`MANAGE_CHANNELS`)) {
             // CREATE ROLE
             createRole(roleArg.toLowerCase());
 
-        } else if (deleteAliases.includes(cmdArg) && message.member.hasPermission(`MANAGE_CHANNELS`)) {
+        } else if (deleteAliases.includes(cmdArg) && message.member.permissions.has(`MANAGE_CHANNELS`)) {
             // DELETE ROLE
             deleteRole(roleArg.toLowerCase());
 
