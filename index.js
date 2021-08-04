@@ -81,7 +81,7 @@ client.on('interactionCreate', async interaction => {
         return console.log(`${interaction.member.user.username} used a broken slash command!`);
     }
 
-    if ((interaction.channel.id != interaction.whiteListedChannels || interaction.channel.id == interaction.blackListedChannels) && !interaction.member._roles.includes(`692097359005351947`)) {
+    if (((interaction.whiteListedChannels && !interaction.whiteListedChannels.includes(interaction.channel.id)) || (interaction.blackListedChannels && interaction.blackListedChannels.includes(interaction.channel.id))) && !interaction.member._roles.includes(`692097359005351947`)) {
         return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
     } else {
         await slashCommand.execute(interaction);
