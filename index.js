@@ -76,13 +76,16 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
-    console.log(slashCommand)
     if (!slashCommand) {
         interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
         return console.log(`${interaction.member.user.username} used a broken slash command!`);
     }
 
-    await slashCommand.execute(interaction);
+    if ((interaction.channel.id != interaction.whiteListedChannels || interaction.channel.id == interaction.blackListedChannels) && !interaction.member._roles.includes(`692097359005351947`)) {
+        return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+    } else {
+        await slashCommand.execute(interaction);
+    }
 });
 
 // interaction handler (buttons)
