@@ -1,75 +1,155 @@
 const { MessageEmbed } = require(`discord.js`);
+const { consoleChannel, updatesChannel } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
     name: `class`,
-    whitelistedChannels: ``,
+    whitelistedChannels: `789256304844603494`,
     blacklistedChannels: ``,
 
     execute(interaction) {
-        // /class join class: classcode
 
-        const subCommand = interaction.options._subCommands;
-        var args = ``;
+        const subCommand = interaction.options._subcommand;
+        const guildRoleCache = interaction.guild.roles.cache; // cache guild roles
+        const guildChannelCache = interaction.guild.channels.cache; // cache guild channels
+        const guildMemberObject = interaction.guild.members.cache.get(interaction.member.id);
+        const userObject = guildMemberObject.user;
+        const userRoleIDs = interaction.member._roles;
+        var successRoles = [];
+        var failureRoles = [];
+        var successMessage = ``;
+        var failureMessage = ``;
+        var replyMessage = ``;
+        var args = [];
+
+
         if ([`join`, `leave`, `create`, `delete`].includes(subCommand)) {
-            args = interaction.options._hoistedOptions[0].value;
+            args = interaction.options._hoistedOptions[0].value.split(/,+/).map(e => {
+                return e.toString().trim().toLowerCase();
+            });
         }
-        // console.log(args)
-
-        // const {name} = interaction.options.map(o => o);
-        console.log(interaction.options._hoistedOptions[0].value)
-        // interaction.options.map(o => console.log(o.name));
-        interaction.reply(`okay`);
-        console.log(interaction.guild)
-
-        
 
         switch (subCommand) {
             case `join`:
-                console.log(`add`)
+                args.forEach(classRoleName => {
+                    let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
+                    let guildChannelObject = guildChannelCache.find(r => r.name === classRoleName);
+
+                    if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && !userRoleIDs.includes(classRoleObject.id)) {
+                        guildMemberObject.roles.add(classRoleObject);
+                        guildChannelObject.send(`${guildMemberObject} has joined this class!`);
+                        successRoles.push(`\`${classRoleName}\``);
+                    } else {
+                        failureRoles.push(`\`${classRoleName}\``);
+                    }
+                });
+
+                successRoles != 0 ? successMessage = `You joined the following course(s):\n> ${successRoles.join(`, `)}` : successMessage = ``;
+                failureRoles != 0 ? (failureMessage = `There was an error joining the following course(s):\n> ${failureRoles.join(`, `)}`,  replyMessage = `Those course(s) might not exist yet, you also could have a space in between the classcode or you already have those course(s) added. If you think this is a mistake, please reach out to the mods using <#866434475495129118> and we can create the class for you!`) : failureMessage = ``;
+
                 break;
+
             case `leave`:
-                console.log(`rm`)
+                args.forEach(classRoleName => {
+                    let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
+                    let guildChannelObject = guildChannelCache.find(r => r.name === classRoleName);
+
+                    if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && userRoleIDs.includes(classRoleObject.id)) {
+                        guildMemberObject.roles.remove(classRoleObject);
+                        guildChannelObject.send(`${guildMemberObject} has left this class!`);
+                        successRoles.push(`\`${classRoleName}\``);
+                    } else {
+                        failureRoles.push(`\`${classRoleName}\``);
+                    }
+                });
+
+                successRoles != 0 ? successMessage = `You left the following course(s):\n> ${successRoles.join(`, `)}` : successMessage = ``;
+                failureRoles != 0 ? (failureMessage = `There was an error leaving the following course(s):\n> ${failureRoles.join(`, `)}`,  replyMessage = `You can't leave course(s) that you're not in or that do not exist on the server! If you think this is a mistake, please reach out to the mods using <#866434475495129118> and we'll be able to help!`) : failureMessage = ``;
+
                 break;
+
             case `leave-all`:
-                console.log(`rmall`)
+                var numClassesLeft = 0;
+                userRoleIDs.forEach(classRoleId => {
+                    let userRole = guildRoleCache.find(r => r.id === classRoleId);
+                    let guildChannelObject = guildChannelCache.find(r => r.name === userRole.name);
+                    if (/([a-z]{2,4}\d{3})/g.test(userRole.name)) {
+                        guildMemberObject.roles.remove(userRole);
+                        guildChannelObject.send(`${guildMemberObject} has left this class!`);
+                        successRoles.push(`\`${userRole.name}\``);
+                        numClassesLeft++;
+                    }
+                });
+                numClassesLeft == 0 ? successMessage =`There were no course(s) for you to leave!` : successMessage = `You left the following \`${numClassesLeft}\` course(s):\n> ${successRoles.join(`, `)}`;
                 break;
+
             case `create`:
-                console.log(`create`)
+                const newRoleName = args[0].toLowerCase();
+
+                // check to make sure the role doesn't exist already
+                if (guildRoleCache.find(role => role.name == newRoleName)) {
+                    return replyMessage = `Error: This course exists already!`;
+                }
+
+                // try to create the role
+                try {
+                    // Create a new role with the name mentioned, then a channel restricted to that role
+                    interaction.guild.roles.create({
+                        name: newRoleName,
+                        permissions: [],
+                        mentionable: true,
+                    }).then(r => {
+                        interaction.guild.channels.create(newRoleName, {
+                            type: `text`,
+                            parent: guildChannelCache.find(c => c.name.toLowerCase().includes(`unsorted courses`) && c.type == 'category'),
+                            permissionOverwrites: [
+                                {
+                                    id: interaction.channel.guild.roles.everyone,
+                                    deny: ['VIEW_CHANNEL'],
+                                },
+                                {
+                                    id: `692097359005351947`, // Supreme Overseers
+                                    allow: ['VIEW_CHANNEL'],
+                                },
+                                {
+                                    id: `692100602297188382`, // Bot Overlords
+                                    allow: ['VIEW_CHANNEL'],
+                                },
+                                {
+                                    id: r.id, // role that was just created
+                                    allow: [`VIEW_CHANNEL`],
+                                }
+                            ],
+                        }).then(chan => {
+                            chan.send(`Welcome to the ${chan} channel & thank you for adding the class! If you are seeing this message, that means it is probably a new channel. Don't hesitate to share the server with your classmates to see more of them in the server/channel! Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!`);
+                        })
+                    })
+                    replyMessage = `The role \`${newRoleName}\` has been created.`;
+                    interaction.client.channels.cache.get(updatesChannel).send(`📥  **New channel added!** - \`${newRoleName}\``);
+
+                } catch (error) {
+                    replyMessage = `There was an error.`;
+                    interaction.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
+                    console.log(error);
+                }
                 break;
+
             case `delete`:
-                console.log(`del`)
+                replyMessage = `Sorry, this doesn't work yet!`;
                 break;
         }
+
+        // create reply embed
+        const replyEmbed = new MessageEmbed()
+            .setDescription(`**Online College Class Manager**`)
+            .setColor(`45ad80`)
+
+        // dynamically add embed elements
+        successMessage ? replyEmbed.addFields({ name: `\u200B`, value: successMessage }) : ``;
+        failureMessage ? replyEmbed.addFields({ name: `\u200B`, value: failureMessage }) : ``;
+        replyMessage ? replyEmbed.addFields({ name: `\u200B`, value: replyMessage }) : ``;
 
         // reply to the interaction
-        // if (interaction.user.id != `382893405178691584`) {
-        //     return interaction.reply({ content: `Wait a second... you're not Rohan. You can't use that command!`, ephemeral: true });
-        // }
-
-        // destructure options from slash command
-        // const { value: id } = interaction.options.get('id');
-        // const { value: label } = interaction.options.get('label');
-        // const { value: background } = interaction.options.get('background');
-        // const { value: emoji } = interaction.options.get(`emoji`)
-
-
-        // console.log(id)
-
-        // const row = new MessageActionRow()
-        //     .addComponents(
-        //         new MessageButton()
-        //             .setCustomId(id.toLowerCase().replace(/[^a-z]+/g, ''))
-        //             .setLabel(label)
-        //             .setStyle(background)
-        //             .setEmoji(emoji.toString())
-        //     )
-
-        // interaction.reply({ content: `Fall Semester Wall-E Update Tease`, components: [row] });
-        function classCodeTest(classCode) {
-
-            const regex = /([a-z]{2,4}\d{3})/g;
-            return regex.text(classCode);
-        }
-    },
+        interaction.reply({ embeds: [replyEmbed] });
+    }
 };
