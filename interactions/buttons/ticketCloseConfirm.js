@@ -16,7 +16,7 @@ module.exports = {
 
         // create vars
         var messageTranscript = [];
-        var transcriptFileLocation = `./release_oc/supportTranscripts/${interaction.channel.name.replace(`ticket`, `transcript`)}.txt`;
+        var transcriptFileLocation = `./dependencies/supportTranscripts/${interaction.channel.name.replace(`ticket`, `transcript`)}.txt`;
 
         // fetch all messages from channel
         const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 })
