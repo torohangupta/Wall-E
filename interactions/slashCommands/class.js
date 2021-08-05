@@ -33,11 +33,9 @@ module.exports = {
             case `join`:
                 args.forEach(classRoleName => {
                     let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
-                    let guildChannelObject = guildChannelCache.find(r => r.name === classRoleName);
 
                     if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && !userRoleIDs.includes(classRoleObject.id)) {
                         guildMemberObject.roles.add(classRoleObject);
-                        guildChannelObject.send(`${guildMemberObject} has joined this class!`);
                         successRoles.push(`\`${classRoleName}\``);
                     } else {
                         failureRoles.push(`\`${classRoleName}\``);
@@ -52,11 +50,9 @@ module.exports = {
             case `leave`:
                 args.forEach(classRoleName => {
                     let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
-                    let guildChannelObject = guildChannelCache.find(r => r.name === classRoleName);
 
                     if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && userRoleIDs.includes(classRoleObject.id)) {
                         guildMemberObject.roles.remove(classRoleObject);
-                        guildChannelObject.send(`${guildMemberObject} has left this class!`);
                         successRoles.push(`\`${classRoleName}\``);
                     } else {
                         failureRoles.push(`\`${classRoleName}\``);
@@ -72,10 +68,9 @@ module.exports = {
                 var numClassesLeft = 0;
                 userRoleIDs.forEach(classRoleId => {
                     let userRole = guildRoleCache.find(r => r.id === classRoleId);
-                    let guildChannelObject = guildChannelCache.find(r => r.name === userRole.name);
+
                     if (/([a-z]{2,4}\d{3})/g.test(userRole.name)) {
                         guildMemberObject.roles.remove(userRole);
-                        guildChannelObject.send(`${guildMemberObject} has left this class!`);
                         successRoles.push(`\`${userRole.name}\``);
                         numClassesLeft++;
                     }
