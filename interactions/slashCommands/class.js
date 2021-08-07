@@ -13,7 +13,6 @@ module.exports = {
         const guildRoleCache = interaction.guild.roles.cache; // cache guild roles
         const guildChannelCache = interaction.guild.channels.cache; // cache guild channels
         const guildMemberObject = interaction.guild.members.cache.get(interaction.member.id);
-        const userObject = guildMemberObject.user;
         const userRoleIDs = interaction.member._roles;
         var successRoles = [];
         var failureRoles = [];
@@ -79,6 +78,11 @@ module.exports = {
                 break;
 
             case `create`:
+                // restrict to moderators
+                if (!userRoleIDs.includes(`692097359005351947`)) {
+                    return interaction.reply({ content: `I'm sorry, only moderator can use this command!`, ephemeral: true });
+                }
+
                 const newRoleName = args[0].toLowerCase();
 
                 // check to make sure the role doesn't exist already
@@ -130,6 +134,11 @@ module.exports = {
                 break;
 
             case `delete`:
+                // restrict to moderators
+                if (!userRoleIDs.includes(`692097359005351947`)) {
+                    return interaction.reply({ content: `I'm sorry, only moderator can use this command!`, ephemeral: true });
+                }
+
                 replyMessage = `Sorry, this doesn't work yet!`;
                 break;
         }
