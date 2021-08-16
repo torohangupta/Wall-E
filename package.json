@@ -21,7 +21,7 @@
   "author": "Rohan Gupta",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^13.0.0-dev.t1627689836.ee3cdc8",
+    "discord.js": "^13.0.0-dev.t1628035429.00d5cee",
     "dotenv": "^10.0.0",
     "git": "^0.1.5",
     "mongoose": "^5.11.8",

@@ -9,7 +9,7 @@
             "options": [
                 {
                     "name": "class",
-                    "description": "Enter the class code for the class you'd like to join. For multiple, separate them with a comma.",
+                    "description": "List the class(es) you'd like to join, seperated with a comma.",
                     "type": "STRING",
                     "required": true
                 }
@@ -22,7 +22,7 @@
             "options": [
                 {
                     "name": "class",
-                    "description": "Enter the class code for the class you'd like to leave",
+                    "description": "List the class(es) you'd like to leave, seperated with a comma.",
                     "type": "STRING",
                     "required": true
                 }
@@ -30,7 +30,7 @@
         },
         {
             "name": "leave-all",
-            "description": "Leave multiple class channels",
+            "description": "Leave all class channels",
             "type": "SUB_COMMAND"
         },
         {

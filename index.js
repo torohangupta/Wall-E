@@ -6,7 +6,7 @@ const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`./
 fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
 
 // create new discord client with proper intents
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `GUILD_MEMBERS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
 client.buttons = new Discord.Collection();
 client.slashCommands = new Discord.Collection();
@@ -76,13 +76,16 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
-    console.log(slashCommand)
     if (!slashCommand) {
         interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
         return console.log(`${interaction.member.user.username} used a broken slash command!`);
     }
 
-    await slashCommand.execute(interaction);
+    if (((interaction.whiteListedChannels && !interaction.whiteListedChannels.includes(interaction.channel.id)) || (interaction.blackListedChannels && interaction.blackListedChannels.includes(interaction.channel.id))) && !interaction.member._roles.includes(`692097359005351947`)) {
+        return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+    } else {
+        await slashCommand.execute(interaction);
+    }
 });
 
 // interaction handler (buttons)
