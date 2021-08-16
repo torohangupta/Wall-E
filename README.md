@@ -18,6 +18,7 @@ Wall-E's default prefix is the tilde (`~`) and currently cannot be changed, howe
 ## Release versions:
 Update Notes
 
+
 | Date | Release | Update Notes |
 | - | - | - |
 | 8/4/21 | 3.2.0 | *Added dynamic voice channel allocation* |
