@@ -2,7 +2,7 @@
 A Discord bot written in JavaScript, on the Node.js environment, using the Discord.js library. This is a personal project started as a way to create a Discord Bot to fulfill needs that were not able to be fulfilled by other bots and became my project during the COVID-19 pandemic. Through this, I was challenged to learn JavaScript and create a program that evolved to be used by the 700+ members of the Iowa State College of Engineering Discord. If you have any questions, feel free to reach out on Discord by my username, `rohangupta#8570`. I hope this bot/project helps you in some way.
 
 
-![Wall-E Version](https://img.shields.io/badge/Version-v._3.0.1-lightgreen)
+![Wall-E Version](https://img.shields.io/badge/Version-v._3.2.0-lightgreen)
 
 ![Node.js Version](https://img.shields.io/badge/Node.js-v._16.4.2-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._6.14.6-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._13.0.0--dev-lightblue)
 
@@ -20,6 +20,7 @@ Update Notes
 
 | Date | Release | Update Notes |
 | - | - | - |
+| 8/4/21 | 3.2.0 | *Added dynamic voice channel allocation* |
 | 8/4/21 | 3.1.0 | *Converted `~role` to corresponding slash command* |
 | 7/30/21 | 3.0.0 | *Removed all code not necessary to run OC and fixed various issues* |
 | 7/20/21 | 2.3.0 | *Updated support ticket system to be more user friendly with buttons* |
