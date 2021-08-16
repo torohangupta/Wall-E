@@ -23,8 +23,8 @@ module.exports = {
 
 
         if ([`join`, `leave`, `create`, `delete`].includes(subCommand)) {
-            args = interaction.options._hoistedOptions[0].value.split(/,+/).map(e => {
-                return e.toString().trim().toLowerCase();
+            args = interaction.options._hoistedOptions[0].value.split(/,+/).map(arg => {
+                return arg.toString().trim().toLowerCase();
             });
         }
 
@@ -136,7 +136,7 @@ module.exports = {
             case `delete`:
                 // restrict to moderators
                 if (!userRoleIDs.includes(`692097359005351947`)) {
-                    return interaction.reply({ content: `I'm sorry, only moderator can use this command!`, ephemeral: true });
+                    return interaction.reply({ content: `I'm sorry, only moderators can use this command!`, ephemeral: true });
                 }
 
                 replyMessage = `Sorry, this doesn't work yet!`;
