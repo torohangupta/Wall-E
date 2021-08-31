@@ -17,7 +17,7 @@ module.exports = {
         const ticketAcceptConfirmedEmbed = new MessageEmbed()
             .setTitle(`Support Ticket - ${interaction.user.username.toLowerCase().replace(/[^a-z]+/g, '')}`)
             .setColor(`6aa4ad`)
-            .setDescription(`Thank you for reaching out! Please let us know\nhow we can help and a mod will be with you ASAP!`)
+            .setDescription(`Thank you for reaching out! Please let us know\nhow we can help and a mod will be with you ASAP!\n\nTo recieve a transcript of your ticket, make sure you\nallow direct messages from server members.`)
 
         const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 });
         interaction.channel.send(`@here`).then(m => m.delete());
