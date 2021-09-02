@@ -4,10 +4,16 @@ const { consoleChannel, updatesChannel } = require(`../../dependencies/resources
 module.exports = {
 
     name: `ping`,
-    whitelistedChannels: ``,
-    blacklistedChannels: `789256304844603494`,
+    whitelistedChannels: [``],
+    blacklistedChannels: [`789256304844603494`],
 
     execute(interaction) {
+
+        // if the command is in #class-commands, return eith error
+        if (interaction.channel.id == `789256304844603494`) {
+            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+        }
+
 
         const guildMemberObject = interaction.guild.members.cache.get(interaction.member.id);
         var userName = guildMemberObject.nickname ? guildMemberObject.nickname : guildMemberObject.user.username;
