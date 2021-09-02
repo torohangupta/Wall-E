@@ -37,7 +37,7 @@ module.exports = {
                         guildMemberObject.roles.add(classRoleObject);
                         successRoles.push(`\`${classRoleObject.name}\``);
                     } else {
-                        failureRoles.push(`\`${classRoleObject.name}\``);
+                        failureRoles.push(`\`${classRoleName}\``);
                     }
                 });
 
@@ -54,7 +54,7 @@ module.exports = {
                         guildMemberObject.roles.remove(classRoleObject);
                         successRoles.push(`\`${classRoleObject.name}\``);
                     } else {
-                        failureRoles.push(`\`${classRoleObject.name}\``);
+                        failureRoles.push(`\`${classRoleName}\``);
                     }
                 });
 
