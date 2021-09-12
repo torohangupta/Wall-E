@@ -12,10 +12,11 @@ module.exports = {
     needsTaggedUser: false,
     needsPermissions: false,
     guildOnly: true,
-    developerOnly: true,
+    developerOnly: false,
 
     execute(message, args) {
         if (!message.channel.name.includes(`ticket-`)) return;
+        if (!message.member._roles.includes(`692097359005351947`)) return;
 
         // send confirmation embed
         const ticketCloseEmbed = new MessageEmbed()
