@@ -9,11 +9,6 @@ module.exports = {
 
     execute(interaction) {
 
-        // if the command isn't in #class-commands and the user isn't mod, return eith error
-        if (interaction.channel.id != `789256304844603494` && !interaction.member._roles.includes(`692097359005351947`)) {
-            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-        }
-
         const subCommand = interaction.options._subcommand;
         const guildRoleCache = interaction.guild.roles.cache; // cache guild roles
         const guildChannelCache = interaction.guild.channels.cache; // cache guild channels
@@ -159,6 +154,6 @@ module.exports = {
         replyMessage ? replyEmbed.addFields({ name: `\u200B`, value: replyMessage }) : ``;
 
         // reply to the interaction
-        interaction.reply({ embeds: [replyEmbed] });
+        interaction.reply({ embeds: [replyEmbed], allowedMentions: { repliedUser: false} });
     }
 };
