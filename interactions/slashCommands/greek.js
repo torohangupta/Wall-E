@@ -3,7 +3,7 @@ const { MessageEmbed } = require(`discord.js`);
 module.exports = {
 
     name: `greek`,
-    whitelistedChannels: [``],
+    whitelistedChannels: [],
     blacklistedChannels: [`789256304844603494`],
 
     execute(interaction) {

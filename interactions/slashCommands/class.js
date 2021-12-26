@@ -5,7 +5,7 @@ module.exports = {
 
     name: `class`,
     whitelistedChannels: [`789256304844603494`],
-    blacklistedChannels: [``],
+    blacklistedChannels: [],
 
     execute(interaction) {
 

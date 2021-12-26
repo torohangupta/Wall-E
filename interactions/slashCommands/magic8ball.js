@@ -4,7 +4,7 @@ const { magic8responses } = require(`../../dependencies/resources/8ball.json`);
 module.exports = {
 
     name: `magic8ball`,
-    whitelistedChannels: [``],
+    whitelistedChannels: [],
     blacklistedChannels: [`789256304844603494`],
 
     execute(interaction) {

@@ -82,7 +82,7 @@ client.on('interactionCreate', async interaction => {
     // if not mod, test before allowing execution
     if (!interaction.member._roles.includes(modRoleId)) {
         // if the command is not in a whitelisted channel, return eith error
-        if (slashCommand.whitelistedChannels && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
+        if ((slashCommand.whitelistedChannels.length > 0) && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
             return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
         }
 

@@ -4,6 +4,8 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 
     name: `xkcd`,
+    whitelistedChannels: [],
+    blacklistedChannels: [`789256304844603494`],
 
     async execute(interaction) {
 
