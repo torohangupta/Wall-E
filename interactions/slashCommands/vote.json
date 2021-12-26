@@ -1,0 +1,12 @@
+{
+    "name": "vote",
+    "description": "Create a yes/no voting poll in the server!",
+    "options": [
+        {
+            "name": "question",
+            "description": "The question you want to poll users for",
+            "type": "STRING",
+            "required": true
+        }
+    ]
+}
