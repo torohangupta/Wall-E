@@ -15,9 +15,9 @@ module.exports = {
 
         // create embed for poll
         var voteEmbed = new MessageEmbed()
-            .setTitle(`New Poll:`)
+            .setAuthor(question)
             .setColor(`4F674F`)
-            .setDescription(question)
+            // .setDescription(`\u200B`)
             .setTimestamp(Date.now())
             .setFooter(`Asked by: ${userName}`, guildMemberObject.user.displayAvatarURL({ format: "png", dynamic: true }))
 

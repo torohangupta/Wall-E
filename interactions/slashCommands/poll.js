@@ -16,22 +16,19 @@ module.exports = {
 
         if (options.length >= 2 && options.length <= 20) {
 
-            var optField = `${letters[0]} : ${options[0]}\n`;
-            // Create embed & populate common fields
-            var optionsEmbed = new MessageEmbed()
-                .setAuthor(`New Poll:`)
-                .setColor(`E94B3C`)
-                .setTimestamp(Date.now())
-                .setFooter(`Asked by: ${userName}`, guildMemberObject.user.displayAvatarURL({ format: "png", dynamic: true }))
-
             // dynamically create the options block based on number of options passed
-            for (let i = 1; i <= options.length - 1; i++) {
-                optField += letters[i] + ` : ` + options[i] + `\n`;
+            var optionsField = ``; // create blank string for options field
+            for (let i = 0; i <= options.length - 1; i++) {
+                optionsField += letters[i] + ` : ` + options[i] + `\n`;
             }
 
-            optionsEmbed.addFields(
-                { name: `\u200B`, value: `**${options[0]}**\n\n${optField}` }
-            ) // Add options to embed
+            // Create embed & populate common fields
+            var optionsEmbed = new MessageEmbed()
+                .setAuthor(question)
+                .setColor(`E94B3C`)
+                .addFields({ name: `\u200B`, value: `${optionsField}` })
+                .setTimestamp(Date.now())
+                .setFooter(`Asked by: ${userName}`, guildMemberObject.user.displayAvatarURL({ format: "png", dynamic: true }))
 
             interaction.reply({ embeds: [optionsEmbed], allowedMentions: { repliedUser: false }, fetchReply: true}).then(pollEmbed => {
                 for (let i = 0; i <= options.length - 1; i++) {
