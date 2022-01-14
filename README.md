@@ -4,7 +4,7 @@ A Discord bot written in JavaScript, on the Node.js environment, using the Disco
 
 ![Wall-E Version](https://img.shields.io/badge/Version-v._3.2.4-lightgreen)
 
-![Node.js Version](https://img.shields.io/badge/Node.js-v._16.4.2-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._6.14.6-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._13.1.0-lightblue)
+![Node.js Version](https://img.shields.io/badge/Node.js-v._16.10.0-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._7.24.0-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._13.1.0-lightblue)
 
 <br/>
 
