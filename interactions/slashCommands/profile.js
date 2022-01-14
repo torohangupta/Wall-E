@@ -13,8 +13,6 @@ module.exports = {
         const guildNickname = guildMember.nickname ? guildMember.nickname : guildMember.user.username;
         const guildUserAvatar = guildUser.displayAvatarURL({ format: "png", dynamic: true });
 
-        console.log(guildMember)
-
         // get the member's roles
         const allUserRoles = guildMember.roles.cache.sort((a, b) => b.position - a.position).map(r => r);
         const serverRoles = allUserRoles.slice(0, allUserRoles.length - 1).join(`, `);
@@ -32,8 +30,9 @@ module.exports = {
         const daysOnServer = Math.floor((Date.now() - serverJoinDate) / 86400000);
 
         // determine online presenceStatus
-        let presenceStatus = `**Presence:** `
-        switch (guildMember.presence.status) {
+        let presenceStatus = `**Presence:** `;
+        let memberPresence = guildMember.presence == null ? `offline` : guildMember.presence.status;
+        switch (memberPresence) {
             case `online`:
                 presenceStatus += `${online.emote} Online`;
                 break;
@@ -43,7 +42,7 @@ module.exports = {
             case `dnd`:
                 presenceStatus += `${dnd.emote} Do Not Distrub`;
                 break;
-            case `offline`:
+            default:
                 presenceStatus += `${offline.emote} Offline`;
                 break;
         }
