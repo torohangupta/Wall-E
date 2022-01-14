@@ -4,8 +4,8 @@ const { consoleChannel, updatesChannel } = require(`../../dependencies/resources
 module.exports = {
 
     name: `class`,
-    whitelistedChannels: `789256304844603494`,
-    blacklistedChannels: ``,
+    whitelistedChannels: [`789256304844603494`],
+    blacklistedChannels: [],
 
     execute(interaction) {
 
@@ -31,11 +31,11 @@ module.exports = {
         switch (subCommand) {
             case `join`:
                 args.forEach(classRoleName => {
-                    let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
+                    let classRoleObject = guildRoleCache.find(r => r.name.includes(classRoleName));
 
                     if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && !userRoleIDs.includes(classRoleObject.id)) {
                         guildMemberObject.roles.add(classRoleObject);
-                        successRoles.push(`\`${classRoleName}\``);
+                        successRoles.push(`\`${classRoleObject.name}\``);
                     } else {
                         failureRoles.push(`\`${classRoleName}\``);
                     }
@@ -48,11 +48,11 @@ module.exports = {
 
             case `leave`:
                 args.forEach(classRoleName => {
-                    let classRoleObject = guildRoleCache.find(r => r.name === classRoleName);
+                    let classRoleObject = guildRoleCache.find(r => r.name.includes(classRoleName));
 
                     if (classRoleObject && /([a-z]{2,4}\d{3})/g.test(classRoleName) && userRoleIDs.includes(classRoleObject.id)) {
                         guildMemberObject.roles.remove(classRoleObject);
-                        successRoles.push(`\`${classRoleName}\``);
+                        successRoles.push(`\`${classRoleObject.name}\``);
                     } else {
                         failureRoles.push(`\`${classRoleName}\``);
                     }
@@ -80,7 +80,7 @@ module.exports = {
             case `create`:
                 // restrict to moderators
                 if (!userRoleIDs.includes(`692097359005351947`)) {
-                    return interaction.reply({ content: `I'm sorry, only moderator can use this command!`, ephemeral: true });
+                    return interaction.reply({ content: `I'm sorry, only moderators can use this command!`, ephemeral: true });
                 }
 
                 const newRoleName = args[0].toLowerCase();
@@ -154,6 +154,6 @@ module.exports = {
         replyMessage ? replyEmbed.addFields({ name: `\u200B`, value: replyMessage }) : ``;
 
         // reply to the interaction
-        interaction.reply({ embeds: [replyEmbed] });
+        interaction.reply({ embeds: [replyEmbed], allowedMentions: { repliedUser: false} });
     }
 };

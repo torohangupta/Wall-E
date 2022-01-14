@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix , userIDs } = require('./dependencies/resources/config.json');
+const { prefix, modRoleId, userIDs } = require('./dependencies/resources/config.json');
 const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`./dependencies/runtime.js`);
 
 fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
@@ -25,16 +25,18 @@ for (const file of eventFiles) {
     event.once ? client.once(event.name, (...args) => event.execute(...args, client)) : client.on(event.name, (...args) => event.execute(...args, client));
 }
 
+// register all slash commands
 const slashCommandsList = fs.readdirSync(`./interactions/slashCommands`).filter(file => file.endsWith('.js'));
 for (const file of slashCommandsList) {
     const slashcommand = require(`./interactions/slashCommands/${file}`);
     client.slashCommands.set(slashcommand.name, slashcommand)
 }
 
+// register all buttons
 const buttonFiles = fs.readdirSync(`./interactions/buttons`).filter(file => file.endsWith('.js'));
 for (const file of buttonFiles) {
-	const button = require(`./interactions/buttons/${file}`);
-	client.buttons.set(button.id, button)
+    const button = require(`./interactions/buttons/${file}`);
+    client.buttons.set(button.id, button)
 }
 
 // Command handling
@@ -52,11 +54,11 @@ client.on('messageCreate', message => {
     // if the message is a command, remove the prefix & split messaage by spaces & store in args. shifts all index values down and stores zeroth in commandName
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-    
+
     // check all command names & aliases for commandName & stop if message isn't a command
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    
+
     // check to make sure that the user has all the required permissions
     if (!permsChecker(command, message, args)) return;
 
@@ -76,15 +78,29 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
+
+    // if not mod, test before allowing execution
+    if (!interaction.member._roles.includes(modRoleId)) {
+        // if the command is not in a whitelisted channel, return eith error
+        if ((slashCommand.whitelistedChannels.length > 0) && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
+            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+        }
+
+        // if the command is in a blacklisted channel, return eith error
+        if (slashCommand.blacklistedChannels && slashCommand.blacklistedChannels.includes(interaction.channel.id)) {
+            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+        }
+    }
+
     if (!slashCommand) {
         interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
         return console.log(`${interaction.member.user.username} used a broken slash command!`);
     }
 
-    if (((interaction.whiteListedChannels && !interaction.whiteListedChannels.includes(interaction.channel.id)) || (interaction.blackListedChannels && interaction.blackListedChannels.includes(interaction.channel.id))) && !interaction.member._roles.includes(`692097359005351947`)) {
-        return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-    } else {
+    try {
         await slashCommand.execute(interaction);
+    } catch (error) {
+        console.log(error);
     }
 });
 

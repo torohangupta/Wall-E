@@ -21,7 +21,7 @@ module.exports = {
         // create embed with instructions and buttons
         const ticketEmbed_main = new MessageEmbed()
             .setTitle(`Open a Ticket!`)
-            .setDescription(`How can we help? Please write your request and then click the "📝 Continue" button and a moderator will be able to help you shortly. If this was a mistake, close the ticket by clicking the "🔒 Close" button.`)
+            .setDescription(`To confirm opening a new ticket, please press the "📝 Continue" button and a moderator will be able to help you shortly. If this was a mistake, simply close the ticket by clicking the "🔒 Close" button.`)
             .setColor(`6aa4ad`)
 
         const ticketOptions = new MessageActionRow()
