@@ -7,10 +7,8 @@ assignees: torohangupta
 
 ---
 
-**Description**
+**Description/Reason**
 
 
 **Category**
-
-
-**Reasoning**
+[Moderation/Auto-Moderation, Ease of Use, Command Update/Code Refactor, Other (Describe)]
