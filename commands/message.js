@@ -37,7 +37,7 @@ module.exports = {
                     .setEmoji(`👥`)
             )
         
-        message.channel.send({embeds: [embed]})
+
         message.channel.send({ embeds: [embed], components: [buttons] });
     },
 };
