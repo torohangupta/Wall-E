@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports = {
 
@@ -19,8 +19,25 @@ module.exports = {
         var embed = new MessageEmbed()
             .setTitle('🏷️Contact the server moderators!')
             .setColor('08B064')
-            .setDescription(`By pressing the button below, you will create a support ticket where you are able to directly talk to the moderators. The channel will be only be visible to you and the moderation team\n\n**Use this ticket system to contact the mods for any of the following situations:**\n◦ You would like to promote content in the server\n\n◦ You would like to report a user for:\n> › inappropriate behavior in the server\n> › sending unsolicited DMs\n> › some other concern\n\n◦ You have a private concern`)
+            .setDescription(`By pressing the \`Create Ticket\` button below, you will create a support ticket where you are able to directly talk to the moderators. The channel will be only be visible to you and the moderation team. You can also use the \`Mod Application\` Button to join the mod team!\n\n**Use this ticket system to contact the mods for any of the following situations:**\n◦ You would like to promote content in the server\n\n◦ You would like to report a user for:\n> › inappropriate behavior in the server\n> › sending unsolicited DMs\n> › some other concern\n\n◦ You have a private concern`)
 
+        const buttons = new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('ticketCreate')
+                    .setLabel(`Create a Ticket!`)
+                    .setStyle('SECONDARY')
+                    .setEmoji(`🏷️`)
+            )
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('modappCreate')
+                    .setLabel(`Join the Mod Team!`)
+                    .setStyle('SECONDARY')
+                    .setEmoji(`👥`)
+            )
+        
         message.channel.send({embeds: [embed]})
+        message.channel.send({ embeds: [embed], components: [buttons] });
     },
 };

@@ -1,0 +1,1 @@
+This directory is to archive mod applications - it's easier to have it in place already instead of having to initalize it.
