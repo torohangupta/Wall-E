@@ -17,7 +17,7 @@ module.exports = {
         const modappSubmitEmbed = new MessageEmbed()
             .setTitle(`Moderator Application - ${interaction.user.username.toLowerCase().replace(/[^a-z]+/g, '')}`)
             .setColor(`4b6999`)
-            .setDescription(`Thank you for submitting your application! We appreciate the time you spent and we'll be in touch soon!`);
+            .setDescription(`Thank you for submitting your application! We appreciate the time you spent and we'll be in touch soon! To get a transcript of your application, please make sure you have DMs from server members enabled.`);
 
         // send notification to mod team
         interaction.client.channels.cache.get(`790712186749321226`).send({ content: `A new moderator application was submitted!` })
@@ -72,10 +72,10 @@ module.exports = {
         const modappEmbedButtons = new MessageActionRow()
             .addComponents(
                 new MessageButton()
-                    .setCustomId('modappCompleteConfirm')
-                    .setLabel(`Complete Application`)
+                    .setCustomId('modappArchive')
+                    .setLabel(`Archive Application`)
                     .setStyle('SECONDARY')
-                    .setEmoji(`📝`)
+                    .setEmoji(`💾`)
             )
 
         // send confirmation embed

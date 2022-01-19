@@ -17,9 +17,9 @@ module.exports = {
     execute(message, args) {
 
         var embed = new MessageEmbed()
-            .setTitle('🏷️Contact the server moderators!')
+            .setTitle('☎️  Contact the server moderators!')
             .setColor('08B064')
-            .setDescription(`By pressing the \`Create Ticket\` button below, you will create a support ticket where you are able to directly talk to the moderators. The channel will be only be visible to you and the moderation team. You can also use the \`Mod Application\` Button to join the mod team!\n\n**Use this ticket system to contact the mods for any of the following situations:**\n◦ You would like to promote content in the server\n\n◦ You would like to report a user for:\n> › inappropriate behavior in the server\n> › sending unsolicited DMs\n> › some other concern\n\n◦ You have a private concern`)
+            .setDescription(`By clicking on \`🏷️ Create Ticket\` below, you will create a support ticket where you are able to directly talk to the moderators. The channel will be only be visible to you and the moderation team. You can also click \`👥 Mod Application\` to apply to join the mod team!\n\n**Use this ticket system to contact the mods for any of the following situations:**\n◦ You would like to promote content in the server\n\n◦ You would like to report a user for:\n> › inappropriate behavior in the server\n> › sending unsolicited DMs\n> › some other concern\n\n◦ You have a private concern`)
 
         const buttons = new MessageActionRow()
             .addComponents(

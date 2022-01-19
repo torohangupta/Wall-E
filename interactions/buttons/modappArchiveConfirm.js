@@ -3,13 +3,13 @@ const { MessageEmbed } = require(`discord.js`);
 
 module.exports = {
 
-    id: `modappCompleteConfirm`,
+    id: `modappArchiveConfirm`,
 
     async execute(interaction) {
 
         // reply to the interaction
         if (!interaction.member._roles.includes(`692097359005351947`)) {
-            return interaction.reply({ content: `You can't archive a mod application!`, ephemeral: true });
+            return interaction.reply({ content: `I'm sorry, only moderators can archive an application!`, ephemeral: true });
         } else {
             interaction.deferUpdate();
         }
@@ -19,7 +19,7 @@ module.exports = {
         var transcriptFileLocation = `./dependencies/modApplications/${interaction.channel.name.replace(`modapp`, `modApplication`)}.txt`;
 
         // fetch all messages from channel
-        const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 })
+        var fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 })
         fetchedMessages.forEach(msgObject => {
             // log the messages sent in the channel
             if (msgObject.embeds[0]) {
