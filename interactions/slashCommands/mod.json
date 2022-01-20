@@ -1,0 +1,19 @@
+{
+    "name": "mod",
+    "description": "Perform various moderator only actions",
+    "options": [
+        {
+            "name": "offer",
+            "description": "Offer the moderator position to a user",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "user",
+                    "description": "The user to offer the moderator position to",
+                    "type": "USER",
+                    "required": true
+                }
+            ]
+        }
+    ]
+}
