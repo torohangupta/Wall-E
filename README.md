@@ -1,6 +1,6 @@
 # Wall-E
 
-<img src="dependencies/imageAssets/wall-e.jpg" alt="Logo" title="Logo" align="right" height="250"/>
+<img src="dependencies/imageAssets/wall-e.jpg" alt="Logo" title="Logo" align="right" height="180"/>
 
 Wall-E is a Discord Bot written in JavaScript using [`Discord.JS`](https://discord.js.org/#/) on the `Node.js` server side runtime environment. Wall-E began as a personal project during the satrt of the COVID-19 pandemic, written to fulfill needs that were not able to be met by other bots and evolved to become the primary automated system for managing [Online College](https://discord.gg/ecBCdrt). Wall-E is currently hosted on the free tier of the Heroku scalable cloud hosting platform.
 
