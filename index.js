@@ -11,6 +11,11 @@ client.commands = new Discord.Collection();
 client.buttons = new Discord.Collection();
 client.slashCommands = new Discord.Collection();
 
+// load all automod filter files
+const automod = require(`./dependencies/automod.js`);
+
+
+
 // load all commands
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
 for (const file of commandFiles) {
@@ -39,8 +44,16 @@ for (const file of buttonFiles) {
     client.buttons.set(button.id, button)
 }
 
+// TODO: remove all text based commands
+
 // Command handling
 client.on('messageCreate', message => {
+    // run every message though automod
+    try {
+        automod.execute();
+    } catch (err) {
+        console.log(`[ERROR] automod.js: ${err}`);
+    }
 
     // logs any DM that is sent to Wall-E that isn't a command
     if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
@@ -62,6 +75,7 @@ client.on('messageCreate', message => {
     // check to make sure that the user has all the required permissions
     if (!permsChecker(command, message, args)) return;
 
+    // execute the text command (depercated)
     try {
         command.execute(message, args);
         logCommandRun(client, command, message);
