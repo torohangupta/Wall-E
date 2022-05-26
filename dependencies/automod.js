@@ -18,14 +18,13 @@ module.exports = {
 
 		console.log(message.content.search(linkRegex))
         console.log("here")
-	}
+		function discordLinks(message, guildMember) {
 
-	function discordLinks(message, guildMember) {
-
-		// get account age
-		const accountAge = Math.floor((Date.now() - Date(guildMember.user.createdAt)) / 86400000);
-
-		// regex to match discord server invites
-		const invRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+[a-z]/g;
+			// get account age
+			const accountAge = Math.floor((Date.now() - Date(guildMember.user.createdAt)) / 86400000);
+	
+			// regex to match discord server invites
+			const invRegex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+[a-z]/g;
+		}
 	}
 };
