@@ -52,8 +52,8 @@ client.on('messageCreate', message => {
     // run every message though automod
     try {
         automod.execute(message);
-    } catch (err) {
-        console.log(`[ERROR] automod.js: ${err}`);
+    } catch (error) {
+        console.log(`[ERROR] automod.js: ${error}`);
     }
 
 
@@ -83,59 +83,63 @@ client.on('messageCreate', message => {
         logCommandRun(client, command, message);
 
     } catch (error) {
-        console.log(error);
+        console.log(`[ERROR] messageCreate event error: ${error}`);
         logCommandError(client, command, message, error);
     }
 
 });
 
 // interaction handler (slash commands)
-// client.on('interactionCreate', async interaction => {
-//     if (!interaction.isCommand()) return;
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
 
-//     const slashCommand = client.slashCommands.get(interaction.commandName);
+    const slashCommand = client.slashCommands.get(interaction.commandName);
 
-//     // if not mod, test before allowing execution
-//     if (!interaction.member._roles.includes(modRoleId)) {
-//         // if the command is not in a whitelisted channel, return eith error
-//         if ((slashCommand.whitelistedChannels.length > 0) && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
-//             return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-//         }
+    // if not mod, test before allowing execution
+    if (!interaction.member._roles.includes(modRoleId)) {
+        // if the command is not in a whitelisted channel, return eith error
+        if ((slashCommand.whitelistedChannels.length > 0) && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
+            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+        }
 
-//         // if the command is in a blacklisted channel, return eith error
-//         if (slashCommand.blacklistedChannels && slashCommand.blacklistedChannels.includes(interaction.channel.id)) {
-//             return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-//         }
-//     }
+        // if the command is in a blacklisted channel, return eith error
+        if (slashCommand.blacklistedChannels && slashCommand.blacklistedChannels.includes(interaction.channel.id)) {
+            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
+        }
+    }
 
-//     if (!slashCommand) {
-//         interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
-//         return console.log(`${interaction.member.user.username} used a broken slash command!`);
-//     }
+    if (!slashCommand) {
+        interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
+        return console.log(`${interaction.member.user.username} used a broken slash command!`);
+    }
 
-//     try {
-//         await slashCommand.execute(interaction);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// });
+    try {
+        await slashCommand.execute(interaction);
+    } catch (error) {
+        console.log(`[ERROR] interactionCreate event error: ${error}`);
+    }
+});
 
 // interaction handler (buttons)
-// client.on('interactionCreate', async interaction => {
-//     // if the interaction is not a button press, ignore the event, otherwise log the user who triggered the event and preform the event action(s)
-//     if (!interaction.isButton()) return;
-//     console.log(`${interaction.member.user.username} pressed ${interaction.customId}!`)
-//     // console.log(client.buttons)
+client.on('interactionCreate', async interaction => {
+    // if the interaction is not a button press, ignore the event, otherwise log the user who triggered the event and preform the event action(s)
+    if (!interaction.isButton()) return;
+    console.log(`${interaction.member.user.username} pressed ${interaction.customId}!`)
+    // console.log(client.buttons)
 
-//     const buttonPress = client.buttons.get(interaction.customId);
-//     if (!buttonPress) {
-//         interaction.reply({ content: `This feature is still a work in progress! If you want to check out what else is coming, check out my GitHub Repository at the link below!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
-//         return console.log(`${interaction.member.user.username} pressed a broken button!`);
-//     }
+    const buttonPress = client.buttons.get(interaction.customId);
+    if (!buttonPress) {
+        interaction.reply({ content: `This feature is still a work in progress! If you want to check out what else is coming, check out my GitHub Repository at the link below!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
+        return console.log(`${interaction.member.user.username} pressed a broken button!`);
+    }
 
-//     // preform the button action(s)
-//     await buttonPress.execute(interaction);
-// });
+    // preform the button action(s)
+    try {
+        await buttonPress.execute(interaction);
+    } catch (error) {
+        console.log(`[ERROR] interactionCreate event error: ${error}`);
+    }
+});
 
 // login to Discord with bot token
 client.login(process.env.TOKEN);
