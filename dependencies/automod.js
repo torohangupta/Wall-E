@@ -70,7 +70,7 @@ module.exports = {
 				// create embed base
 				const linkTester = new MessageEmbed()
 					.setColor(`E22E2E`) // RED
-					.setDescription(`${message.author}, you must be in the server for more than 7 days to post links to external sources. Please reach out to the mods using the <#866434475495129118> channel if you believe this to be an error.`)
+					.setDescription(`${message.author}, you must be in the server for more than \`${linkBlacklistTime}\` days to post links to external sources. Please reach out to the mods using the <#866434475495129118> channel if you believe this to be an error.`)
 					.setFooter(`Wall-E AutoMod | Anti-Links (New Members) `, walle.iconUrl);
 
 			// send a message to the channel
