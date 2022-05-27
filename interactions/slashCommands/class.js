@@ -1,5 +1,5 @@
 const { MessageEmbed } = require(`discord.js`);
-const { consoleChannel, updatesChannel } = require(`../../dependencies/resources/config.json`);
+const { channelID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -124,11 +124,11 @@ module.exports = {
                         })
                     })
                     replyMessage = `The role \`${newRoleName}\` has been created.`;
-                    interaction.client.channels.cache.get(updatesChannel).send(`📥  **New channel added!** - \`${newRoleName}\``);
+                    interaction.client.channels.cache.get(channelID.updatesChannel).send(`📥  **New channel added!** - \`${newRoleName}\``);
 
                 } catch (error) {
                     replyMessage = `There was an error.`;
-                    interaction.client.channels.cache.get(consoleChannel).send(`\`\`\`${error}\`\`\``);
+                    interaction.client.channels.cache.get(channelID.consoleChannel).send(`\`\`\`${error}\`\`\``);
                     console.log(error);
                 }
                 break;
