@@ -95,19 +95,6 @@ client.on('interactionCreate', async interaction => {
 
     const slashCommand = client.slashCommands.get(interaction.commandName);
 
-    // if not mod, test before allowing execution
-    if (!interaction.member._roles.includes(modRoleId)) {
-        // if the command is not in a whitelisted channel, return eith error
-        if ((slashCommand.whitelistedChannels.length > 0) && !slashCommand.whitelistedChannels.includes(interaction.channel.id)) {
-            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-        }
-
-        // if the command is in a blacklisted channel, return eith error
-        if (slashCommand.blacklistedChannels && slashCommand.blacklistedChannels.includes(interaction.channel.id)) {
-            return interaction.reply({ content: `You can't use that command here!`, ephemeral: true });
-        }
-    }
-
     if (!slashCommand) {
         interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });
         return console.log(`${interaction.member.user.username} used a broken slash command!`);

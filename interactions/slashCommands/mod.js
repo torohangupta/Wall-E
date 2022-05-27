@@ -3,9 +3,7 @@ const { consoleChannel, updatesChannel } = require(`../../dependencies/resources
 
 module.exports = {
 
-    name: `mod`,
-    whitelistedChannels: [],
-    blacklistedChannels: [],
+    name: `mod-commands`,
 
     execute(interaction) {
 
