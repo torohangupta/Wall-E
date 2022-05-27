@@ -36,10 +36,10 @@ The Wall-E project has transformed, integrating many features, such as:
 - [x] Support Tickets
 - [x] Integrated Application System
 - [x] Poll & Voting
+- [x] Automatic Moderation
 
 With many features planned such as:
 
-- [ ] Automatic Moderation
 - [ ] Manual Moderation Commands (Timeout, Warn, Ban)
 - [ ] Moderation Logging Commands
 - [ ] Major & Year Self-Assignment
