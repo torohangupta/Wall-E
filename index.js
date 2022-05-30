@@ -1,15 +1,19 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, modRoleId, userIDs } = require('./dependencies/resources/config.json');
+const { userID, walle } = require('./dependencies/resources/config.json');
 const { permsChecker, logCommandRun, logCommandError, recievedDM } = require(`./dependencies/runtime.js`);
+
+const prefix = `~`;
 
 fs.readdirSync(`./`).includes(`.env`) ? require("dotenv").config() : ``;
 
 // create new discord client with proper intents
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `GUILD_MEMBERS`, `DIRECT_MESSAGES`, `GUILD_PRESENCES`], partials: ['CHANNEL'] });
 client.commands = new Discord.Collection();
-client.buttons = new Discord.Collection();
 client.slashCommands = new Discord.Collection();
+client.buttons = new Discord.Collection();
+client.selectMenus = new Discord.Collection();
+
 
 // load all automod filter files
 const automod = require(`./dependencies/automod.js`);
@@ -44,21 +48,28 @@ for (const file of buttonFiles) {
     client.buttons.set(button.id, button)
 }
 
+// register all select menus
+const selectMenuFiles = fs.readdirSync(`./interactions/selectMenus`).filter(file => file.endsWith('.js'));
+for (const file of selectMenuFiles) {
+    const selectMenu = require(`./interactions/selectMenus/${file}`);
+    client.selectMenus.set(selectMenu.id, selectMenu)
+}
+
 // TODO: remove all text based commands
 
 // Command handling
 client.on('messageCreate', message => {
     if (message.author.bot) return;
+
     // run every message though automod
     try {
         automod.execute(message);
     } catch (error) {
         console.log(`[ERROR] automod.js: ${error}`);
     }
-
-
+    
     // logs any DM that is sent to Wall-E that isn't a command
-    if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != userIDs.walle) {
+    if (message.channel.type === 'DM' && !message.content.startsWith(prefix) && message.author.id != walle.id) {
         return recievedDM(message);
     }
 
@@ -81,7 +92,7 @@ client.on('messageCreate', message => {
     try {
         command.execute(message, args);
         logCommandRun(client, command, message);
-
+    
     } catch (error) {
         console.log(`[ERROR] messageCreate event error: ${error}`);
         logCommandError(client, command, message, error);
@@ -126,6 +137,14 @@ client.on('interactionCreate', async interaction => {
     } catch (error) {
         console.log(`[ERROR] interactionCreate event error: ${error}`);
     }
+});
+
+// interaction handler (select menus)
+client.on('interactionCreate', async interaction => {
+    if (!interaction.isSelectMenu()) return;
+    const selectMenuInteraction = client.selectMenus.get(interaction.customId);
+    await selectMenuInteraction.execute(interaction);
+    // console.log(interaction)
 });
 
 // login to Discord with bot token
