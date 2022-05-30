@@ -16,9 +16,10 @@ module.exports = {
         const yearEmbed = new MessageEmbed()
             .setTitle(`🎓  |  Year Selection`)
             .setDescription(`⬇️ Please select your year using the menu below! ⬇️`)
-            .setFields( 
-                { name: `\u200B`, value: `__Undergraduate Roles__\n\` ${a} \` 🥚 - Incoming/Prospective\n\` ${a} \` 👶 - Freshman\n\` ${a} \` 💪 - Sophomore\n\` ${a} \` 🧠 - Junior\n\` ${a} \` 👑 - Senior/Senior+` },
-                { name: `\u200B`, value: `__Graduated/Graduate Program Roles__\n\` ${a} \` 🎓 - Graduated\n\` ${a} \` 📝 - Masters Program\n\` ${a} \` 🥼 - Graduate Program` },
+            .setFields(
+                { name: `\u200B`, value: `\` ${a} \` 🥚 - Incoming/Prospective\n\` ${a} \` 🎓 - Graduated` },
+                { name: `\u200B`, value: `__Undergraduate Roles__\n\` ${a} \` 👶 - Freshman\n\` ${a} \` 💪 - Sophomore\n\` ${a} \` 🧠 - Junior\n\` ${a} \` 👑 - Senior/Senior+` },
+                { name: `\u200B`, value: `__Graduate Program Roles__\n\` ${a} \` 📝 - Masters Program\n\` ${a} \` 🥼 - Graduate Program` },
                 { name: `\u200B`, value: `Please select your __year__, **not your classification**!\n*(i.e. if you are a 1st year but have 60 credits, still select freshman)*` },
             )
 
@@ -34,27 +35,27 @@ module.exports = {
                         {
                             label: '🥚 - Incoming/Prospective',
                             description: 'Incoming/Prospective Student Role',
-                            value: 'incoming_prospective',
+                            value: `0`,
                         },
                         {
                             label: '👶 - Freshman',
                             description: 'Undergraduate Student Role',
-                            value: 'freshman',
+                            value: `1`,
                         },
                         {
                             label: '💪 - Sophomore',
                             description: 'Undergraduate Student Role',
-                            value: 'sophomore',
+                            value: `2`,
                         },
                         {
                             label: '🧠 - Junior',
                             description: 'Undergraduate Student Role',
-                            value: 'junior',
+                            value: `3`,
                         },
                         {
                             label: '👑 - Senior/Senior+',
                             description: 'Undergraduate Student Role',
-                            value: 'senior',
+                            value: `4`,
                         }
                     ])
             )
@@ -67,17 +68,17 @@ module.exports = {
                         {
                             label: '🎓 - Graduated',
                             description: 'Graduated/Graduate Student Role',
-                            value: 'graduated',
+                            value: `5`,
                         },
                         {
                             label: '📝 - Masters Program',
                             description: 'Graduated/Graduate Student Role',
-                            value: 'masters',
+                            value: `6`,
                         },
                         {
                             label: '🥼 - Graduate Program',
                             description: 'Graduated/Graduate Student Role',
-                            value: 'grad',
+                            value: `7`,
                         },
                     ]),
             )
