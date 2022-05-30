@@ -26,11 +26,11 @@ module.exports = {
         const majorEmbed = new MessageEmbed()
             .setTitle(`🎓  |  Major Selection`)
 
-        const yearRow1 = new MessageActionRow()
+        const yearRow = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu()
-                    .setCustomId('undergrad')
-                    .setPlaceholder('Undergraduate Roles')
+                    .setCustomId('year')
+                    .setPlaceholder('Year Selection')
                     .addOptions([
                         {
                             label: '🥚 - Incoming/Prospective',
@@ -38,49 +38,41 @@ module.exports = {
                             value: `0`,
                         },
                         {
-                            label: '👶 - Freshman',
-                            description: 'Undergraduate Student Role',
+                            label: '🎓 - Graduated',
+                            description: 'Graduated Student Role',
                             value: `1`,
                         },
                         {
-                            label: '💪 - Sophomore',
+                            label: '👶 - Freshman',
                             description: 'Undergraduate Student Role',
                             value: `2`,
                         },
                         {
-                            label: '🧠 - Junior',
+                            label: '💪 - Sophomore',
                             description: 'Undergraduate Student Role',
                             value: `3`,
                         },
                         {
-                            label: '👑 - Senior/Senior+',
+                            label: '🧠 - Junior',
                             description: 'Undergraduate Student Role',
                             value: `4`,
-                        }
-                    ])
-            )
-        const yearRow2 = new MessageActionRow()
-            .addComponents(
-                new MessageSelectMenu()
-                    .setCustomId('grad-postgrad')
-                    .setPlaceholder('Graduated/Graduate Program Roles')
-                    .addOptions([
+                        },
                         {
-                            label: '🎓 - Graduated',
-                            description: 'Graduated/Graduate Student Role',
+                            label: '👑 - Senior/Senior+',
+                            description: 'Undergraduate Student Role',
                             value: `5`,
                         },
                         {
                             label: '📝 - Masters Program',
-                            description: 'Graduated/Graduate Student Role',
+                            description: 'Graduate Student Role',
                             value: `6`,
                         },
                         {
                             label: '🥼 - Graduate Program',
-                            description: 'Graduated/Graduate Student Role',
+                            description: 'Graduate Student Role',
                             value: `7`,
-                        },
-                    ]),
+                        }
+                    ])
             )
 
 
@@ -103,7 +95,7 @@ module.exports = {
                     ]),
             )
 
-        message.channel.send({ embeds: [yearEmbed], components: [yearRow1, yearRow2] });
+        message.channel.send({ embeds: [yearEmbed], components: [yearRow] });
         message.channel.send({ embeds: [majorEmbed], components: [majorRow] });
     },
 };
