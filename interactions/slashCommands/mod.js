@@ -1,15 +1,13 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require(`discord.js`);
-const { consoleChannel, updatesChannel } = require(`../../dependencies/resources/config.json`);
+const { roleID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
-    name: `mod-commands`,
+    name: `mod`,
 
     execute(interaction) {
 
         // mod & admin roles
-        const modroleId = `692097359005351947`;
-        const adminroleId = `694651259059437710`;
 
         var message = ``;
 
@@ -26,7 +24,7 @@ module.exports = {
 
         switch (subCommand) {
             case `offer`:
-                if (userRoleIDs.includes(adminroleId)) {
+                if (userRoleIDs.includes(roleID.admin)) {
                     // if admin, try to find channel to offer role to
                     let guildMember = interaction.guild.members.cache.get(interaction.options._hoistedOptions[0].value)
                     let usernameScrubbed = guildMember.user.username.toLowerCase().replace(/[^a-z]+/g, '');
