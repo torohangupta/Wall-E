@@ -3,7 +3,7 @@
     "description": "Perform various moderator only actions",
     "options": [
         {
-            "name": "offer",
+            "name": "offer-position",
             "description": "Offer the moderator position to a user",
             "type": "SUB_COMMAND",
             "options": [
@@ -12,6 +12,29 @@
                     "description": "The user to offer the moderator position to",
                     "type": "USER",
                     "required": true
+                }
+            ]
+        },
+        {
+            "name": "channel-reset",
+            "description": "Clear & reset channel text",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "channel",
+                    "description": "Select the channel you'd like to clear and reset",
+                    "type": "STRING",
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "getting-started",
+                            "value": "getting-started"
+                        },
+                        {
+                            "name": "rules",
+                            "value": "rules"
+                        }
+                    ]
                 }
             ]
         }
