@@ -228,7 +228,7 @@ module.exports = {
                             )
 
                         chan.send(`Welcome to the server & thank you for joining! <:checkmark:816695356384346133>`).then(async msg => {
-                            await chan.send(`⬇️ Scroll down through the channels & follow the instructions to get started ⬇️\n\nThis discord has channels for classes in engineering offered at** Iowa State University**.\n**To see all course channels on the server, check out** <#791063876828528640>\n\n**🔹STEP :one: - SELECT YOUR YEAR🔹**\n---------------------------------------------------\nAdd your year using the dropdown below!\n✨  *You'll get a role to show off your current year!*  ✨`)
+                            await chan.send(`⬇️ Scroll down through the channel & follow the instructions to get started ⬇️\n\nThis discord has channels for classes in engineering offered at** Iowa State University**.\n**To see all course channels on the server, check out** <#791063876828528640>\n\n**🔹STEP :one: - SELECT YOUR YEAR🔹**\n---------------------------------------------------\nAdd your year using the dropdown below!\n✨  *You'll get a role to show off your current year!*  ✨`)
                             await chan.send({ files: [`dependencies/imageAssets/year.png`] })
                             await chan.send({ embeds: [yearEmbed], components: [yearRow] })
                             await chan.send(`**🔹STEP :two: - SELECT YOUR MAJOR🔹**\n---------------------------------------------------\nJoin the discussion in channels related only to your program by picking out your major using the dropdown below!\n✨  *You'll get a role/roles to show off what you are studying!*  ✨`);
