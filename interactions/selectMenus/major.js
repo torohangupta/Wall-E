@@ -10,20 +10,20 @@ module.exports = {
         // get array of roleIDs from roleID object in config.json
         var majorRoleIDs = Object.keys(roleID.major).map((key) => roleID.major[key]);
 
-
-        // remove all year roles, then give requested role, then edit the embed to reflect member counts
+        // remove all major roles, then give selected role(s), then edit the embed to reflect member counts
         await interaction.member.roles.remove(majorRoleIDs)
         let majorSelection = interaction.values;
-        console.log(majorSelection);
         majorSelection.forEach(selection => {
             interaction.member.roles.add(majorRoleIDs[parseInt(selection)])
         });
         embedEditor(interaction.message)
 
-
+        // defer update since actions are not directly related to the interaction
         interaction.deferUpdate();
 
+        // function to edit the embed to reflect member counts
         function embedEditor(message) {
+            
             // grab the select menus from the existing embed to reuse
             const msgComponents = message.components;
 
@@ -44,7 +44,7 @@ module.exports = {
                 )
 
             // edit the message to reflect the new embed with updated role count values
-            message.edit({ embeds: [majorEmbed], components: msgComponents })
+            return message.edit({ embeds: [majorEmbed], components: msgComponents })
         }
     }
 };

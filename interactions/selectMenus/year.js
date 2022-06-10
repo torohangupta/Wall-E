@@ -10,7 +10,7 @@ module.exports = {
         // get array of roleIDs from roleID object in config.json
         var yearRoleIDs = Object.keys(roleID.year).map((key) => roleID.year[key]);
 
-        // remove all year roles, then give requested role, then edit the embed to reflect member counts
+        // remove all year roles, then give selected role, then edit the embed to reflect member counts
         interaction.member.roles.remove(yearRoleIDs)
             .then(() => {
                 let yearSelection = interaction.values[0]
@@ -19,10 +19,12 @@ module.exports = {
             .then(embedEditor(interaction.message))
             .catch(console.error);
 
-
+        // defer update since actions are not directly related to the interaction
         interaction.deferUpdate();
 
+        // function to edit the embed to reflect member counts
         function embedEditor(message) {
+            
             // grab the select menus from the existing embed to reuse
             const msgComponents = message.components;
 
@@ -45,7 +47,7 @@ module.exports = {
                 )
 
             // edit the message to reflect the new embed with updated role count values
-            message.edit({ embeds: [yearEmbed], components: msgComponents })
+            return message.edit({ embeds: [yearEmbed], components: msgComponents })
         }
     }
 };
