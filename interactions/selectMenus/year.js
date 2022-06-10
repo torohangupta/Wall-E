@@ -1,11 +1,14 @@
 const { MessageEmbed } = require("discord.js");
-const yearRoleIDs = [`804213020610789376`, `804216647975174144`, `804213426515345428`, `804213586779045898`, `804213800098070528`, `804214005102542848`, `879043494054866984`, `879043497531932672`]; // ORDER: Incoming, Graduated, Freshman, Sophomore, Junior, Senior, Masters, Graduate Program
+const { roleID } = require(`../../dependencies/resources/config.json`)
 
 module.exports = {
 
     id: `year`,
 
     async execute(interaction) {
+
+        // get array of roleIDs from roleID object in config.json
+        var yearRoleIDs = Object.keys(roleID.year).map((key) => roleID.year[key]);
 
         // remove all year roles, then give requested role, then edit the embed to reflect member counts
         interaction.member.roles.remove(yearRoleIDs)
@@ -18,9 +21,6 @@ module.exports = {
 
 
         interaction.deferUpdate();
-
-        // edit the embed to reflect changes
-        // embedEditor(interaction.message);
 
         function embedEditor(message) {
             // grab the select menus from the existing embed to reuse
@@ -35,8 +35,8 @@ module.exports = {
 
             // create the embed
             const yearEmbed = new MessageEmbed()
-                .setTitle(`🎓  |  Year Selection`)
                 .setDescription(`⬇️ Please select your year using the menu below! ⬇️`)
+                .setColor(`F1BE48`)
                 .setFields(
                     { name: `\u200B`, value: `\` ${yearRoleMemberCount[0]} \` 🥚 - Incoming/Prospective\n\` ${yearRoleMemberCount[1]} \` 🎓 - Graduated` },
                     { name: `\u200B`, value: `__Undergraduate Roles__\n\` ${yearRoleMemberCount[2]} \` 👶 - Freshman\n\` ${yearRoleMemberCount[3]} \` 💪 - Sophomore\n\` ${yearRoleMemberCount[4]} \` 🧠 - Junior\n\` ${yearRoleMemberCount[5]} \` 👑 - Senior/Senior+` },
