@@ -2,7 +2,7 @@
 
 <img src="dependencies/imageAssets/wall-e.jpg" alt="Logo" title="Logo" align="right" height="180"/>
 
-Wall-E is a Discord Bot written in JavaScript using [`Discord.JS`](https://discord.js.org/#/) on the `Node.js` server side runtime environment. Wall-E began as a personal project during the start of the COVID-19 pandemic, written to fulfill needs that were not able to be met by other bots and evolved to become the primary automated system for managing [Online College](https://discord.gg/ecBCdrt). Wall-E is currently hosted on the free tier of the Heroku scalable cloud hosting platform.
+Wall-E is a Discord Bot written in JavaScript using [`Discord.JS`](https://discord.js.org/#/) on the `Node.js` server side runtime environment. Wall-E began as a personal project during the start of the COVID-19 pandemic, written to fulfill needs that were not able to be met by other bots and evolved to become the primary automated system for managing [Online College](https://discord.gg/3DS5YMTj5q). Wall-E is currently hosted on the free tier of the Heroku scalable cloud hosting platform.
 
 If you have any questions, feel free to reach out on Discord by my username, `rohangupta#8570` & I hope this bot/project helps you in some way.
 
@@ -37,12 +37,13 @@ The Wall-E project has transformed, integrating many features, such as:
 - [x] Integrated Application System
 - [x] Poll & Voting
 - [x] Automatic Moderation
+- [x] Major & Year Self-Assignment
 
 With many features planned such as:
 
 - [ ] Manual Moderation Commands (Timeout, Warn, Ban)
 - [ ] Moderation Logging Commands
-- [ ] Major & Year Self-Assignment
 - [ ] Rule `.md` files for easy updating
+- [ ] Birthday messages
 
 ..and more! Got an idea? Feel free to contribute to the project!
