@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
+const { roleID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -23,7 +24,7 @@ module.exports = {
             .setTitle(`Join the moderation team!`)
             .setDescription(`To confirm opening a new ticket, please press the "📝 Continue" button and a moderator will be able to help you shortly. If this was a mistake, simply close the ticket by clicking the "🔒 Close" button.`)
             .setDescription(`Thank you for your interest in joining the moderation team! Please answer the questions below, review the <#798764172929662996> and then click the \`✔️ Submit\` to submit your application. If this was a mistake, simply cancel your application by clicking the \`🔒 Cancel\` button.\n\n**General Questions**\n> 1. What is your name? (Optional)\n> 2. What year are you?\n> 3. What is your major?\n\n**Application Questions:**\n> 1. Why do you want to be a part of the moderation team?\n> 2. How familar are you with Discord & using Discord bots?\n> 3. How familiar are you with Iowa State, campus, etc.?\n> 4. Do you have any experience that may be relevent to the role?\n\n*Thank you for your interest in joining the moderation team! We'll look at your application as soon as possible. In the meantime, feel free to share your favorite meme!*`)
-            .setColor(`4b6999`)
+            .setColor(`4B6999`)
 
         const modappEmbedButtons = new MessageActionRow()
             .addComponents(
@@ -51,7 +52,7 @@ module.exports = {
                     deny: [`VIEW_CHANNEL`],
                 },
                 {
-                    id: `692097359005351947`, // Supreme Overseers
+                    id: roleID.mod, // Server Mod Role ID
                     deny: [`VIEW_CHANNEL`],
                 },
                 {
