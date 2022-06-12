@@ -1,4 +1,4 @@
-const { roleID, channelID, walle } = require(`../../dependencies/resources/config.json`);
+const { roleID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
     
