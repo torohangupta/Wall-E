@@ -1,4 +1,5 @@
-const { MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { roleID, walle, channelID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -6,12 +7,26 @@ module.exports = {
 
     async execute(interaction) {
 
+        // fetch all messages from channel
+        var fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 });
+
+        // check count of messages in the channel that the user has sent. For each message, iterate userMessageCount
+        let userMessageCount = 0;
+        fetchedMessages.forEach(msgObject => {
+            if (msgObject.author.id != walle.id) userMessageCount++;
+        });
+
+        // if the user has not sent any messages, they can't submit their application
+        if (userMessageCount == 0) {
+            return interaction.reply({ content: `Please complete the application before submitting it!`, ephemeral: true });
+        }
+
         // reply to the interaction
         interaction.deferUpdate();
 
         // perform interaction actions
         interaction.channel.permissionOverwrites.create(interaction.user, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
-        interaction.channel.permissionOverwrites.create(`692097359005351947`, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
+        interaction.channel.permissionOverwrites.create(roleID.mod, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
 
         // send confirmation embed
         const modappSubmitEmbed = new MessageEmbed()
@@ -20,7 +35,7 @@ module.exports = {
             .setDescription(`Thank you for submitting your application! We appreciate the time you spent and we'll be in touch soon! To get a transcript of your application, please make sure you have DMs from server members enabled.`);
 
         // send notification to mod team
-        interaction.client.channels.cache.get(`790712186749321226`).send({ content: `A new moderator application was submitted!` })
+        interaction.client.channels.cache.get(channelID.modPrivate).send({ content: `A new moderator application was submitted!` })
 
         // edit first message to remove buttons and remove all other embeds
         var applicationEmbed = await interaction.channel.messages.fetch({ limit: 100 });
