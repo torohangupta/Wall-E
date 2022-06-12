@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
+const { roleID, channelID, walle } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -7,7 +8,7 @@ module.exports = {
     execute(interaction) {
 
         // only mods can archive the modapp
-        if (!interaction.member._roles.includes(`692097359005351947`)) {
+        if (!interaction.member._roles.includes(roleID.mod)) {
             return interaction.reply({ content: `I'm sorry, only moderators can archive an application!`, ephemeral: true });
         }
 
@@ -17,7 +18,7 @@ module.exports = {
         // send confirmation embed
         const modappArchiveEmbed = new MessageEmbed()
             .setTitle(`Confirm?`)
-            .setColor(`a84c32`)
+            .setColor(`A84C32`)
             .setDescription(`Please confirm that you'd like to archive this application.`)
 
         const row = new MessageActionRow()

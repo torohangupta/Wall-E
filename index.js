@@ -95,6 +95,7 @@ client.on('messageCreate', message => {
     
     } catch (error) {
         console.log(`[ERROR] messageCreate event error: ${error}`);
+        console.error(error);
         logCommandError(client, command, message, error);
     }
 
@@ -115,6 +116,7 @@ client.on('interactionCreate', async interaction => {
         await slashCommand.execute(interaction);
     } catch (error) {
         console.log(`[ERROR] interactionCreate event error: ${error}`);
+        console.error(error);
     }
 });
 
@@ -136,6 +138,7 @@ client.on('interactionCreate', async interaction => {
         await buttonPress.execute(interaction);
     } catch (error) {
         console.log(`[ERROR] interactionCreate event error: ${error}`);
+        console.error(error);
     }
 });
 

@@ -6,7 +6,7 @@ Wall-E is a Discord Bot written in JavaScript using [`Discord.JS`](https://disco
 
 If you have any questions, feel free to reach out on Discord by my username, `rohangupta#8570` & I hope this bot/project helps you in some way.
 
-![Node.js Version](https://img.shields.io/badge/Node.js-v._16.4.2-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._6.14.6-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._13.6.0-lightblue)
+![Node.js Version](https://img.shields.io/badge/Node.js-v._16.4.2-lightblue) ![npm Version](https://img.shields.io/badge/npm-v._6.14.6-lightblue) ![Discord.js Version](https://img.shields.io/badge/Discord.js-v._13.8.0-lightblue)
 
 ## Contributing to this Project
 To contribute to this project, feel free to take a look at an  existing [issue](https://github.com/torohangupta/Wall-E/issues) or submit your own. Fork the repository, make some changes/additions and then open a pull request and wait for approval, like the examples below:

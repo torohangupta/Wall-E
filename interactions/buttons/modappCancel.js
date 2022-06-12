@@ -12,7 +12,7 @@ module.exports = {
         // send confirmation embed
         const modappCancelEmbed = new MessageEmbed()
             .setTitle(`Confirm?`)
-            .setColor(`a84c32`)
+            .setColor(`A84C32`)
             .setDescription(`Please confirm that you'd like to cancel your application.`)
 
         const row = new MessageActionRow()

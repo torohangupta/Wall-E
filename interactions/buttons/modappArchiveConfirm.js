@@ -1,5 +1,6 @@
 const fs = require(`fs`);
 const { MessageEmbed } = require(`discord.js`);
+const { roleID, channelID, walle } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -8,7 +9,7 @@ module.exports = {
     async execute(interaction) {
 
         // reply to the interaction
-        if (!interaction.member._roles.includes(`692097359005351947`)) {
+        if (!interaction.member._roles.includes(roleID.mod)) {
             return interaction.reply({ content: `I'm sorry, only moderators can archive an application!`, ephemeral: true });
         } else {
             interaction.deferUpdate();
@@ -39,7 +40,7 @@ module.exports = {
         });
 
         // get all members of the channel who aren't a supreme overseer || bot
-        modApplicant = interaction.channel.members.map(m => m).filter(member => !(member._roles.includes(`692097359005351947`) || member._roles.includes(`692100602297188382`)));
+        modApplicant = interaction.channel.members.map(m => m).filter(member => !(member._roles.includes(roleID.mod) || member._roles.includes(roleID.bots)));
 
         // create embed
         const transcriptEmbed = new MessageEmbed()
@@ -47,7 +48,7 @@ module.exports = {
             .setColor(`6aa4ad`)
             .setDescription(`Applicant: ${modApplicant.join(`, `)}`)
             .setTimestamp()
-            .setFooter(`Powered by Wall-E`, `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`)
+            .setFooter(`Powered by Wall-E`, walle.iconUrl)
 
 
         // try to send transcript to all user(s) involved, then send logs in the transcript logging channel
@@ -63,7 +64,7 @@ module.exports = {
 
         } finally {
             // send transcript to transcript logging channel
-            interaction.client.channels.cache.get(`933239367818944592`).send({ embeds: [transcriptEmbed.spliceFields(0,1)] }).then(interaction.client.channels.cache.get(`933239367818944592`).send({ files: [transcriptFileLocation] }));
+            interaction.client.channels.cache.get(channelID.logModapp).send({ embeds: [transcriptEmbed.spliceFields(0,1)] }).then(interaction.client.channels.cache.get(channelID.logModapp).send({ files: [transcriptFileLocation] }));
 
             // delete the support ticket
             interaction.channel.delete();
