@@ -1,11 +1,9 @@
 const { MessageEmbed } = require(`discord.js`);
-const { channelID } = require(`../../dependencies/resources/config.json`);
+const { roleID, channelID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
     name: `class`,
-    whitelistedChannels: [`789256304844603494`],
-    blacklistedChannels: [],
 
     execute(interaction) {
 
@@ -79,7 +77,7 @@ module.exports = {
 
             case `create`:
                 // restrict to moderators
-                if (!userRoleIDs.includes(`692097359005351947`)) {
+                if (!userRoleIDs.includes(roleID.mod)) {
                     return interaction.reply({ content: `I'm sorry, only moderators can use this command!`, ephemeral: true });
                 }
 
@@ -89,7 +87,7 @@ module.exports = {
                 if (guildRoleCache.find(role => role.name == newRoleName)) {
                     return replyMessage = `Error: This course exists already!`;
                 }
-
+                console.log(3)
                 // try to create the role
                 try {
                     // Create a new role with the name mentioned, then a channel restricted to that role
@@ -99,8 +97,7 @@ module.exports = {
                         mentionable: true,
                     }).then(r => {
                         interaction.guild.channels.create(newRoleName, {
-                            type: `text`,
-                            parent: guildChannelCache.find(c => c.name.toLowerCase().includes(`unsorted courses`) && c.type == 'category'),
+                            type: `GUILD_TEXT`,
                             permissionOverwrites: [
                                 {
                                     id: interaction.channel.guild.roles.everyone,
@@ -124,18 +121,18 @@ module.exports = {
                         })
                     })
                     replyMessage = `The role \`${newRoleName}\` has been created.`;
-                    interaction.client.channels.cache.get(channelID.updatesChannel).send(`📥  **New channel added!** - \`${newRoleName}\``);
+                    interaction.client.channels.cache.get(channelID.updates).send(`📥  **New channel added!** - \`${newRoleName}\``);
 
                 } catch (error) {
                     replyMessage = `There was an error.`;
-                    interaction.client.channels.cache.get(channelID.consoleChannel).send(`\`\`\`${error}\`\`\``);
+                    interaction.client.channels.cache.get(channelID.console).send(`\`\`\`${error}\`\`\``);
                     console.log(error);
                 }
                 break;
 
             case `delete`:
                 // restrict to moderators
-                if (!userRoleIDs.includes(`692097359005351947`)) {
+                if (!userRoleIDs.includes(roleID.mod)) {
                     return interaction.reply({ content: `I'm sorry, only moderators can use this command!`, ephemeral: true });
                 }
 
@@ -146,7 +143,7 @@ module.exports = {
         // create reply embed
         const replyEmbed = new MessageEmbed()
             .setDescription(`**Online College Class Manager**`)
-            .setColor(`45ad80`)
+            .setColor(`45AD80`)
 
         // dynamically add embed elements
         successMessage ? replyEmbed.addFields({ name: `\u200B`, value: successMessage }) : ``;
