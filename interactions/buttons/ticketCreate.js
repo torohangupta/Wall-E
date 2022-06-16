@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
+const { roleID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -50,7 +51,7 @@ module.exports = {
                     deny: ['VIEW_CHANNEL'],
                 },
                 {
-                    id: `692097359005351947`, // Supreme Overseers
+                    id: roleID.mod, // Supreme Overseers
                     deny: ['VIEW_CHANNEL'],
                 },
                 {

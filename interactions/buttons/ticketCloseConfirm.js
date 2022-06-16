@@ -1,5 +1,6 @@
 const fs = require(`fs`);
 const { MessageEmbed } = require(`discord.js`);
+const { roleID, channelID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -8,8 +9,8 @@ module.exports = {
     async execute(interaction) {
 
         // reply to the interaction
-        if (!interaction.member._roles.includes(`692097359005351947`)) {
-            return interaction.reply({ content: `You can't mark a ticket as completed!`, ephemeral: true });
+        if (!interaction.member._roles.includes(roleID.mod)) {
+            return interaction.reply({ content: `Only moderators can mark a ticket as completed!`, ephemeral: true });
         } else {
             interaction.deferUpdate();
         }
@@ -39,7 +40,7 @@ module.exports = {
         });
 
         // get all members of the channel who aren't a supreme overseer || bot
-        ticketMembers = interaction.channel.members.map(m => m).filter(member => !(member._roles.includes(`692097359005351947`) || member._roles.includes(`692100602297188382`)));
+        ticketMembers = interaction.channel.members.map(m => m).filter(member => !(member._roles.includes(roleID.mod) || member._roles.includes(roleID.bots)));
 
         // create embed
         const transcriptEmbed = new MessageEmbed()
@@ -63,7 +64,7 @@ module.exports = {
 
         } finally {
             // send transcript to transcript logging channel
-            interaction.client.channels.cache.get(`789907442582028308`).send({ embeds: [transcriptEmbed.spliceFields(0,1)] }).then(interaction.client.channels.cache.get(`789907442582028308`).send({ files: [transcriptFileLocation] }));
+            interaction.client.channels.cache.get(channelID.logSupport).send({ embeds: [transcriptEmbed.spliceFields(0,1)] }).then(interaction.client.channels.cache.get(channelID.logSupport).send({ files: [transcriptFileLocation] }));
 
             // delete the support ticket
             interaction.channel.delete();
