@@ -7,8 +7,7 @@ module.exports = {
 
     async execute(interaction) {
 
-        // mod & admin roles
-
+        // blank variable for message
         var message = ``;
 
         // other important stuff
