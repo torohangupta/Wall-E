@@ -23,7 +23,7 @@ module.exports = {
                 }
 
                 if (!interaction.member._roles.includes(roleID.mod)) {
-                    return interaction.reply({ content: `You must be a moderator to use this command`, ephemeral: true })
+                    return interaction.reply({ content: `You must be a moderator to use this command.`, ephemeral: true })
                 }
 
                 // send confirmation embed
@@ -59,7 +59,7 @@ module.exports = {
                     return interaction.reply({ content: `You cannot open a support ticket on behalf of a bot.`, ephemeral: true });
                 } // disallow opening tickets for bots
 
-                if (member._roles.includes(roleID.mods)) { 
+                if (member._roles.includes(roleID.mods)) {
                     return interaction.reply({ content: `You cannot open a support ticket on behalf of a mod.`, ephemeral: true });
                 } // disallow opening tickets for mods
 
@@ -97,40 +97,19 @@ module.exports = {
                 return interaction.reply({ content: `A ticket was opened on ${member}'s behalf.`, ephemeral: true });
             case `add`:    // add a user to the current support ticket (must be used in a ticket channel)
 
-                if (!interaction.channel.name.includes(`ticket-`)) { 
-                    return interaction.reply({ content: `Please use this command in a support ticket.`, ephemeral: true }) 
+                if (!interaction.channel.name.includes(`ticket-`)) {
+                    return interaction.reply({ content: `Please use this command in a support ticket.`, ephemeral: true })
                 }
 
                 if (member._roles.includes(roleID.bots)) {
                     return interaction.reply({ content: `You cannot add a bot to a support ticket.`, ephemeral: true })
                 } // disallow adding bots to tickets
 
-                interaction.channel.permissionOverwrites.create(member.user.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
-                break;
-            case `remove`: // remove a user from the current support ticket (must be a mod)
-
-                // console.log(member)
-
-                if (!interaction.channel.name.includes(`ticket-`)) { 
-                    return interaction.reply({ content: `Please use this command in a support ticket channel`, ephemeral: true }) 
+                if (member._roles.includes(roleID.mod)) {
+                    return interaction.reply({ content: `You cannot add moderators to a support ticket.`, ephemeral: true })
                 }
 
-                if (member._roles.includes(roleID.bots)) { 
-                    return interaction.reply({ content: `You cannot remove bots from a support ticket.`, ephemeral: true }) 
-                } // disallow removing bots from tickets
-
-                if (member._roles.includes(roleID.mods)) { 
-                    return interaction.reply({ content: `You cannot remove moderators from a support ticket.`, ephemeral: true }) 
-                } // disallow removing mods from tickets
-
-                console.log(1)
-                usernameScrubbed = member.user.username.toLowerCase().replace(/[^a-z]+/g, '');
-                if (interaction.channel.name.includes(`ticket-${usernameScrubbed}`)) {
-                    return interaction.reply({ content: `You cannot remove the primary ticket member.`, ephemeral: true });
-                } // disallow removing the primary user
-
-                console.log(2)
-                interaction.channel.permissionOverwrites.create(member.user.id, { VIEW_CHANNEL: false, SEND_MESSAGES: false });
+                interaction.channel.permissionOverwrites.create(member.user.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
                 break;
         }
     }

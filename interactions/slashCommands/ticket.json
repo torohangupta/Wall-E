@@ -32,19 +32,6 @@
                     "required": true
                 }
             ]
-        },
-        {
-            "name": "remove",
-            "description": "Mod only: Remove a user from the current support ticket",
-            "type": "SUB_COMMAND",
-            "options": [
-                {
-                    "name": "user",
-                    "description": "The user to remove from the support ticket",
-                    "type": "USER",
-                    "required": true
-                }
-            ]
         }
     ]
 }
