@@ -58,7 +58,7 @@ module.exports = {
 
 		function links(message) {
 			// regex to match general links
-			const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
+			const linkRegex = /^(https?:\/\/)?(www\.)?(?!((?:www\.|)tenor\.(com)))[\p{L}\-0-9]{2,}\.[^\s]{2,}/;
 
 			let sentLink = message.content.slice(message.content.search(linkRegex)).split(/ +/)[0];
 
