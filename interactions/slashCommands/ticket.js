@@ -19,11 +19,11 @@ module.exports = {
 
                 // if the channel is not a ticket channel or the user is not a mod, return
                 if (!interaction.channel.name.includes(`ticket-`)) {
-                    return interaction.reply({ content: `Please use this command in a support ticket channel`, ephemeral: true })
+                    return interaction.reply({ content: `Please use this command in a support ticket channel`, ephemeral: true });
                 }
 
                 if (!interaction.member._roles.includes(roleID.mod)) {
-                    return interaction.reply({ content: `You must be a moderator to use this command.`, ephemeral: true })
+                    return interaction.reply({ content: `You must be a moderator to use this command.`, ephemeral: true });
                 }
 
                 // send confirmation embed
@@ -98,18 +98,28 @@ module.exports = {
             case `add`:    // add a user to the current support ticket (must be used in a ticket channel)
 
                 if (!interaction.channel.name.includes(`ticket-`)) {
-                    return interaction.reply({ content: `Please use this command in a support ticket.`, ephemeral: true })
+                    return interaction.reply({ content: `Please use this command in a support ticket.`, ephemeral: true });
                 }
 
                 if (member._roles.includes(roleID.bots)) {
-                    return interaction.reply({ content: `You cannot add a bot to a support ticket.`, ephemeral: true })
+                    return interaction.reply({ content: `You cannot add a bot to a support ticket.`, ephemeral: true });
                 } // disallow adding bots to tickets
 
                 if (member._roles.includes(roleID.mod)) {
-                    return interaction.reply({ content: `You cannot add moderators to a support ticket.`, ephemeral: true })
+                    return interaction.reply({ content: `You cannot add moderators to a support ticket.`, ephemeral: true });
                 }
 
-                interaction.channel.permissionOverwrites.create(member.user.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
+                interaction.channel.permissionOverwrites.create(member.user.id, { VIEW_CHANNEL: true, SEND_MESSAGES: true }).then(supportChannel => {
+
+                    // send confirmation embed
+                    const ticketOpenEmbed = new MessageEmbed()
+                        .setTitle(`Support Ticket - ${member.user.username.toLowerCase().replace(/[^a-z]+/g, ``)}`)
+                        .setColor(`6AA4AD`)
+                        .setDescription(`Hello, ${member}!\n\nYou have been added to this support ticket.\n\nTo recieve a transcript of your ticket, make sure you allow direct messages from server members.`)
+
+                    interaction.reply({ content: `${member}` }).then(m => m.delete());
+                    supportChannel.send({ embeds: [ticketOpenEmbed] });
+                });
                 break;
         }
     }
