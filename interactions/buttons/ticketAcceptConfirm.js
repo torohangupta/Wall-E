@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { roleID } = require(`../../dependencies/resources/config.json`);
 
 module.exports = {
 
@@ -9,9 +10,9 @@ module.exports = {
         // reply to the interaction
         interaction.deferUpdate();
 
-        // perform interaction actions
+        // allow the ticket requester to send messages & mods to view the ticket
         interaction.channel.permissionOverwrites.create(interaction.user, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
-        interaction.channel.permissionOverwrites.create(`692097359005351947`, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
+        interaction.channel.permissionOverwrites.create(roleID.mod, { VIEW_CHANNEL: true, SEND_MESSAGES: true });
 
         // send confirmation embed
         const ticketAcceptConfirmedEmbed = new MessageEmbed()
