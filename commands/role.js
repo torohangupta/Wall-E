@@ -18,6 +18,6 @@ module.exports = {
 
     execute(message, args) {
 
-        return message.reply({ content:` This command is depricated. Please use \`/class\``, allowedMentions: { repliedUser: true } });
+        return message.reply({ content:` This command is deprecated. Please use \`/class\``, allowedMentions: { repliedUser: true } });
     }
 };
