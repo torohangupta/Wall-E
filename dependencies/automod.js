@@ -58,7 +58,7 @@ module.exports = {
 
 		function links(message) {
 			// regex to match general links
-			const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
+			const linkRegex = /^(https?:\/\/)?(www\.)?(?!((?:www\.|)tenor\.(com)))[\p{L}\-0-9]{2,}\.[^\s]{2,}/;
 
 			let sentLink = message.content.slice(message.content.search(linkRegex)).split(/ +/)[0];
 
@@ -66,7 +66,7 @@ module.exports = {
 			const daysOnServer = Math.floor((Date.now() - message.member.joinedTimestamp) / 86400000);
 
 			const linkBlacklistTime = 7; // number of days before you can post links on the server
-			if (message.content.search(linkRegex) != -1 && daysOnServer < linkBlacklistTime) {
+			if (daysOnServer < linkBlacklistTime && message.content.search(linkRegex) != -1) {
 				// create embed base
 				const linkTester = new MessageEmbed()
 					.setColor(`E22E2E`) // RED

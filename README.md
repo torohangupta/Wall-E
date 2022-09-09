@@ -21,6 +21,7 @@ bugfix/bug-name
 ![](https://img.shields.io/badge/contributions-welcome-red)
 
 ![](https://img.shields.io/badge/Rohan%20Gupta-rohangupta%238570-lightgreen)
+![](https://img.shields.io/badge/Daryl%20Damman-brandt.damman%40spudwilson.us-blue)
 
 <br>
 
