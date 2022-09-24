@@ -1,6 +1,8 @@
 module.exports = {
-	name: 'interactionCreate',
+
+	name: `interactionCreate`,
 	once: false,
+
 	execute(client) {
 		// TODO: Handle interactionCreate event
 	},

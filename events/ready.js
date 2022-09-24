@@ -1,9 +1,16 @@
+const { PRESENCE } = require(`../core/config.js`)
+
 module.exports = {
-	name: 'ready',
+
+	name: `ready`,
 	once: true,
+
 	execute(client) {
-		console.clear();
-		console.log(`Wall-E is online! Logging in as ${client.user.tag}`);
-    	client.user.setActivity(`rohan write bad code`, { type: `WATCHING` });
+		// clear console
+		// console.clear();
+		console.log(`${client.user.tag} is online!`);
+
+    	client.user.setActivity(PRESENCE.MESSAGE, { type: PRESENCE.TYPE });
+
 	},
 };

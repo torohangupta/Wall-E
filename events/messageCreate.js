@@ -1,6 +1,8 @@
 module.exports = {
-	name: 'messageCreate',
+	
+	name: `messageCreate`,
 	once: false,
+
 	execute(client) {
 		// TODO: Handle messageCreate event
 	},
