@@ -1,4 +1,7 @@
+const fs = require(`fs`);
+
 const { Client, Collection } = require("discord.js");
+const { } = require(`./logger.js`)
 
 module.exports = class BotClient extends Client {
     constructor() {
@@ -30,6 +33,37 @@ module.exports = class BotClient extends Client {
             - Track successful & unsuccessful event loads
             - Offload file validation to getFilePath(dir, ext)?
         */
+
+        // get event files & filter by .js files
+        const eventFiles = fs.readdirSync(directory);
+        let success = 0;
+        let failure = 0;
+
+        // turn on event handlers
+        eventFiles.forEach(eventFile => {
+            const event = require(`.${directory}/${eventFile}`);
+            console.log(`.${directory}/${eventFile}`);
+            // console.log(event)
+
+            try {
+                if (event.once) {
+                    this.once(event.name, (...args) => {
+                        event.execute(this, ...args)
+                    })
+                } else {
+                    this.on(event.name, (...args) => {
+                        event.execute(this, ...args)
+                    })
+                }
+                success++;
+            } catch (error) {
+                failure++;
+                console.log(`failure`)
+            }
+
+        });
+
+        console.log(`LOG: ${success} events successfully loaded, ${failure} events failed to load.`)
     }
 
     /**
@@ -76,4 +110,11 @@ module.exports = class BotClient extends Client {
         */
     }
 
+    /** 
+     * Generate emebed object
+     * @param {Map} embedFields
+     */
+    embedGenerator(embedFields) {
+
+    }
 };
