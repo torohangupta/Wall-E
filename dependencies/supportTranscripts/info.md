@@ -1,1 +1,0 @@
-This directory for support ticket transcripts - it's easier to have it in place already instead of having to initalize it.
