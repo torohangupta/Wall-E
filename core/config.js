@@ -2,6 +2,11 @@ module.exports = {
     OWNER_ID: `382893405178691584`,
     PREFIX: `~`, /** @deprecated */
 
+    SERVER_ID: {
+        ONLINE_COLLEGE: `692094440881520671`,
+        DEVELOPMENT: `740038736561307678`
+    },
+
     PRESENCE: {
         STATUS: `online`,
         TYPE: `WATCHING`,
