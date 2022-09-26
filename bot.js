@@ -2,12 +2,13 @@ require("dotenv").config();
 
 const BotClient = require(`./core/botClient.js`);
 
+console.clear();
+
 // initialize client
-const client = new BotClient();
+const client = new BotClient(process.env.ENVIRONMENT);
 
 
-// client.registerSlashCommands(/* dir */)
-// client.loadCommands(/* dir */);
+client.loadSlashCommands(`./interactions/commands`);
 // client.loadButtonManagers(/* dir */);
 // client.loadSelectMenus(/* dir */);
 client.loadEvents(`./events`);
