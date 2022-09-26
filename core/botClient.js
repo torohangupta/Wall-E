@@ -1,16 +1,17 @@
 const fs = require(`fs`);
 
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, MessageEmbed } = require("discord.js");
 const { } = require(`./logger.js`)
 
 module.exports = class BotClient extends Client {
-    constructor() {
+    constructor(environment) {
         super({
             intents: [`GUILDS`, `GUILD_MESSAGES`, `GUILD_VOICE_STATES`, `GUILD_MESSAGE_REACTIONS`, `GUILD_MEMBERS`, `GUILD_PRESENCES`, `DIRECT_MESSAGES`],
             partials: ['CHANNEL'],
         });
 
         this.config = require(`./config.js`); // load the config file
+        this.environment = environment; // environment bot is in (dev || live)
 
         /** @type {interactionSlash} - slash commands collection */
         this.slashCommands = new Collection();
@@ -70,8 +71,23 @@ module.exports = class BotClient extends Client {
      * Registers all slash commands with the server
      * @param {String} directory
      */
-    registerSlashCommands(directory) {
+    registerSlashCommands(readyClient, directory) {
         // register slash commands (rewrite deploy.js)
+        const slashCommandFiles = fs.readdirSync(directory);
+        const commandStructures = [];
+
+        slashCommandFiles.forEach(slashCommandFile => {
+            const command = require(`.${directory}/${slashCommandFile}`);
+            commandStructures.push(command);
+        });
+
+        // get server ID to register commands to (DEV || OC)
+        const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
+
+        // console.log(this)
+        // this.commands.set(commandStructures)
+
+        readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
     }
 
     /**
@@ -84,6 +100,13 @@ module.exports = class BotClient extends Client {
             - Track successful & unsuccessful slash command loads
             - Offload file validation to getFilePath(dir, ext)?
         */
+        // register all slash commands
+        const slashCommandFiles = fs.readdirSync(directory);
+
+        slashCommandFiles.forEach(slashCommandFile => {
+            const slashCommand = require(`.${directory}/${slashCommandFile}`);
+            this.slashCommands.set(slashCommand.name, slashCommand)
+        });
     }
 
     /**
@@ -110,11 +133,22 @@ module.exports = class BotClient extends Client {
         */
     }
 
+    logger(logLevel, title, message) {
+
+    }
+
     /** 
      * Generate emebed object
-     * @param {Map} embedFields
+     * @param {Object} embedFields
+     * @returns {Object} 
      */
     embedGenerator(embedFields) {
+        const embed = new MessageEmbed();
+
+        if (embedFields.title) { embed.setTitle(embedFields.title) };
+
+
+        return embed
 
     }
 };
