@@ -11,7 +11,11 @@ module.exports = {
         const reply = content => interaction.reply({ content, allowedMentions: { repliedUser: false } });
 
         const professorName = getProfessorName(interaction);
-        const professors = await ratings.searchTeacher(professorName, RATE_MY_PROFESSOR_SCHOOL_ID)
+
+        if (!professorName)
+            return reply("Please specify a professor's name.");
+
+        const professors = await ratings.searchTeacher(professorName, RATE_MY_PROFESSOR_SCHOOL_ID);
 
         if (professors.length == 0)
             return reply('No professors found.');
@@ -35,4 +39,4 @@ ${professorDetails.numRatings} Ratings
 [View More](https://ratemyprofessors.com/ShowRatings.jsp?tid=${professorDetails.legacyId})`
 };
 
-const getProfessorName = interaction => interaction.options._hoistedOptions[0].value;
+const getProfessorName = interaction => interaction.options._hoistedOptions.length === 1 && interaction.options._hoistedOptions[0].value;
