@@ -1,0 +1,11 @@
+{
+    "name": "ratemyprofessor",
+    "description": "See details about any given professor",
+    "options": [
+        {
+            "name": "name",
+            "description": "Your professor's name.",
+            "type": "STRING"
+        }
+    ]
+}
