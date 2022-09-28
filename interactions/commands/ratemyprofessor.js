@@ -10,7 +10,7 @@ module.exports = {
 
         const reply = content => interaction.reply({ content, allowedMentions: { repliedUser: false } });
 
-        const professorName = interaction.options._hoistedOptions[0].value;
+        const professorName = getProfessorName(interaction);
         const professors = await ratings.searchTeacher(professorName, RATE_MY_PROFESSOR_SCHOOL_ID)
 
         if (professors.length == 0)
@@ -24,13 +24,15 @@ module.exports = {
 
         const professorDetails = await ratings.getTeacher(professors[0].id);
 
-        reply(generateReplyFromProfessor(professorDetails));
+        reply(generateReplyFromProfessorDetails(professorDetails));
     }
 };
 
-const generateReplyFromProfessor = teacherDetails => {
-    return `**${teacherDetails.firstName} ${teacherDetails.lastName}** (${teacherDetails.department})
-${teacherDetails.avgRating} Stars | ${teacherDetails.avgDifficulty} Difficulty
-${teacherDetails.numRatings} Ratings
-[View More](https://ratemyprofessors.com/ShowRatings.jsp?tid=${teacherDetails.legacyId})`
+const generateReplyFromProfessorDetails = professorDetails => {
+    return `**${professorDetails.firstName} ${professorDetails.lastName}** (${professorDetails.department})
+${professorDetails.avgRating} Stars | ${professorDetails.avgDifficulty} Difficulty
+${professorDetails.numRatings} Ratings
+[View More](https://ratemyprofessors.com/ShowRatings.jsp?tid=${professorDetails.legacyId})`
 };
+
+const getProfessorName = interaction => interaction.options._hoistedOptions[0].value;
