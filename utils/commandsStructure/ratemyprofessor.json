@@ -1,10 +1,10 @@
 {
     "name": "ratemyprofessor",
-    "description": "See details about any given professor",
+    "description": "See details about any given ISU professor.",
     "options": [
         {
             "name": "name",
-            "description": "Your professor's name.",
+            "description": "Your ISU professor's name.",
             "type": "STRING"
         }
     ]
