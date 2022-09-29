@@ -114,15 +114,25 @@ module.exports = class BotClient extends Client {
     }
 
     /**
-     * Load button managers from specified directory
+     * Load button & button manager files from specified directory
      * @param {String} directory
      */
-    loadButtonManagers(directory) {
+    loadButtons(directory) {
         /* TODO: Load Button Managers
             - Log function start
             - Track successful & unsuccessful button manager loads
             - Offload file validation to getFilePath(dir, ext)?
         */
+        const buttonFiles = fs.readdirSync(directory);
+        let success = 0;
+
+        buttonFiles.forEach(buttonFile => {
+            const button = require(`.${directory}/${buttonFile}`);
+            this.buttons.set(button.id, button);
+            success++;
+        });
+
+        this.logger.console(`DEBUG`, `Loaded Buttons & Button Managers`, [`From (${directory}/)...`, `- ${success} button(s) loaded`]);
     }
 
     /**
