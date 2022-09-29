@@ -12,13 +12,13 @@ module.exports = class BotClient extends Client {
         this.config = require(`./config.js`); // load the config file
         this.environment = environment; // environment bot is in (dev || live)
 
-        /** @type {interactionSlash} - slash commands collection */
+        /** @type {Collection} - slash commands collection */
         this.slashCommands = new Collection();
 
-        /** @type {interactionSelectMenu} - select menus collection */
+        /** @type {Collection} - select menus collection */
         this.selectMenus = new Collection();
 
-        /** @type {interactionButtonManager} - button manager collection */
+        /** @type {Collection} - button manager collection */
         this.buttons = new Collection();
 
     }
