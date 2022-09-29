@@ -1,7 +1,6 @@
 const fs = require(`fs`);
 
 const { Client, Collection, MessageEmbed } = require("discord.js");
-const { } = require(`./logger.js`)
 
 module.exports = class BotClient extends Client {
     constructor(environment) {
