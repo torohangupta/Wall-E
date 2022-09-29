@@ -67,16 +67,19 @@ module.exports = class BotClient extends Client {
 
     /**
      * Registers all slash commands with the server
-     * @param {String} directory
+     * @param {Client} readyClient the initialized client (called from `ready` event)
+     * @param {String} directory path to application commands structure files
      */
     registerSlashCommands(readyClient, directory) {
         // register slash commands (rewrite deploy.js)
         const slashCommandFiles = fs.readdirSync(directory);
         const commandStructures = [];
+        let success = 0;
 
         slashCommandFiles.forEach(slashCommandFile => {
             const command = require(`.${directory}/${slashCommandFile}`);
             commandStructures.push(command);
+            success++;
         });
 
         // get server ID to register commands to (DEV || OC)
