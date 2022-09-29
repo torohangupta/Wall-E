@@ -21,6 +21,8 @@ module.exports = class BotClient extends Client {
         /** @type {Collection} - button manager collection */
         this.buttons = new Collection();
 
+        /** @member {Class} logger instanciated by ready.js  */
+        this.logger;
     }
 
     /**
@@ -130,10 +132,6 @@ module.exports = class BotClient extends Client {
             - Track successful & unsuccessful select menu loads
             - Offload file validation to getFilePath(dir, ext)?
         */
-    }
-
-    logger(logLevel, title, message) {
-
     }
 
     /** 
