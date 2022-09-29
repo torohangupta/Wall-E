@@ -1,3 +1,5 @@
+const Logger = require(`../core/logger.js`);
+
 module.exports = {
 
 	name: `interactionCreate`,
@@ -5,57 +7,47 @@ module.exports = {
 
 	async execute(client, interaction) {
 
-		try {
-			if (interaction.isCommand()) {
-				const command = client.slashCommands.get(interaction.commandName);
-				if (command) await command.execute(interaction);
-				else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` })
-			}
-		} catch (err) {
-			console.log(err.level)
-		}
+		// client.logger.test();
 		
 
-		// try {
-		// 	// if (interaction.isCommand()) {
-		// 	// 	const slashCommand = client.slashCommands.get(interaction.commandName);
+		try {
+			if (interaction.isCommand()) {
+				// check for guild only commands
 
-		// 	// 	try {
-		// 	// 		await slashCommand.execute(interaction);
-		// 	// 	} catch (error) {
-		// 	// 		throw new Error(`Failed to Execute InteractionCommand`, { cause: error.message });
-		// 	// 	}
-		// 	// } else 
-		// 	if (interaction.isButton()) {
-		// 		const buttonIDComponent = interaction.customId.split(`_`);
+				const command = client.slashCommands.get(interaction.commandName);
+				if (command) await command.execute(interaction), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} ran ${interaction.commandName}`);
+				else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` });
 
-		// 		switch (buttonIDComponent.length) {
-		// 			case 1: // button is not part of a managed set
-		// 				console.log(`NO BUTTON MANAGER`);
-		// 				break;
-		// 			case 2: // button is part of a managed set (second arg is function)
-		// 				console.log(`BUTTON MANAGER`);
-		// 				console.log(`${buttonIDComponent[0]}Manager.js`)
-		// 				break;
+			} else if (interaction.isButton()) {
+				const buttonIDComponent = interaction.customId.split(`_`);
+				let buttonID, button;
 
-		// 			default:
-		// 				throw new Error(`Failed to Execute InteractionCommand`, { cause: error.message });
-		// 		}
+				switch (buttonIDComponent.length) {
+					case 1: // button is not part of a managed set
+						buttonID = buttonIDComponent;
+						button = client.buttons.get(buttonID);
+						break;
 
-		// 	} else if (interaction.isSelectMenu()) {
+					case 2: // button is part of a managed set (second arg is function)
+						buttonID = `${buttonIDComponent[0]}Manager`;
+						button = client.buttons.get(buttonID);
+						break;
 
-		// 	} else {
-		// 		throw new Error('Interaction does not exist!', { cause: `err` });
-		// 	}
-		// } catch (err) {
-		// 	// interaction.reply({ content: `That doesn't work currently. If you think this is a mistake, please submit a bug report on my GitHub!\nhttps://github.com/torohangupta/Wall-E`, ephemeral: true });  
-		// 	console.log(`===============================================`);
-		// 	console.log(err.message)
-		// 	console.log(`===============================================`);
-		// 	console.log(err.cause)
-		// 	console.log(`===============================================`);
-		// 	console.log(err.stack)
-		// 	console.error(`${err.name}: ${err.message}`);
-		// }
+					default:
+						throw new ReferenceError(`Failed to Execute InteractionCommand`, { cause: `File is either missing or does not exist.` });
+				}
+				args = (buttonIDComponent[1] ? [client, interaction, buttonIDComponent[1]] : [client, interaction]);
+
+				if (button) await button.execute(...args), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} pushed ${buttonID}`);
+				else throw new ReferenceError(`Cannot find the interaction button file!`, { cause: `File is either missing or does not exist.` });
+
+			} else if (interaction.isSelectMenu()) {
+
+			} else {
+				throw new Error()
+			}
+		} catch (err) {
+			client.logger.console(`ERROR`, `${err.name}: Event - ${this.name}`, err.cause, err.stack);
+		}
 	}
 };
