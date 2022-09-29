@@ -42,8 +42,6 @@ module.exports = class BotClient extends Client {
         // turn on event handlers
         eventFiles.forEach(eventFile => {
             const event = require(`.${directory}/${eventFile}`);
-            console.log(`.${directory}/${eventFile}`);
-            // console.log(event)
 
             try {
                 if (event.once) {
@@ -58,12 +56,11 @@ module.exports = class BotClient extends Client {
                 success++;
             } catch (error) {
                 failure++;
-                console.log(`failure`)
             }
 
         });
 
-        console.log(`LOG: ${success} events successfully loaded, ${failure} events failed to load.`)
+        this.logger.console(`DEBUG`, `Initalized Event Handlers`, [`From (${directory}/)...`, `- ${success} events successfully loaded`, `- ${failure} events failed to load`]);
     }
 
     /**
@@ -83,10 +80,9 @@ module.exports = class BotClient extends Client {
         // get server ID to register commands to (DEV || OC)
         const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
 
-        // console.log(this)
-        // this.commands.set(commandStructures)
-
         readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
+
+        this.logger.console(`DEBUG`, `Registered Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) registered`]);
     }
 
     /**
@@ -101,11 +97,15 @@ module.exports = class BotClient extends Client {
         */
         // register all slash commands
         const slashCommandFiles = fs.readdirSync(directory);
+        let success = 0;
 
         slashCommandFiles.forEach(slashCommandFile => {
             const slashCommand = require(`.${directory}/${slashCommandFile}`);
-            this.slashCommands.set(slashCommand.name, slashCommand)
+            this.slashCommands.set(slashCommand.name, slashCommand);
+            success++;
         });
+
+        this.logger.console(`DEBUG`, `Loaded Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) loaded`]);
     }
 
     /**
