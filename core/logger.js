@@ -1,29 +1,127 @@
-const { chalk } = import(`chalk`);
-
-const BotClient = require(`./botClient.js`);
+const chalk = require(`chalk`);
 
 module.exports = class Logger {
-    constructor(client) {
-
+    constructor() {
         /** @member {Class} client the active BotClient */
-        this.client = client;
-
-        /** @member {Date} date stores current date when class is called */
-        this.date = Date.now();
+        this.client;
 
         /** @member {Object} config load config data */
         this.config = require(`./config.js`);
+
+        /** @member {Object} guild fetch guild object for Online College */
+        this.guild;
+
+        /** @member {Object} consoleChannel fetch channel object for consoleChannel */
+        this.consoleChannel;
+
+        /** @member {Object} dmChannel fetch channel object for dmChannel */
+        this.dmChannel;
     }
 
     /**
-     * log all relevant console events
+     * Initializer function for the Logger Class - set this.guild & this.consoleChannel
+     * @param {String} guildID ID of the guild
+     * @param {Object} channels IDs of the channel stored in config.js
+     */
+    async init(guildID = this.config.SERVER_ID.DEVELOPMENT, channels = this.config.CHANNELS) {
+        this.guild = await this.client.guilds.fetch(guildID);
+        this.consoleChannel = await this.guild.channels.fetch(channels.TEST_CONSOLE);
+        this.dmChannel = await this.guild.channels.fetch(channels.LOG_DMS);
+        this.console(`DEBUG`, `Initalized Guild & Channel Objects`,[`- Fetched guild`, `- Fetched console & dm channels`]);
+
+        return;
+    }
+
+    /**
+     * @remove testing function: Called by interactionCreate.js. Will be deleted
+     */
+    test() {
+        this.console(`WARNING`, `Good Warning`, `This warning is correct with a single string for message input`);
+        this.console(`INFO`, `Just some info`, [`This is arr index 0`, `the title of this is also green, since it has a message payload attached`]);
+        this.console(`WARNIdwNG`, `The loglevel is misspelled on purpose`, `this is a single string`);
+        this.console(`POOP`, `SOME TITLE`, [`this is element 0 of an array`, `This is the POOP warning`]);
+        this.console(`1`,)
+    }
+
+    /**
+     * Log all relevant console events
      * @param {String} level INFO/DEBUG/WARNING/ERROR
      * @param {String} title title of message to log to console
-     * @param {String} message body to log
+     * @param {String|Array.<string>} message details as string (single line) or array (for multi-line output)
      * @param {Stack} error stack (only for errors)
+     * @param {Date} timestamp timestamp of log to console
+     * @param {Object} channel channel object to send messages to
      */
-    console(level, title, message, error) {
+    console(level, title, message, error, timestamp = Date.now(), channel = this.consoleChannel) {
+        // initialize blank output object & message array
+        const out = {};
+        let outMsgArr = [];
 
+        // set constant padding length
+        const messagePadding = ``.padStart(7);
+        out.level = level.padStart(7);
+
+        // get human-readable date & time in CST
+        const time = new Date(timestamp).toLocaleString("en-US", { timeZone: `CST`, month: `short`, day: `2-digit`, hour: `numeric`, minute: `numeric` });
+
+        // switch level to determine & store formatting
+        let defaultedCase = false;
+        switch (level) {
+            case `INFO`:
+                if (message) {
+                    out.titleLine = `${chalk.green(time)} | ${chalk.green(out.level)} : ${chalk.green(title)}`;
+                } else {
+                    out.titleLine = `${chalk.green(time)} | ${chalk.green(out.level)} : ${title}`;
+                }
+                break;
+
+            case `DEBUG`:
+                out.titleLine = `${chalk.blue(time)} | ${chalk.blue(out.level)} : ${chalk.blue(title)}`;
+                break;
+
+            case `WARNING`:
+                out.titleLine = `${chalk.yellow(time)} | ${chalk.yellow(out.level)} : ${chalk.yellow(title)}`;
+                break;
+
+            case `ERROR`:
+                out.titleLine = `${chalk.red(time)} | ${chalk.red(out.level)} : ${chalk.red(title)}`;
+                message = error.replace(/(?<=\()(.*)(?<=Wall-E)/gm, `.`).split("\n", 4);
+                break;
+
+            default:
+                defaultedCase = true;
+                outMsgArr.push(`Check spelling while calling the console logger`);
+                outMsgArr.push(`===============================================`);
+                outMsgArr.push(`Original log: ${chalk.yellow(title)}`);
+                if (Array.isArray(message)) {
+                    message.forEach(msg => {
+                        outMsgArr.push(messagePadding + msg);
+                    });
+                } else {
+                    outMsgArr.push(messagePadding + message);
+                }
+                this.console(`WARNING`, `Misspelled Log Level Passed to Logging Function`, outMsgArr);
+                break
+        }
+
+        // if function hits the "default" case, break execution of function since a new this.console() function is called
+        if (defaultedCase) return;
+
+        // Convert multi-line message (passed as Array) to a single string delimited by newline characters
+        if (Array.isArray(message)) {
+            message.forEach(msg => {
+                outMsgArr.push(messagePadding + msg);
+            });
+            out.messageLine = outMsgArr.join(`\n`);
+        } else if (message) {
+            out.messageLine = messagePadding + message;
+        }
+
+        // Output to console. If there are messages or an error stack, output those too
+        console.log(out.titleLine)
+        if (out.messageLine) console.log(out.messageLine);
+        // if (error) console.log(error);
+        return;
     }
 
     /**
