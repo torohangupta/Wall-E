@@ -3,8 +3,8 @@ module.exports = {
 	name: `ready`,
 	once: true,
 
-	execute(client) {
-		console.log(`${client.user.tag} is online!`);
+	async execute(client) {
+		client.logger.console(`INFO`, `${client.user.tag} is online!`);
 
 		// set activity
 		const presenceConfig = client.config.PRESENCE;
@@ -12,5 +12,9 @@ module.exports = {
 
 		// register slash commands
 		client.registerSlashCommands(client, `./utils/commandsStructure`);
+
+		// pass active BotClient to logger & then initialize the logger class
+		client.logger.client = client;
+		client.logger.init();
 	},
 };
