@@ -2,5 +2,10 @@
 // new Map
 
 module.exports = {
-    // button manager
+
+    id: `ticketManager`,
+
+    execute(client, interaction, args) {
+        
+    }
 }
