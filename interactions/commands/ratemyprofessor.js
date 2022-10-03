@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 const ratings = require('@mtucourses/rate-my-professors').default;
 
 const RATE_MY_PROFESSOR_SCHOOL_ID = 'U2Nob29sLTQ1Mg==';
@@ -8,21 +10,21 @@ module.exports = {
 
     async execute(interaction) {
 
-        const reply = content => interaction.reply({ content, allowedMentions: { repliedUser: false } });
+        const reply = embed => interaction.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 
         const professorName = getProfessorName(interaction);
 
         if (!professorName)
-            return reply("Please specify an ISU professor's name.");
+            return reply(new MessageEmbed().setTitle('Rate My Professor').setDescription("Please specify an ISU professor's name."));
 
         const professors = await getProfessorsByName(professorName);
 
         if (professors.length == 0)
-            return reply('No ISU professors found.');
-        
+            return reply(new MessageEmbed().setTitle('Rate My Professor').setDescription('No ISU professors found.'));
+
         if (professors.length > 1) {
             const professorsFound = professors.map(prof => `⦁ ${prof.firstName} ${prof.lastName}\n`).join('');
-            return reply(`${professors.length} ISU professors found. Please refine your query.\n\nNames found:\n${professorsFound}`);
+            return reply(new MessageEmbed().setTitle('Rate My Professor').setDescription(`${professors.length} ISU professors found. Please refine your query.\n\nNames found:\n${professorsFound}`));
         }
 
         const professorDetails = await getProfessorDetails(professors[0]);
@@ -32,10 +34,12 @@ module.exports = {
 };
 
 const generateReplyFromProfessorDetails = professorDetails => {
-    return `**${professorDetails.firstName} ${professorDetails.lastName}** (${professorDetails.department})
-${professorDetails.avgRating} Stars | ${professorDetails.avgDifficulty} Difficulty
-${professorDetails.numRatings} Ratings
-[View More](https://ratemyprofessors.com/ShowRatings.jsp?tid=${professorDetails.legacyId})`
+    const title = `${professorDetails.firstName} ${professorDetails.lastName}`;
+    const description = `${professorDetails.department}\n\n**Rating:** ${professorDetails.avgRating}\n**Difficulty:** ${professorDetails.avgDifficulty}\n**Total Ratings:** ${professorDetails.numRatings}\n**WouldTakeAgain**: ${professorDetails.wouldTakeAgainPercent}`;
+    return new MessageEmbed()
+        .setTitle(title)
+        .setDescription(description)
+        .setURL(`https://ratemyprofessors.com/ShowRatings.jsp?tid=${professorDetails.legacyId}`);
 };
 
 const getProfessorName = interaction => interaction.options._hoistedOptions.length === 1 && interaction.options._hoistedOptions[0].value;
