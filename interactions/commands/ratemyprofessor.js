@@ -35,7 +35,13 @@ module.exports = {
 
 const generateReplyFromProfessorDetails = professorDetails => {
     const title = `${professorDetails.firstName} ${professorDetails.lastName}`;
-    const description = `${professorDetails.department}\n\n**Rating:** ${professorDetails.avgRating}\n**Difficulty:** ${professorDetails.avgDifficulty}\n**Total Ratings:** ${professorDetails.numRatings}\n**WouldTakeAgain**: ${professorDetails.wouldTakeAgainPercent}`;
+    const description =
+`${professorDetails.department}\n
+**Rating:** ${professorDetails.avgRating}
+**Difficulty:** ${professorDetails.avgDifficulty}
+**Total Ratings:** ${professorDetails.numRatings}
+**Would Take Again**: ${professorDetails.wouldTakeAgainPercent}%`;
+
     return new MessageEmbed()
         .setTitle(title)
         .setDescription(description)
