@@ -21,7 +21,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@mtucourses/rate-my-professors": "^2.1.0",
+    "@mtucourses/rate-my-professors": "^2.2.0",
     "axios": "^0.22.0",
     "chalk": "^5.0.1",
     "discord.js": "^13.11.0",
