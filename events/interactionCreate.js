@@ -15,7 +15,7 @@ module.exports = {
 				// check for guild only commands
 
 				const command = client.slashCommands.get(interaction.commandName);
-				if (command) await command.execute(interaction), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} ran ${interaction.commandName}`);
+				if (command) await command.execute(interaction), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} ran the ${interaction.commandName} command`);
 				else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` });
 
 			} else if (interaction.isButton()) {
@@ -38,7 +38,7 @@ module.exports = {
 				}
 				args = (buttonIDComponent[1] ? [client, interaction, buttonIDComponent[1]] : [client, interaction]);
 
-				if (button) await button.execute(...args), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} pushed ${buttonID}`);
+				if (button) await button.execute(...args), client.logger.console(`INFO`, `Event - ${this.name}`, `${interaction.user.tag} clicked on the ${buttonID} button`);
 				else throw new ReferenceError(`Cannot find the interaction button file!`, { cause: `File is either missing or does not exist.` });
 
 			} else if (interaction.isSelectMenu()) {

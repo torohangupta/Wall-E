@@ -1,4 +1,4 @@
-require("dotenv").config();
+require(`dotenv`).config();
 
 const BotClient = require(`./core/botClient.js`);
 const Logger = require(`./core/logger.js`)

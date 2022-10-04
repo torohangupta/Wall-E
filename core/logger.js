@@ -26,8 +26,9 @@ module.exports = class Logger {
     async init(guildID = this.config.SERVER_ID.DEVELOPMENT, channels = this.config.CHANNELS) {
         this.guild = await this.client.guilds.fetch(guildID);
         this.consoleChannel = await this.guild.channels.fetch(channels.TEST_CONSOLE);
-        this.dmChannel = await this.guild.channels.fetch(channels.LOG_DMS);
-        this.console(`DEBUG`, `Initalized Guild & Channel Objects`,[`- Fetched guild`, `- Fetched console & dm channels`]);
+        this.dmChannel = await this.guild.channels.fetch(channels.TEST_DIRMSGS);
+
+        this.console(`DEBUG`, `Initalized Guild & Channel Objects`, [`- Fetched guild`, `- Fetched console & dm channels`]);
 
         return;
     }
@@ -40,7 +41,6 @@ module.exports = class Logger {
         this.console(`INFO`, `Just some info`, [`This is arr index 0`, `the title of this is also green, since it has a message payload attached`]);
         this.console(`WARNIdwNG`, `The loglevel is misspelled on purpose`, `this is a single string`);
         this.console(`POOP`, `SOME TITLE`, [`this is element 0 of an array`, `This is the POOP warning`]);
-        this.console(`1`,)
     }
 
     /**
@@ -130,16 +130,40 @@ module.exports = class Logger {
      * @param {Object} message discord message object
      */
     dm(member, message) {
+        this.console(`INFO`, `Recieved DM from ${member.tag}`);
+
+        let descriptionBody = `**New direct message from** \`${member.tag}\``;
+        let footer = {
+            text: `New direct message from: ${member.tag}`,
+            iconURL: member.displayAvatarURL()
+        };
+
+        if (message.content) {descriptionBody = `> "*${message.content}*"` }
+        if (message.content) { footer }
+
+
         //TODO: Look into replying to DMs via modals
-    }
 
-    /**
-     * Log transcript based messages in correct channel
-     * @param {String} type of transcript (support || modapp)
-     * @param {Object} member subject of transcript
-     * @param {Array} transcript transcript array
-     */
-    transcript(type, member, transcript) {
+        // console.log(message)
 
+        // const messageAttachments = message.attachments.map(a => a);
+
+        // if (messageAttachments.length === 1) {
+
+        // } else {
+
+        // }
+
+        // console.log(messageAttachments)
+
+        const embedObject = {
+            color: this.config.EMBED_COLORS.LOG_DMS,
+            description: descriptionBody,
+            footer: footer
+        }
+
+        const embed = this.client.embedGenerator(embedObject)
+        this.dmChannel.send({ embeds: [embed], files: [] })
+        // console.log(embed)
     }
 }
