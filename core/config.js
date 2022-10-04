@@ -30,6 +30,8 @@ module.exports = {
         KICK_LOG: `#FF7961`,
         SOFTBAN_LOG: `#AF4448`,
         BAN_LOG: `#D32F2F`,
+
+        LOG_DMS: `#507F7F`
     },
     
     MESSAGES: {
@@ -40,6 +42,7 @@ module.exports = {
         CONSOLE: `768856507903115294`,
         // TODO: REMOVE THIS & REFERENCES ON RELEASE
         TEST_CONSOLE: `1024789143651373136`,
+        TEST_DIRMSGS: `1024789143651373136`,
         UPDATES: `801893303444045854`,
         LOG_DMS: `787830182781255681`,
         LOG_SUPPORT: `789907442582028308`,
