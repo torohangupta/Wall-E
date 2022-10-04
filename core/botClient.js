@@ -147,18 +147,33 @@ module.exports = class BotClient extends Client {
         */
     }
 
+    /**
+     * Log transcript based messages in correct channel
+     * @param {String} type of transcript (support || modapp)
+     * @param {Object} member subject of transcript
+     * @param {Array} transcript transcript array
+     */
+    toTranscript(type, member, transcript) {
+
+    }
+
     /** 
      * Generate emebed object
      * @param {Object} embedFields
      * @returns {Object} 
      */
     embedGenerator(embedFields) {
+
+        if (!embedFields.color || !embedFields.description) { this.logger.console(`WARNING`, `Missing embed fields`, ``); }
+
         const embed = new MessageEmbed();
-
         if (embedFields.title) { embed.setTitle(embedFields.title) };
+        if (embedFields.description) { embed.setDescription(embedFields.description) };
+        if (embedFields.color) { embed.setColor(embedFields.color) };
+        if (embedFields.footer) { embed.setFooter(embedFields.footer) };
 
 
-        return embed
+        return embed;
 
     }
 };
