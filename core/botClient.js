@@ -48,11 +48,11 @@ module.exports = class BotClient extends Client {
             try {
                 if (event.once) {
                     this.once(event.name, (...args) => {
-                        event.execute(this, ...args)
+                        event.execute(this, ...args);
                     })
                 } else {
                     this.on(event.name, (...args) => {
-                        event.execute(this, ...args)
+                        event.execute(this, ...args);
                     })
                 }
                 success++;
@@ -82,10 +82,12 @@ module.exports = class BotClient extends Client {
             success++;
         });
 
-        // get server ID to register commands to (DEV || OC)
-        const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
+        /** @depricated as global application commands are registered and available immediately */
+        // const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
+        // readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
 
-        readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
+        // globally register all application commands
+        readyClient.application.commands.set(commandStructures);
 
         this.logger.console(`DEBUG`, `Registered Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) registered`]);
     }
@@ -159,19 +161,37 @@ module.exports = class BotClient extends Client {
 
     /** 
      * Generate emebed object
-     * @param {Object} embedFields
+     * @param {Object} embedFields 
      * @returns {Object} 
      */
-    embedGenerator(embedFields) {
+    embedCreate(embedFields) {
+        // destructure embedFields object
+        const { title, author, thumbnail, description, color, footer, timestamp } = embedFields;
+        /* embedFields object format
+         {
+            title : ``,
+            author : { name : ``, url : ``, iconURL : `` },
+            thumbnail : {url : ``, proxyURL : ``, height : ``, width : `` },
+            description: ``,
+            color : ``,
+            footer : { text: ``, iconURL: `` },
+            timestamp : true,
+         }
+         */
 
-        if (!embedFields.color || !embedFields.description) { this.logger.console(`WARNING`, `Missing embed fields`, ``); }
+        // blank array for missing data
+        let missingFields = [];
 
         const embed = new MessageEmbed();
-        if (embedFields.title) { embed.setTitle(embedFields.title) };
-        if (embedFields.description) { embed.setDescription(embedFields.description) };
-        if (embedFields.color) { embed.setColor(embedFields.color) };
-        if (embedFields.footer) { embed.setFooter(embedFields.footer) };
+        if (title) { embed.setTitle(title); };
+        if (author) { embed.setAuthor(author); };
+        if (thumbnail) { embed.setThumbnail(thumbnail); };
+        description ? embed.setDescription(description) : missingFields.push(`Missing description field`);
+        color ? embed.setColor(color) : missingFields.push(`Missing color field`);
+        if (footer) { embed.setFooter(footer); };
+        if (timestamp) { embed.setTimestamp(); }
 
+        if (missingFields.length !== 0) { this.logger.console(`WARNING`, `Missing embed fields`, missingFields); }
 
         return embed;
 
