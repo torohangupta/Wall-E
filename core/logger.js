@@ -28,7 +28,7 @@ module.exports = class Logger {
         this.consoleChannel = await this.guild.channels.fetch(channels.TEST_CONSOLE);
         this.dmChannel = await this.guild.channels.fetch(channels.TEST_DIRMSGS);
 
-        this.console(`DEBUG`, `Initalized Guild & Channel Objects`, [`- Fetched guild`, `- Fetched console & dm channels`]);
+        this.console(`DEBUG`, `Initalized Guild & Channel Objects`, [`- Fetched guild`, `- Fetched console & DM channels`]);
 
         return;
     }
@@ -47,7 +47,7 @@ module.exports = class Logger {
      * Log all relevant console events
      * @param {String} level INFO/DEBUG/WARNING/ERROR
      * @param {String} title title of message to log to console
-     * @param {String|Array.<string>} message details as string (single line) or array (for multi-line output)
+     * @param {String|String[]} message details as string (single line) or array (for multi-line output)
      * @param {Stack} error stack (only for errors)
      * @param {Date} timestamp timestamp of log to console
      * @param {Object} channel channel object to send messages to
@@ -138,23 +138,8 @@ module.exports = class Logger {
             iconURL: member.displayAvatarURL()
         };
 
-        if (message.content) {descriptionBody = `> "*${message.content}*"` }
+        if (message.content) { descriptionBody = `> "*${message.content}*"` }
         if (message.content) { footer }
-
-
-        //TODO: Look into replying to DMs via modals
-
-        // console.log(message)
-
-        // const messageAttachments = message.attachments.map(a => a);
-
-        // if (messageAttachments.length === 1) {
-
-        // } else {
-
-        // }
-
-        // console.log(messageAttachments)
 
         const embedObject = {
             color: this.config.EMBED_COLORS.LOG_DMS,

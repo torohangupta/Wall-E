@@ -13,30 +13,37 @@ module.exports = {
         MESSAGE: `rohan write bad code`,
     },
 
+    GITHUB : `https://github.com/torohangupta/Wall-E`,
+
     IMAGE: {
         SQUARE: `https://unitedtheme.com/live-preview/starter-gazette/wp-content/uploads/2018/12/image-005-720x720.jpg`,
     },
     
     /* Bot Embed Colors */
     EMBED_COLORS: {
-        BOT_EMBED: `#068ADD`,
-        TRANSPARENT: `#36393F`,
-        SUCCESS: `#00A56A`,
-        ERROR: `#D61A3C`,
-        WARNING: `#F7E919`,
-        AUTOMOD: `#36393F`,
-        TICKET_CREATE: `#068ADD`,
-        TICKET_CLOSE: `#068ADD`,
-        KICK_LOG: `#FF7961`,
-        SOFTBAN_LOG: `#AF4448`,
-        BAN_LOG: `#D32F2F`,
+        BOT_EMBED: `EB9850`,
+        TRANSPARENT: `36393F`,
 
-        LOG_DMS: `#507F7F`
+        SUCCESS: `00A56A`,
+        ERROR: `D61A3C`,
+        WARNING: `F7E919`,
+        AUTOMOD: `36393F`,
+
+        TICKET_CREATE: `068ADD`,
+        TICKET_CLOSE: `068ADD`,
+
+        KICK_LOG: `FF7961`,
+        SOFTBAN_LOG: `AF4448`,
+        BAN_LOG: `D32F2F`,
+
+        LOG_DMS: `507F7F`
     },
     
     MESSAGES: {
         API_ERROR: `Unexpected Backend Error! Try again later or contact support server`,
     },
+
+    NEW_VOICE_CHANNEL_BUTTON: `1041441019612377169`,
 
     CHANNELS: {
         CONSOLE: `768856507903115294`,
@@ -47,5 +54,12 @@ module.exports = {
         LOG_DMS: `787830182781255681`,
         LOG_SUPPORT: `789907442582028308`,
         LOG_MODAPPS: `933239367818944592`
+    },
+
+    ROLES: {
+        ADMIN: `694651259059437710`,
+        MOD: `740038858984521770`, //`692097359005351947`, MODS IN OC, CHANGE
+        TRAINING_MOD: `933375701099372604`,
+        BOT: `692100602297188382`,
     }
 };
