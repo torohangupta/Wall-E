@@ -1,0 +1,10 @@
+{
+    "name": "catalog",
+    "description": "Search Iowa State University's Course Catalog",
+    // "options": [{
+	// 	"name": "target",
+	// 	"type": "STRING",
+	// 	"description": "The course you'd like to search for",
+	// 	"required": false
+	// }]
+}

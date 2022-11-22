@@ -172,7 +172,7 @@ module.exports = class BotClient extends Client {
          {
             title : ``,
             author : { name : ``, url : ``, iconURL : `` },
-            thumbnail : {url : ``, proxyURL : ``, height : ``, width : `` },
+            thumbnail : ``,
             description: ``,
             fields: [
                 { name: ``, value: `` },
@@ -191,7 +191,7 @@ module.exports = class BotClient extends Client {
         if (author) { embed.setAuthor(author); };
         if (thumbnail) { embed.setThumbnail(thumbnail); };
         description ? embed.setDescription(description) : missingFields.push(`Missing description field`);
-        if (fields) {embed.addFields(...fields)}
+        if (fields) { embed.addFields(...fields) }
         color ? embed.setColor(color) : missingFields.push(`Missing embed color`);
         if (footer) { embed.setFooter(footer); };
         if (timestamp) { embed.setTimestamp(); };
