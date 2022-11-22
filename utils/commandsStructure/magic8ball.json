@@ -1,0 +1,12 @@
+{
+    "name": "magic8ball",
+    "description": "Ask the all knowing Magic 8 Ball a question!",
+    "options": [
+        {
+            "name": "question",
+            "description": "What would you like to ask the Magic 8 Ball?",
+            "type": "STRING",
+            "required": true
+        }
+    ]
+}
