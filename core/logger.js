@@ -130,6 +130,7 @@ module.exports = class Logger {
      * @param {Object} message discord message object
      */
     dm(member, message) {
+        /** @TODO rework to more gracefully determine message type & handle attachments */
         this.console(`INFO`, `Recieved DM from ${member.tag}`);
 
         let descriptionBody = `**New direct message from** \`${member.tag}\``;
@@ -138,17 +139,14 @@ module.exports = class Logger {
             iconURL: member.displayAvatarURL()
         };
 
-        if (message.content) { descriptionBody = `> "*${message.content}*"` }
-        if (message.content) { footer }
+        if (message.content) descriptionBody = `> "*${message.content}*"`;
 
-        const embedObject = {
+        // create & send the embed
+        const embed = this.client.embedCreate({
             color: this.config.EMBED_COLORS.LOG_DMS,
             description: descriptionBody,
             footer: footer
-        }
-
-        const embed = this.client.embedGenerator(embedObject)
-        this.dmChannel.send({ embeds: [embed], files: [] })
-        // console.log(embed)
+        });
+        this.dmChannel.send({ embeds: [embed], files: [] });
     }
 }
