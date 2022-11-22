@@ -167,13 +167,16 @@ module.exports = class BotClient extends Client {
      */
     embedCreate(embedFields) {
         // destructure embedFields object
-        const { title, author, thumbnail, description, color, footer, timestamp } = embedFields;
+        const { title, author, thumbnail, description, fields, color, footer, timestamp } = embedFields;
         /* embedFields object format
          {
             title : ``,
             author : { name : ``, url : ``, iconURL : `` },
             thumbnail : {url : ``, proxyURL : ``, height : ``, width : `` },
             description: ``,
+            fields: [
+                { name: ``, value: `` },
+            ],
             color : ``,
             footer : { text: ``, iconURL: `` },
             timestamp : true,
@@ -188,9 +191,10 @@ module.exports = class BotClient extends Client {
         if (author) { embed.setAuthor(author); };
         if (thumbnail) { embed.setThumbnail(thumbnail); };
         description ? embed.setDescription(description) : missingFields.push(`Missing description field`);
+        if (fields) {embed.addFields(...fields)}
         color ? embed.setColor(color) : missingFields.push(`Missing embed color`);
         if (footer) { embed.setFooter(footer); };
-        if (timestamp) { embed.setTimestamp(); }
+        if (timestamp) { embed.setTimestamp(); };
 
         if (missingFields.length !== 0) { this.logger.console(`WARNING`, `Missing embed fields`, missingFields); }
 
