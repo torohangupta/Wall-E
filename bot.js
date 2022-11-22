@@ -12,8 +12,9 @@ const client = new BotClient(process.env.ENVIRONMENT);
 const logger = new Logger();
 client.logger = logger;
 
-// catch any exceptions and log them to the console
+// catch uncaughtExceptions & warning events and log them to the console
 process.on(`uncaughtException`, (err) => client.logger.console(`ERROR`, err.name, err.cause, err.stack));
+process.on(`warning`, (warning) => client.logger.console(`WARNING`, warning.name, warning.stack));
 
 client.logger.console(`DEBUG`, `Starting...`, `Initalized BotClient & attached Logger to the BotClient instance`);
 

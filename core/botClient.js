@@ -10,6 +10,7 @@ module.exports = class BotClient extends Client {
         });
 
         this.config = require(`./config.js`); // load the config file
+        this.emotes = require(`../utils/emotes.js`); // load the emote refrences
         this.environment = environment; // environment bot is in (dev || live)
 
         /** @type {Collection} - slash commands collection */
@@ -187,7 +188,7 @@ module.exports = class BotClient extends Client {
         if (author) { embed.setAuthor(author); };
         if (thumbnail) { embed.setThumbnail(thumbnail); };
         description ? embed.setDescription(description) : missingFields.push(`Missing description field`);
-        color ? embed.setColor(color) : missingFields.push(`Missing color field`);
+        color ? embed.setColor(color) : missingFields.push(`Missing embed color`);
         if (footer) { embed.setFooter(footer); };
         if (timestamp) { embed.setTimestamp(); }
 
