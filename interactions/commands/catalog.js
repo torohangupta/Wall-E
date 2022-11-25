@@ -33,7 +33,7 @@ module.exports = {
             const prereqOutput = getClassLinks(classData.prereq);
             embedContent += `\n\n**Prerequsites:** ` + prereqOutput;
         }
-        embedContent += `\n\n> ` + classData.description;
+        if (classData.description) embedContent += `\n\n> ` + classData.description;
         if (classData.limitations) {
             const limitationsOutput = getClassLinks(classData.limitations);
             embedContent += `\n\n*${limitationsOutput}*`;
@@ -45,7 +45,6 @@ module.exports = {
             url: classDetails.url,
             description: embedContent,
             color: `F1BE48`,
-            timestamp: true,
         });
         await interaction.followUp({ embeds: [embed] });
     }
@@ -61,7 +60,7 @@ function inputScrubber(classInput) {
     // Attempt to split department and course number & process department input
     const department = classInput.match(/([A-Za-z\s]+)/)[0];
     const classNumber = classInput.split(department)[1];
-    const scrubbedDepartment = department.toUpperCase().replaceAll(` `, ``);
+    const scrubbedDepartment = department.toUpperCase().replaceAll(/[^A-Z]/g, ``);
 
     // check to see if the department includes 
     const { deptCodes } = require(`../../utils/resources/deptCodes.js`);
