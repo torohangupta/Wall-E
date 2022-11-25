@@ -129,7 +129,7 @@ function generateClassDataObject(classDataArray) {
 
     // location of description is dependent on if prereqs are a property of the class- adding to the object accordingly
     if (classDataArray.length > 4 && classDataArray[3].includes(`Prereq`)) {
-        classData.prereq = classDataArray[3];
+        classData.prereq = classDataArray[3].replace(`Prereq: `, ``);
         classData.description = classDataArray[4];
     } else {
         classData.prereq = null;
