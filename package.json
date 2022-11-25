@@ -6,8 +6,8 @@
   "author": "Rohan Gupta",
   "main": "bot.js",
   "engines": {
-    "node": "16.17.1",
-    "npm": "8.15.0"
+    "node": "18.12.1",
+    "npm": "9.1.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

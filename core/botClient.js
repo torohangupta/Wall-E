@@ -10,7 +10,7 @@ module.exports = class BotClient extends Client {
         });
 
         this.config = require(`./config.js`); // load the config file
-        this.emotes = require(`../utils/emotes.js`); // load the emote refrences
+        this.emotes = require(`../utils/resources/emotes.js`); // load the emote refrences
         this.environment = environment; // environment bot is in (dev || live)
 
         /** @type {Collection} - slash commands collection */
@@ -84,11 +84,12 @@ module.exports = class BotClient extends Client {
         });
 
         /** @depricated as global application commands are registered and available immediately */
-        // const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
-        // readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
+        const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
+        readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
 
         // globally register all application commands
-        readyClient.application.commands.set(commandStructures);
+        // readyClient.application.commands.set(commandStructures);
+        // readyClient.application.commands.set([]);
 
         this.logger.console(`DEBUG`, `Registered Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) registered`]);
     }
@@ -167,7 +168,7 @@ module.exports = class BotClient extends Client {
      */
     embedCreate(embedFields) {
         // destructure embedFields object
-        const { title, author, thumbnail, description, fields, color, footer, timestamp } = embedFields;
+        const { title, url, author, thumbnail, description, fields, color, footer, timestamp } = embedFields;
         /* embedFields object format
          {
             title : ``,
@@ -188,6 +189,7 @@ module.exports = class BotClient extends Client {
 
         const embed = new MessageEmbed();
         if (title) { embed.setTitle(title); };
+        if (url) { embed.setURL(url); };
         if (author) { embed.setAuthor(author); };
         if (thumbnail) { embed.setThumbnail(thumbnail); };
         description ? embed.setDescription(description) : missingFields.push(`Missing description field`);

@@ -24,8 +24,8 @@ async function executeCommand(client, interaction) {
     const command = client.slashCommands.get(interaction.commandName);
 
     if (command) {
-        await command.execute(client, interaction);
         client.logger.console(`INFO`, `Event - interactionCreate`, `${interaction.user.tag} ran the ${interaction.commandName} command`);
+        await command.execute(client, interaction);
 
     } else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` });
 }
@@ -54,8 +54,8 @@ async function executeButton(client, interaction) {
     }
 
     if (button) {
-        await button.execute(...args);
         client.logger.console(`INFO`, `Event - interactionCreate`, `${interaction.user.tag} clicked on the ${buttonID} button`);
+        await button.execute(...args);
 
     } else throw new ReferenceError(`Cannot find the interaction button file!`, { cause: `File is either missing or does not exist.` });
 }
