@@ -21,7 +21,6 @@ module.exports = {
                 closeTicket(client, interaction);
                 break;
         }
-
     }
 }
 
@@ -52,7 +51,7 @@ async function createTicket(client, interaction) {
     }
 
     // create embed with instructions and buttons
-    const ticketEmbed_main = client.embedCreate({
+    const ticketEmbed = client.embedCreate({
         title: `Open a Ticket!`,
         description: `To continue with opening a new ticket, please press the "📝 Continue" button and a moderator will be able to help you shortly. If this was a mistake, simply close the ticket by clicking the "🔒 Close" button.`,
         color: `6AA4AD`,
@@ -95,7 +94,20 @@ async function createTicket(client, interaction) {
         ],
     });
     await supportTicketChannel.send(`<@${buttonUser.id}>`).then(m => m.delete());
-    await supportTicketChannel.send({ embeds: [ticketEmbed_main], components: [ticketOptions] });
+    await supportTicketChannel.send({ embeds: [ticketEmbed], components: [ticketOptions] });
+}
+
+/**
+ * 
+ * @param {Client} client initialized client
+ * @param {Object} interaction emitted interaction object
+ */
+ function cancelTicket(client, interaction) {
+    // reply to the interaction
+    interaction.deferUpdate();
+
+    // perform interaction actions
+    interaction.channel.delete();
 }
 
 /**
@@ -130,31 +142,16 @@ async function openTicket(client, interaction) {
  * @param {Client} client initialized client
  * @param {Object} interaction emitted interaction object
  */
-function cancelTicket(client, interaction) {
-    // reply to the interaction
-    interaction.deferUpdate();
-
-    // perform interaction actions
-    interaction.channel.delete();
-}
-
-/**
- * 
- * @param {Client} client initialized client
- * @param {Object} interaction emitted interaction object
- */
 async function closeTicket(client, interaction) {
     // reply to the interaction
     if (!interaction.member._roles.includes(client.config.ROLES.MOD)) {
         return interaction.reply({ content: `Only moderators can mark a ticket as completed!`, ephemeral: true });
-    } else {
-        interaction.deferUpdate();
-    }
+    } else interaction.deferUpdate();
 
     // create vars
     let messageTranscript = [];
     const fileName = `${interaction.channel.name.replace(`ticket`, `transcript`)}.txt`
-    var transcriptFileLocation = `./dependencies/supportTranscripts/${fileName}`;
+    var transcriptFileLocation = `./utils/transcripts/${fileName}`;
 
     // fetch all messages from channel
     const fetchedMessages = await interaction.channel.messages.fetch({ limit: 100 })

@@ -1,5 +1,6 @@
 module.exports = {
     OWNER_ID: `382893405178691584`,
+    WALLE_ID: `863547321630720050`,
     PREFIX: `~`, /** @deprecated */
 
     SERVER_ID: {
@@ -36,7 +37,7 @@ module.exports = {
         SOFTBAN_LOG: `AF4448`,
         BAN_LOG: `D32F2F`,
 
-        LOG_DMS: `507F7F`
+        LOG_DMS: `507F7F`,
     },
     
     MESSAGES: {
@@ -53,7 +54,8 @@ module.exports = {
         UPDATES: `801893303444045854`,
         LOG_DMS: `787830182781255681`,
         LOG_SUPPORT: `789907442582028308`,
-        LOG_MODAPPS: `933239367818944592`
+        LOG_MODAPPS: `933239367818944592`,
+        MOD_PRIVATE: `790712186749321226`,
     },
 
     ROLES: {

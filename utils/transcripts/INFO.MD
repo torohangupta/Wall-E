@@ -1,0 +1,1 @@
+Directory where support ticket transcripts & modapp transcripts are stored. This directory is volitile & cannot be depended on to store data.
