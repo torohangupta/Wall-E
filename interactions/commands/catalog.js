@@ -29,15 +29,9 @@ module.exports = {
         // create embed content
         let embedContent = ``
         embedContent += `*${classData.credits} ${classData.semestersOffered}*`
-        if (classData.prereq) {
-            const prereqOutput = getClassLinks(classData.prereq);
-            embedContent += `\n\n**Prerequsites:** ` + prereqOutput;
-        }
+        if (classData.prereq) embedContent += `\n\n**Prerequsites:** ` + getClassLinks(classData.prereq);
         if (classData.description) embedContent += `\n\n> ` + classData.description;
-        if (classData.limitations) {
-            const limitationsOutput = getClassLinks(classData.limitations);
-            embedContent += `\n\n*${limitationsOutput}*`;
-        }
+        if (classData.limitations) embedContent += `\n\n*${getClassLinks(classData.limitations)}*`;
 
         // create & send embed
         const embed = client.embedCreate({
