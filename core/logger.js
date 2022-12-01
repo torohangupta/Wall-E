@@ -53,6 +53,13 @@ module.exports = class Logger {
      * @param {Object} channel channel object to send messages to
      */
     console(level, title, message, error, timestamp = Date.now(), channel = this.consoleChannel) {
+        
+        this.console1({
+            level: level,
+            title: title,
+            message: message ? message : undefined,
+            stack: error,
+        })
         // initialize blank output object & message array
         const out = {};
         let outMsgArr = [];
@@ -69,7 +76,7 @@ module.exports = class Logger {
         switch (level) {
             case `INFO`:
                 if (message) {
-                    out.titleLine = `${chalk.green(time)} | ${chalk.green(out.level)} : ${chalk.green(title)}`;
+                    out.titleLine = `${green(time)} | ${chalk.green(out.level)} : ${chalk.green(title)}`;
                 } else {
                     out.titleLine = `${chalk.green(time)} | ${chalk.green(out.level)} : ${title}`;
                 }
@@ -108,6 +115,8 @@ module.exports = class Logger {
         if (defaultedCase) return;
 
         // Convert multi-line message (passed as Array) to a single string delimited by newline characters
+        // console.log(message)
+        // console.log(Array.isArray(message))
         if (Array.isArray(message)) {
             message.forEach(msg => {
                 outMsgArr.push(messagePadding + msg);
@@ -118,10 +127,68 @@ module.exports = class Logger {
         }
 
         // Output to console. If there are messages or an error stack, output those too
-        console.log(out.titleLine)
-        if (out.messageLine) console.log(out.messageLine);
+        // console.log(out.titleLine)
+        // if (out.messageLine) console.log(out.messageLine);
         // if (error) console.log(error);
         return;
+    }
+
+    console1(consoleObject) {
+        const { level, title, message, stack, timestamp = Date.now() } = consoleObject;
+        const { green, blue, yellow, red } = chalk;
+        const out = {
+            message: []
+        };
+        let outMsgArr = [];
+
+        // console.log(consoleObject)
+
+        // set constant padding length
+        const messagePadding = ``.padStart(7);
+        out.level = level.padStart(7);
+
+        // get human-readable date & time in CST
+        const time = new Date(timestamp).toLocaleString("en-US", { timeZone: `CST`, month: `short`, day: `2-digit`, hour: `numeric`, minute: `numeric` });
+
+        /** @todo console log err */
+        if (![`INFO`, `DEBUG`, `WARNING`, `ERROR`].includes(level)) return
+
+        switch (level) {
+            case `INFO`:
+                out.title = `${green(time)} | ${green(out.level)} : ` + (message ? green(title) : title);
+                break;
+
+            case `DEBUG`:
+                out.title = `${blue(time)} | ${blue(out.level)} : ${blue(title)}`;
+                break;
+
+            case `WARNING`:
+                out.title = `${yellow(time)} | ${yellow(out.level)} : ${yellow(title)}`;
+                break;
+
+            case `ERROR`:
+                out.title = `${red(time)} | ${red(out.level)} : ${red(title)}`;
+                break;
+        }
+
+        // if the message is an array of messages or a single line
+        if (Array.isArray(message)) {
+            message.forEach(msg => {
+                out.message.push(messagePadding + msg);
+            });
+            // out.message = outMsgArr.join(`\n`);
+        } else if (message) {
+            out.message.push(messagePadding + message);
+        }
+
+        // console.log(out.message)
+        if (stack) {
+            out.message.push(red(`--------------- STACK ---------------`))
+            out.message.push(...stack.replace(/(?<=\()(.*)(?<=Wall-E)/gm, `.`).split("\n", 4));
+        }
+
+        console.log(out.title);
+        console.log(out.message.join(`\n`));
     }
 
     /**
