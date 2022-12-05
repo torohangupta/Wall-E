@@ -28,7 +28,14 @@ module.exports = class Logger {
         this.consoleChannel = await this.guild.channels.fetch(channels.TEST_CONSOLE);
         this.dmChannel = await this.guild.channels.fetch(channels.TEST_DIRMSGS);
 
-        this.console(`DEBUG`, `Initalized Guild & Channel Objects`, [`- Fetched guild`, `- Fetched console & DM channels`]);
+        this.console({
+            level: `DEBUG`,
+            title: `Initalized Guild & Channel Objects`,
+            message: [
+                `- Fetched guild`,
+                `- Fetched console & DM channels`
+            ],
+        });
 
         return;
     }
@@ -52,7 +59,7 @@ module.exports = class Logger {
      * @param {Date} timestamp timestamp of log to console
      * @param {Object} channel channel object to send messages to
      */
-    console(level, title, message, error, timestamp = Date.now(), channel = this.consoleChannel) {
+    consoleOld(level, title, message, error, timestamp = Date.now(), channel = this.consoleChannel) {
         
         this.console1({
             level: level,
@@ -133,12 +140,18 @@ module.exports = class Logger {
         return;
     }
 
-    console1(consoleObject) {
+    console(consoleObject) {
+        /**
+        client.logger.console({
+            level: ``,
+            title: ``,
+            message: [``],
+            stack: stack,
+        });
+         */
         const { level, title, message, stack, timestamp = Date.now() } = consoleObject;
         const { green, blue, yellow, red } = chalk;
-        const out = {
-            message: []
-        };
+        const out = { message: [] };
         let outMsgArr = [];
 
         // console.log(consoleObject)
@@ -183,12 +196,15 @@ module.exports = class Logger {
 
         // console.log(out.message)
         if (stack) {
-            out.message.push(red(`--------------- STACK ---------------`))
-            out.message.push(...stack.replace(/(?<=\()(.*)(?<=Wall-E)/gm, `.`).split("\n", 4));
+            out.message.push(red(`----------------------------------- STACK -----------------------------------`));
+            const stackArr = stack.replaceAll(__dirname.replace(`core`, ``), `.\\`).split("\n", 4);
+            stackArr.forEach(line => {
+                out.message.push(messagePadding + line);
+            })
         }
 
         console.log(out.title);
-        console.log(out.message.join(`\n`));
+        if (out.message.length > 0) console.log(out.message.join(`\n`));
     }
 
     /**

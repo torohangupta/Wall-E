@@ -12,11 +12,31 @@ const client = new BotClient(process.env.ENVIRONMENT);
 const logger = new Logger();
 client.logger = logger;
 
-// catch uncaughtExceptions & warning events and log them to the console
-process.on(`uncaughtException`, (err) => client.logger.console(`ERROR`, err.name, err.cause, err.stack));
-process.on(`warning`, (warning) => client.logger.console(`WARNING`, warning.name, warning.stack));
+// catch exceptions and log to console
+process.on(`uncaughtException`, (err) => {
+    client.logger.console({
+        level: `ERROR`,
+        title: err.name,
+        message: err.cause,
+        stack: err.stack,
+    });
+});
 
-client.logger.console(`DEBUG`, `Starting...`, `Initalized BotClient & attached Logger to the BotClient instance`);
+// catch warnings and log them to the console
+process.on(`warning`, (warning) => {
+    client.logger.console({
+        level: `WARNING`,
+        title: warning.name,
+        stack: warning.stack,
+    });
+});
+
+// start the bot
+client.logger.console({
+    level: `DEBUG`,
+    title: `Starting...`,
+    message: `Initalized BotClient & attached Logger to the BotClient instance`,
+});
 
 client.loadSlashCommands(`./interactions/commands`);
 client.loadButtons(`./interactions/buttons`);
@@ -24,4 +44,7 @@ client.loadButtons(`./interactions/buttons`);
 client.loadEvents(`./events`);
 
 client.login(process.env.TOKEN);
-client.logger.console(`DEBUG`, `Logging in with bot token...`);
+client.logger.console({
+    level: `DEBUG`,
+    title: `Logging in with bot token...`,
+});

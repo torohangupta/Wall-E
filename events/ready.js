@@ -4,7 +4,10 @@ module.exports = {
 	once: true,
 
 	async execute(client) {
-		client.logger.console(`INFO`, `${client.user.tag} is online!`);
+		client.logger.console({
+			level: `INFO`,
+			title: `${client.user.tag} is online!`,
+		});
 
 		// set activity
 		const presenceConfig = client.config.PRESENCE;
