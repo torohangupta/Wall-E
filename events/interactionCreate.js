@@ -7,10 +7,15 @@ module.exports = {
         // client.logger.test();
 
         try {
-            if (interaction.isCommand()) { return await executeCommand(client, interaction); }
-            if (interaction.isButton()) { return await executeButton(client, interaction); }
+            if (interaction.isCommand()) return await executeCommand(client, interaction);
+            if (interaction.isButton()) return await executeButton(client, interaction);
         } catch (err) {
-            client.logger.console(`ERROR`, `${err.name}: Event - ${this.name}`, err.cause, err.stack);
+            client.logger.console({
+                level: `ERROR`,
+                title: `${err.name}: Event - ${this.name}`,
+                message: err.cause,
+                stack: err.stack,
+            });
         }
     }
 };
@@ -24,7 +29,11 @@ async function executeCommand(client, interaction) {
     const command = client.slashCommands.get(interaction.commandName);
 
     if (command) {
-        client.logger.console(`INFO`, `Event - interactionCreate`, `${interaction.user.tag} ran the ${interaction.commandName} command`);
+        client.logger.console({
+            level: `INFO`,
+            title: `Event - interactionCreate`,
+            message: `${interaction.user.tag} ran the ${interaction.commandName} command`,
+        });
         await command.execute(client, interaction);
 
     } else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` });
@@ -54,7 +63,11 @@ async function executeButton(client, interaction) {
     }
 
     if (button) {
-        client.logger.console(`INFO`, `Event - interactionCreate`, `${interaction.user.tag} clicked on the ${buttonID} button`);
+        client.logger.console({
+            level: `INFO`,
+            title: `Event - interactionCreate`,
+            message: `${interaction.user.tag} clicked on the ${buttonID} button`,
+        });
         await button.execute(...args);
 
     } else throw new ReferenceError(`Cannot find the interaction button file!`, { cause: `File is either missing or does not exist.` });

@@ -63,7 +63,15 @@ module.exports = class BotClient extends Client {
 
         });
 
-        this.logger.console(`DEBUG`, `Initalized Event Handlers`, [`From (${directory}/)...`, `- ${success} events successfully loaded`, `- ${failure} events failed to load`]);
+        this.logger.console({
+            level: `DEBUG`,
+            title: `Initalized Event Handlers`,
+            message: [
+                `From (${directory}/)...`,
+                `- ${success} events successfully loaded`,
+                `- ${failure} events failed to load`
+            ],
+        });
     }
 
     /**
@@ -91,7 +99,14 @@ module.exports = class BotClient extends Client {
         // readyClient.application.commands.set(commandStructures);
         // readyClient.application.commands.set([]);
 
-        this.logger.console(`DEBUG`, `Registered Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) registered`]);
+        this.logger.console({
+            level: `DEBUG`,
+            title: `Registered Slash Commands`,
+            message: [
+                `From (${directory}/)...`,
+                `- ${success} command(s) registered`
+            ],
+        });
     }
 
     /**
@@ -114,7 +129,14 @@ module.exports = class BotClient extends Client {
             success++;
         });
 
-        this.logger.console(`DEBUG`, `Loaded Slash Commands`, [`From (${directory}/)...`, `- ${success} command(s) loaded`]);
+        this.logger.console({
+            level: `DEBUG`,
+            title: `Loaded Slash Commands`,
+            message: [
+                `From (${directory}/)...`,
+                `- ${success} command(s) loaded`
+            ],
+        });
     }
 
     /**
@@ -136,7 +158,14 @@ module.exports = class BotClient extends Client {
             success++;
         });
 
-        this.logger.console(`DEBUG`, `Loaded Buttons & Button Managers`, [`From (${directory}/)...`, `- ${success} button(s) loaded`]);
+        this.logger.console({
+            level: `DEBUG`,
+            title: `Loaded Buttons & Button Managers`,
+            message: [
+                `From (${directory}/)...`,
+                `- ${success} button(s) loaded`
+            ],
+        });
     }
 
     /**
@@ -198,7 +227,13 @@ module.exports = class BotClient extends Client {
         if (footer) { embed.setFooter(footer); };
         if (timestamp) { embed.setTimestamp(); };
 
-        if (missingFields.length !== 0) { this.logger.console(`WARNING`, `Missing embed fields`, missingFields); }
+        if (missingFields.length !== 0) {
+            this.logger.console({
+                level: `WARNING`,
+                title: `Missing embed fields`,
+                message: missingFields,
+            });
+        }
 
         return embed;
 
