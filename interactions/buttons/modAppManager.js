@@ -223,10 +223,10 @@ async function archiveModapp(client, interaction) {
         client.logger.console(`ERROR`, `${err.name}: ModappManager - archiveModapp`, err.cause, err.stack);
 
     } finally {
+        const logModappsChannel = interaction.client.channels.cache.get(client.config.CHANNELS.LOG_MODAPPS);
         // send transcript to transcript logging channel
-        interaction.client.channels.cache.get(client.config.CHANNELS.LOG_MODAPPS).send({
-            embeds: [transcriptEmbed.spliceFields(0, 1)]
-        }).then(interaction.client.channels.cache.get(client.config.CHANNELS.LOG_MODAPPS).send({ files: [transcriptFileLocation] }));
+        await logModappsChannel.send({ embeds: [transcriptEmbed.spliceFields(0, 1)] })
+        await logModappsChannel.send({ files: [transcriptFileLocation] });
 
         // delete the support ticket
         interaction.channel.delete();

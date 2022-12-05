@@ -161,7 +161,6 @@ async function errorReply(client, interaction, errMsg, course) {
 
     const embed = client.embedCreate({
         description: msg,
-        timestamp: true,
     });
 
     await interaction.followUp({ embeds: [embed] });
