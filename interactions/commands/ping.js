@@ -2,7 +2,7 @@ module.exports = {
 
     name: `ping`,
 
-    execute(interaction) {
+    execute(client, interaction) {
 
         interaction.reply({ content: `pong`, allowedMentions: { repliedUser: false } });
     }

@@ -1,0 +1,63 @@
+{
+    "name": "class",
+    "description": "Join and leave class channels",
+    "options": [
+        {
+            "name": "join",
+            "description": "Join class channels",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "class",
+                    "description": "List the class(es) you'd like to join, seperated with a comma.",
+                    "type": "STRING",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "leave",
+            "description": "Leave class channels",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "class",
+                    "description": "List the class(es) you'd like to leave, seperated with a comma.",
+                    "type": "STRING",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "leave-all",
+            "description": "Leave all class channels",
+            "type": "SUB_COMMAND"
+        },
+        {
+            "name": "create",
+            "description": "Create a channel & role for a class not yet on the server. This is a moderator-only command.",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "class",
+                    "description": "Enter the class code for the class you'd like to create",
+                    "type": "STRING",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "delete",
+            "description": "Delete the channel & role for a class on the server. This is a moderator-only command.",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "class",
+                    "description": "Enter the class code for the class you'd like to delete",
+                    "type": "STRING",
+                    "required": true
+                }
+            ]
+        }
+    ]
+}
