@@ -23,7 +23,7 @@ module.exports = {
 /**
  * Function to execute slash commands
  * @param {Client} client The active BotClient instance
- * @param {Object} interaction The interaction object returned from the interactionCreate event
+ * @param {Object} interaction The interaction object passed to the interactionCreate event
  */
 async function executeCommand(client, interaction) {
     const command = client.slashCommands.get(interaction.commandName);
@@ -42,7 +42,7 @@ async function executeCommand(client, interaction) {
 /**
  * Function to execute button commands
  * @param {Client} client The active BotClient instance
- * @param {Object} interaction The interaction object returned from the interactionCreate event
+ * @param {Object} interaction The interaction object passed to the interactionCreate event
  */
 async function executeButton(client, interaction) {
     const buttonIDComponent = interaction.customId.split(`_`);
