@@ -1,7 +1,7 @@
 module.exports = {
     name: `class`,
 
-    execute(client, interaction) {
+    async execute(client, interaction) {
 
         // get & sanatize inputs
         const subCommand = interaction.options._subcommand;
@@ -48,10 +48,12 @@ module.exports = {
                 message = classLeaveAll(interaction);
                 break;
             case `create`:
-                message = classCreate(client, interaction, sanatizedArgs)
+                message = await classCreate(client, interaction, sanatizedArgs[0]);
+                if (sanatizedArgs.length > 1) message += `\nThe remaining courses were not created. Please only create a channel & role for one course at a time.`;
                 break;
             case `delete`:
-                message = classDelete(client, interaction, sanatizedArgs)
+                message = classDelete(client, interaction, sanatizedArgs);
+                if (sanatizedArgs.length > 1) message += `\nThe remaining courses were not deleted. Please only delete a channel & role for one course at a time.`;
                 break;
         }
 
@@ -104,6 +106,11 @@ function classLeave(course) {
 
 }
 
+/**
+ * Function to leave all the user's class roles
+ * @param {Object} interaction The interaction object passed to the interactionCreate event
+ * @returns {String} output message
+ */
 function classLeaveAll(interaction) {
     const userRoleIDs = interaction.member._roles;
     const guildRoleCache = interaction.guild.roles.cache;
@@ -128,65 +135,66 @@ function classLeaveAll(interaction) {
         `You left the following \`${rolesLeftArray.length}\` course(s):\n> ${rolesLeftArray.join(`, `)}`;
 }
 
-async function classCreate(client, interaction, args) {
-    // restrict to moderators
+async function classCreate(client, interaction, courseObject) {
+
+    // ##################################################################################################################
+    // Ensure that the user is a mod, the arg passed the scrubber & the course channel & role doesn't already exist
     const userRoleIDs = interaction.member._roles;
     if (!userRoleIDs.includes(client.config.ROLES.MOD)) return `I'm sorry, only moderators can use this command!`;
 
-    let createdRoles = [], failedRoles = [];
-    let message = ``;
-    await args.forEach(async (courseObject) => {
-        if (!courseObject) return;
-        else {
-            const newCourseName = courseObject.channelName;
+    if (!courseObject) return `That doesn't look like a valid course! Please check your spelling and try again. If this problem presists, please let Rohan know.`;
 
-            const guildRoleCache = interaction.guild.roles.cache;
-            if (guildRoleCache.find(role => role.name == newCourseName)) {
-                return message = console.log(`Error: This course exists already!`);;
-            }
-            
-            const newRole = await interaction.guild.roles.create({
-                name: newCourseName,
-                permissions: [],
-                mentionable: true,
-            });
+    const newCourseName = courseObject.channelName;
+    const guildChannelCache = interaction.guild.channels.cache;
+    if (guildChannelCache.find(role => role.name == newCourseName)) return `The channel for this course exists already!`;
+    // ##################################################################################################################
 
-            const newChan = await interaction.guild.channels.create(newCourseName, {
-                type: `GUILD_TEXT`,
-                // permissionOverwrites: [
-                //     {
-                //         id: interaction.channel.guild.roles.everyone,
-                //         deny: ['VIEW_CHANNEL'],
-                //     },
-                //     {
-                //         id: client.config.ROLES.MOD, // Supreme Overseers
-                //         allow: ['VIEW_CHANNEL'],
-                //     },
-                //     {
-                //         id: client.config.ROLES.BOT, // Bot Overlords
-                //         allow: ['VIEW_CHANNEL'],
-                //     },
-                //     {
-                //         id: newRole.id, // role that was just created
-                //         allow: [`VIEW_CHANNEL`],
-                //     }
-                // ],
-            });
-
-            await newChan.send({ content: `Welcome to the ${newChan} channel & thank you for adding the class! If you are seeing this message, that means it is probably a new channel. Don't hesitate to share the server with your classmates to see more of them in the server/channel! Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!` });
-
-            if (newRole && newChan) {
-                createdRoles.push(newCourseName)
-                client.channels.cache.get(client.config.CHANNELS.UPDATES).send({ content: `📥  **New channel added!** - \`${newCourseName}\`` });
-            } else failedRoles.push(newCourseName);
-            message = `created ${createdRoles.join(`, `)}, failed ${failedRoles.join(`, `)}`
-        };
+    // create the role
+    const newRole = await interaction.guild.roles.create({
+        name: newCourseName,
+        permissions: [],
+        mentionable: true,
     });
-    // console.log(roles);
-    return message;
+
+    // create the channel & add the proper permissions
+    const newChan = await interaction.guild.channels.create(newCourseName, {
+        type: `GUILD_TEXT`,
+        permissionOverwrites: [
+            {
+                id: interaction.channel.guild.roles.everyone,
+                deny: ['VIEW_CHANNEL'],
+            },
+            {
+                id: client.config.ROLES.MOD, // Supreme Overseers
+                allow: ['VIEW_CHANNEL'],
+            },
+            {
+                id: client.config.ROLES.BOT, // Bot Overlords
+                allow: ['VIEW_CHANNEL'],
+            },
+            {
+                id: newRole.id, // role that was just created
+                allow: [`VIEW_CHANNEL`],
+            }
+        ],
+    });
+
+    // send a message to the newly created channel
+    const newChannelEmbed = client.embedCreate({
+        description: `Welcome to the ${newChan} channel & thank you for adding the class! If you are seeing this message, that means it is probably a new channel. Don't hesitate to share the server with your classmates to see more of them in the server/channel! Feel free to use this channel for your class & if you need anything, let the mod team know and we'd be happy to help!`,
+        conor: `45AD80`,
+        timestamp: true,
+    });
+    await newChan.send({ embeds: [newChannelEmbed] });
+
+    // if the channel & role was created successfully, send a message to the updates channel & return successful message, else return failure message
+    if (newRole && newChan) {
+        client.channels.cache.get(client.config.CHANNELS.UPDATES).send({ content: `📥  **New channel added!** - \`${newCourseName}\`` });
+        return `Created a channel & role for ${newCourseName}`;
+    } else return `Failed to create a channel & role for ${newCourseName}`;
 }
 
-function classDelete(course) {
+function classDelete(client, interaction, courseObject) {
 
 }
 
