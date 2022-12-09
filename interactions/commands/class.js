@@ -14,7 +14,8 @@ module.exports = {
         if ([`join`, `leave`, `create`, `delete`].includes(subCommand)) {
             const passedArgs = interaction.options._hoistedOptions[0].value;
             sanatizedArgs = passedArgs.split(/,+/).map(arg => {
-                return inputScrubber(arg);
+                const scrubbedInput = inputScrubber(arg);
+                if (scrubbedInput) return scrubbedInput;
             });
         }
 
@@ -39,10 +40,10 @@ module.exports = {
         let message = ``;
         switch (subCommand) {
             case `join`:
-                message = classJoin(interaction, sanatizedArgs);
+                message = classJoin(client, interaction, sanatizedArgs);
                 break;
             case `leave`:
-                message = classLeave(interaction, sanatizedArgs);
+                message = classLeave(client, interaction, sanatizedArgs);
                 break;
             case `leave-all`:
                 message = classLeaveAll(interaction);
@@ -52,7 +53,7 @@ module.exports = {
                 if (sanatizedArgs.length > 1) message += `\nThe remaining courses were not created. Please only create a channel & role for one course at a time.`;
                 break;
             case `delete`:
-                message = classDelete(client, interaction, sanatizedArgs);
+                message = classDelete(client, interaction, sanatizedArgs[0]);
                 if (sanatizedArgs.length > 1) message += `\nThe remaining courses were not deleted. Please only delete a channel & role for one course at a time.`;
                 break;
         }
@@ -98,11 +99,32 @@ function classValidator(course) {
 
 }
 
-function classJoin(courses) {
+function classJoin(client, interaction, courseObjectArray) {
+
+    const { guild, member } = interaction;
+
+    const userRoleIDs = member._roles;
+    const guildMemberObject = guild.members.cache.get(member.id);
+    const guildRoleCache = guild.roles.cache;
+
+    let successRoles = [];
+    let failureRoles = [];
+    courseObjectArray.forEach(courseObject => {
+        const courseName = courseObject.channelName;
+        const courseRole = guildRoleCache.find(role => role.name === courseName);
+
+        if (userRoleIDs.includes(classRoleObject.id)) return failureRoles.push(`\`${classRoleName}\``);
+
+        guildMemberObject.roles.add(classRoleObject);
+        return addedRoles.push(`\`${classRoleObject.name}\``);
+    });
+
+    successMessage = (successRoles !== 0 ? `You joined the following course(s):\n> ${successRoles.join(`, `)}` : ``);
+    failureMessage = (failureRoles !== 0 ? `There was an error joining the following course(s):\n> ${failureRoles.join(`, `)}` : ``);
 
 }
 
-function classLeave(course) {
+function classLeave(client, interaction, courseObjectArray) {
 
 }
 
@@ -144,20 +166,22 @@ async function classCreate(client, interaction, courseObject) {
 
     if (!courseObject) return `That doesn't look like a valid course! Please check your spelling and try again. If this problem presists, please let Rohan know.`;
 
-    const newCourseName = courseObject.channelName;
-    const guildChannelCache = interaction.guild.channels.cache;
-    if (guildChannelCache.find(role => role.name == newCourseName)) return `The channel for this course exists already!`;
+    const courseName = courseObject.channelName;
+    const guildChan = interaction.guild.channels.cache.find(channel => channel.name === courseName);
+    const guildRole = interaction.guild.roles.cache.find(role => role.name === courseName);
+    if (guildChan) return `The channel for this course exists already!`;
+    if (guildRole) return `The role for this course exists already!`;
     // ##################################################################################################################
 
     // create the role
     const newRole = await interaction.guild.roles.create({
-        name: newCourseName,
+        name: courseName,
         permissions: [],
         mentionable: true,
     });
 
     // create the channel & add the proper permissions
-    const newChan = await interaction.guild.channels.create(newCourseName, {
+    const newChan = await interaction.guild.channels.create(courseName, {
         type: `GUILD_TEXT`,
         permissionOverwrites: [
             {
@@ -189,12 +213,29 @@ async function classCreate(client, interaction, courseObject) {
 
     // if the channel & role was created successfully, send a message to the updates channel & return successful message, else return failure message
     if (newRole && newChan) {
-        client.channels.cache.get(client.config.CHANNELS.UPDATES).send({ content: `📥  **New channel added!** - \`${newCourseName}\`` });
-        return `Created a channel & role for ${newCourseName}`;
-    } else return `Failed to create a channel & role for ${newCourseName}`;
+        client.channels.cache.get(client.config.CHANNELS.UPDATES).send({ content: `📥  **New channel added!** - \`${courseName}\`` });
+        return `Created a channel & role for ${courseName}`;
+    } else return `Failed to create a channel & role for ${courseName}`;
 }
 
-function classDelete(client, interaction, courseObject) {
+async function classDelete(client, interaction, courseObject) {
 
+    // ##################################################################################################################
+    // Ensure that the user is a mod, the arg passed the scrubber & the course channel & role exists
+    const userRoleIDs = interaction.member._roles;
+    if (!userRoleIDs.includes(client.config.ROLES.MOD)) return `I'm sorry, only moderators can use this command!`;
+
+    if (!courseObject) return `That doesn't look like a valid course! Please check your spelling and try again. If this problem presists, please let Rohan know.`;
+
+    // get the channel & roles
+    const courseName = courseObject.channelName;
+    const guildChan = interaction.guild.channels.cache.find(channel => channel.name !== courseName);
+    const guildRole = interaction.guild.roles.cache.find(role => role.name !== courseName);
+    if (!guildChan) return `The channel for this course doesn't exist!`;
+    if (!guildRole) return `The role for this course doesn't exist!`;
+    // ##################################################################################################################
+
+    guildChan.delete();
+    guildRole.delete();
 }
 
