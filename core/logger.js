@@ -152,9 +152,6 @@ module.exports = class Logger {
         const { level, title, message, stack, timestamp = Date.now() } = consoleObject;
         const { green, blue, yellow, red } = chalk;
         const out = { message: [] };
-        let outMsgArr = [];
-
-        // console.log(consoleObject)
 
         // set constant padding length
         const messagePadding = ``.padStart(7);
