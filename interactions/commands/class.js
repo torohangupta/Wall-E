@@ -243,14 +243,14 @@ async function classCreate(client, interaction, courseObject) {
                 id: interaction.channel.guild.roles.everyone,
                 deny: ['VIEW_CHANNEL'],
             },
-            // {
-            //     id: client.config.ROLES.MOD, // Supreme Overseers
-            //     allow: ['VIEW_CHANNEL'],
-            // },
-            // {
-            //     id: client.config.ROLES.BOT, // Bot Overlords
-            //     allow: ['VIEW_CHANNEL'],
-            // },
+            {
+                id: client.config.ROLES.MOD, // Supreme Overseers
+                allow: ['VIEW_CHANNEL'],
+            },
+            {
+                id: client.config.ROLES.BOT, // Bot Overlords
+                allow: ['VIEW_CHANNEL'],
+            },
             {
                 id: newRole.id, // role that was just created
                 allow: [`VIEW_CHANNEL`],
