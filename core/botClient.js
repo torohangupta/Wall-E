@@ -199,7 +199,7 @@ module.exports = class BotClient extends Client {
         // destructure embedFields object
         const { title, url, author, thumbnail, description, fields, color, footer, timestamp } = embedFields;
         /* embedFields object format
-         {
+        {
             title : ``,
             author : { name : ``, url : ``, iconURL : `` },
             thumbnail : ``,
@@ -210,7 +210,7 @@ module.exports = class BotClient extends Client {
             color : ``,
             footer : { text: ``, iconURL: `` },
             timestamp : true,
-         }
+        }
          */
 
         // blank array for missing data
