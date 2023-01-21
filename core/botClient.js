@@ -24,7 +24,7 @@ module.exports = class BotClient extends Client {
 
         /** @member {Class} logger instanciated by ready.js  */
         this.logger;
-    }
+    };
 
     /**
      * Load event handlers from specified directory
@@ -72,7 +72,7 @@ module.exports = class BotClient extends Client {
                 `- ${failure} events failed to load`
             ],
         });
-    }
+    };
 
     /**
      * Registers all slash commands with the server
@@ -107,7 +107,7 @@ module.exports = class BotClient extends Client {
                 `- ${success} command(s) registered`
             ],
         });
-    }
+    };
 
     /**
      * Load slash command files from specified directory
@@ -137,7 +137,7 @@ module.exports = class BotClient extends Client {
                 `- ${success} command(s) loaded`
             ],
         });
-    }
+    };
 
     /**
      * Load button & button manager files from specified directory
@@ -163,10 +163,10 @@ module.exports = class BotClient extends Client {
             title: `Loaded Buttons & Button Managers`,
             message: [
                 `From (${directory}/)...`,
-                `- ${success} button(s) loaded`
+                `- ${success} button/(manager)(s) loaded`
             ],
         });
-    }
+    };
 
     /**
      * Load select menus from specified directory
@@ -178,7 +178,24 @@ module.exports = class BotClient extends Client {
             - Track successful & unsuccessful select menu loads
             - Offload file validation to getFilePath(dir, ext)?
         */
-    }
+        const selectMenuFiles = fs.readdirSync(directory);
+        let success = 0;
+
+        selectMenuFiles.forEach(selectMenuFile => {
+            const selectMenu = require(`.${directory}/${selectMenuFile}`);
+            this.selectMenus.set(selectMenu.id, selectMenu);
+            success++;
+        });
+
+        this.logger.console({
+            level: `DEBUG`,
+            title: `Loaded Select Menus`,
+            message: [
+                `From (${directory}/)...`,
+                `- ${success} menu(s) loaded`
+            ],
+        });
+    };
 
     /**
      * Log transcript based messages in correct channel
@@ -188,7 +205,7 @@ module.exports = class BotClient extends Client {
      */
     toTranscript(type, member, transcript) {
 
-    }
+    };
 
     /** 
      * Generate emebed object
@@ -237,5 +254,5 @@ module.exports = class BotClient extends Client {
 
         return embed;
 
-    }
+    };
 };
