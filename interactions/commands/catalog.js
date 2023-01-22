@@ -53,7 +53,7 @@ function inputScrubber(classInput) {
 
     // Attempt to split department and course number & process department input
     const department = classInput.match(/([A-Za-z\s]+)/)[0];
-    const classNumber = classInput.split(department)[1];
+    const classNumber = classInput.split(department)[1].toUpperCase();
     const scrubbedDepartment = department.toUpperCase().replaceAll(/[^A-Z]/g, ``);
 
     // check to see if the department includes 
@@ -62,7 +62,7 @@ function inputScrubber(classInput) {
 
     // create normalized classcode and test to match expected format
     const classCode = `${validatedInput} ${classNumber}`;
-    if (!classCode.match(/([^\s:,.\)a-z0-9])([A-Z\s]+)(\s)([0-9]{3}[A-Z]{0,1})(?![a-zA-Z0-9])/g)) return undefined;
+    if (!classCode.match(/([^\s:,.\)a-z0-9])([A-Z\s]+)(\s)([0-9]{3}[A-Za-z]{0,1})(?![a-zA-Z0-9])/g)) return undefined;
 
     // if format matches, create & return the classDetails object, else return undefined
     if (validatedInput) {
