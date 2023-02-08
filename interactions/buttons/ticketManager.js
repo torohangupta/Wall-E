@@ -35,12 +35,10 @@ async function createTicket(client, interaction) {
     const buttonUser = member.user;
 
     // get scrubbed username or set to ID if no a-z characters are detected
-    let scrubbedUsername = usernameScrubbed(buttonUser);
+    const scrubbedUsername = usernameScrubbed(buttonUser);
 
     // determine if the user has a ticket open already or not
-    const textChannels = member.guild.channels.cache.filter(channel => {
-        channel.type === `GUILD_TEXT` && channel.name.includes(`ticket`)
-    }).map(c => c.name);
+    const textChannels = member.guild.channels.cache.filter(channel => channel.type === `GUILD_TEXT` && channel.name.includes(`ticket`)).map(c => c.name);
 
     // only allow one ticket to be open at a time
     if (textChannels.includes(`ticket-${scrubbedUsername}`)) {
@@ -74,7 +72,7 @@ async function createTicket(client, interaction) {
         )
 
     // create the support ticket channel, ping the user & delete the message and then send the ticket introduction
-    const supportTicketChannel = await member.guild.channels.create(`ticket-${scrubbedUsername}`, {
+    const supportTicketChannel = await interaction.member.guild.channels.create(`ticket-${scrubbedUsername}`, {
         type: 'GUILD_TEXT',
         parent: interaction.channel.parentId,
         permissionOverwrites: [
@@ -204,9 +202,9 @@ async function closeTicket(client, interaction) {
 
     } finally {
         // send transcript to transcript logging channel
-        interaction.client.channels.cache.get(channelID.logSupport).send({
+        interaction.client.channels.cache.get(client.config.CHANNELS.LOG_SUPPORT).send({
             embeds: [transcriptEmbed.spliceFields(0, 1)]
-        }).then(interaction.client.channels.cache.get(channelID.logSupport).send({ files: [transcriptFileLocation] }));
+        }).then(interaction.client.channels.cache.get(client.config.CHANNELS.LOG_SUPPORT).send({ files: [transcriptFileLocation] }));
 
         // delete the support ticket
         interaction.channel.delete();
