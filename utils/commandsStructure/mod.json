@@ -1,0 +1,30 @@
+{
+    "name": "mod",
+    "description": "Perform various moderator only actions",
+    "options": [
+    
+        {
+            "name": "channel-reset",
+            "description": "Clear & reset channel text",
+            "type": "SUB_COMMAND",
+            "options": [
+                {
+                    "name": "channel",
+                    "description": "Select the channel you'd like to clear and reset",
+                    "type": "STRING",
+                    "required": true,
+                    "choices": [
+                        {
+                            "name": "getting-started",
+                            "value": "getting-started"
+                        },
+                        {
+                            "name": "contact-mods",
+                            "value": "contact-mods"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
