@@ -92,12 +92,13 @@ module.exports = class BotClient extends Client {
         });
 
         /** @depricated as global application commands are registered and available immediately */
-        const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
-        readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
+        // const serverID = this.environment === `DEV` ? this.config.SERVER_ID.DEVELOPMENT : this.config.SERVER_ID.ONLINE_COLLEGE;
+        // const serverID = this.config.SERVER_ID.ONLINE_COLLEGE;
+        // readyClient.guilds.cache.get(serverID).commands.set(commandStructures);
 
         // globally register all application commands
-        // readyClient.application.commands.set(commandStructures);
-        // readyClient.application.commands.set([]);
+        readyClient.application.commands.set(commandStructures);
+        readyClient.application.commands.set([]);
 
         this.logger.console({
             level: `DEBUG`,
