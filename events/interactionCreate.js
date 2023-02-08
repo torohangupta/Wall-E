@@ -9,6 +9,7 @@ module.exports = {
         try {
             if (interaction.isCommand()) return await executeCommand(client, interaction);
             if (interaction.isButton()) return await executeButton(client, interaction);
+            if (interaction.isSelectMenu()) return await executeSelectMenu(client, interaction);
         } catch (err) {
             client.logger.console({
                 level: `ERROR`,
@@ -36,7 +37,7 @@ async function executeCommand(client, interaction) {
         });
         await command.execute(client, interaction);
 
-    } else throw new ReferenceError(`Cannot find the interaction command file!`, { cause: `File is either missing or does not exist.` });
+    } else throw new ReferenceError(`Cannot find the application command file!`, { cause: `File is either missing or does not exist.` });
 }
 
 /**
@@ -71,4 +72,22 @@ async function executeButton(client, interaction) {
         await button.execute(...args);
 
     } else throw new ReferenceError(`Cannot find the interaction button file!`, { cause: `File is either missing or does not exist.` });
+}
+
+/**
+ * Function to parse select menu arguments
+ * @param {Client} client The active BotClient instance
+ * @param {Object} interaction The interaction object passed to the interactionCreate event
+ */
+async function executeSelectMenu(client, interaction) {
+    const selectMenuInteraction = client.selectMenus.get(interaction.customId);
+
+    if (selectMenuInteraction) {
+        client.logger.console({
+            level: `INFO`,
+            title: `Event - interactionCreate`,
+            message: `${interaction.user.tag} interacted with the "${interaction.customId}" select menu!`,
+        });
+        await selectMenuInteraction.execute(client, interaction);
+    } else throw new ReferenceError(`Cannot find the select menu file!`, { cause: `File is either missing or does not exist.` });
 }

@@ -59,14 +59,14 @@ async function createModapp(client, interaction) {
     const modappEmbedButtons = new MessageActionRow()
         .addComponents(
             new MessageButton()
-                .setCustomId('modappCancel')
+                .setCustomId('modapp_cancel')
                 .setLabel(`Cancel Application`)
                 .setStyle('DANGER')
                 .setEmoji(`🔒`)
         )
         .addComponents(
             new MessageButton()
-                .setCustomId('modappSubmit')
+                .setCustomId('modapp_submit')
                 .setLabel(`Submit Application`)
                 .setStyle('SUCCESS')
                 .setEmoji(`✔️`)

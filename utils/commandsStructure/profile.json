@@ -1,10 +1,12 @@
 {
-    "name": "profile",
-    "description": "See your (or another user's) profile",
-    "options": [{
-		"name": "target",
-		"type": "USER",
-		"description": "The user whose profile you want to see",
-		"required": false
-	}]
+	"name": "profile",
+	"description": "See your (or another user's) profile",
+	"options": [
+		{
+			"name": "target",
+			"type": "USER",
+			"description": "The user whose profile you want to see",
+			"required": false
+		}
+	]
 }
