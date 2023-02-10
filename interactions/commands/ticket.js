@@ -15,8 +15,11 @@ module.exports = {
 
         // other important stuff
         const subCommand = options._subcommand;
-        const guildMember = guild.members.cache.get(options._hoistedOptions[0]?.value);
-        const scrubbedUsername = usernameScrubbed(guildMember.user);
+        let guildMember, scrubbedUsername;
+        if ([`open`, `add`].includes(subCommand)) {
+            guildMember = guild.members.cache.get(options._hoistedOptions[0].value);
+            scrubbedUsername = usernameScrubbed(guildMember.user);
+        }
 
         // subcommand handling (close, open, add to) ticket
         switch (subCommand) {
