@@ -38,13 +38,15 @@ async function voiceCreate(client, voiceState) {
 			type: 'GUILD_VOICE',
 			parent: voiceState.channel.parentId,
 			position: voiceState.channel.rawPosition + i,
-			bitrate: 64000
+			bitrate: 64000,
 		});
 
 		await voiceState.channel.members.map(m => m.voice.setChannel(newVoiceChannel.id));
-		// console.log(newVoiceChannel)
-		await client.logger.console(`INFO`, `Event - voiceStateUpdate`, `${newVoiceChannel.name} was created`);
-		return;
+		return await client.logger.console({
+            level: `INFO`,
+            title: `Event - voiceStateUpdate`,
+            message: [`${newVoiceChannel.name} was created`]
+        });
 	}
 }
 

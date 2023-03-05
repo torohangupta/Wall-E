@@ -43,10 +43,10 @@ module.exports = class Logger {
     /**
      * Log all relevant console events
      * @param {Object} consoleObject The object to be parsed and outputted to the console
-     *   @property {String} level INFO/DEBUG/WARNING/ERROR
-     *   @property {String} title title of message to log to console
-     *   @property {String|String[]} message details as string (single line) or array (for multi-line output)
-     *   @property {Stack} stack stack
+     * @param {String} consoleObject.level INFO/DEBUG/WARNING/ERROR
+     * @param {String} consoleObject.title title of message to log to console
+     * @param {String|String[]} consoleObject.message details as string (single line) or array (for multi-line output)
+     * @param {Stack} consoleObject.stack stack
      * @returns Text to Console
      */
     console(consoleObject) {
