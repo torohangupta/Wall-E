@@ -1,0 +1,12 @@
+{
+    "name": "say",
+    "description": "Ask Wall-E to repeat a phrase!",
+    "options": [
+        {
+            "name": "phrase",
+            "description": "The phrase you'd like Wall-E to say",
+            "type": "STRING",
+            "required": true
+        }
+    ]
+}
