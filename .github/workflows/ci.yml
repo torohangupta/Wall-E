@@ -3,7 +3,7 @@ name: Publish Bots Docker image
 on:
   push:
     branches:
-      - main
+      - v2
 
 env:
   REGISTRY: ghcr.io
